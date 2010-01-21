@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.ObservationDiscrete;
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.OpdfDiscrete;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
@@ -82,18 +83,17 @@ public class JahmmTest {
 			
 	}
 	
-	private List<List<ObservationDiscrete<Action>>> getRandomObservations(Hmm<ObservationDiscrete<Action>> hmm, 
+	private <O extends Observation> List<List<O>> getRandomObservations(Hmm<O> hmm, 
 			int observationSize, int sequenceLength ) {
-		MarkovGenerator<ObservationDiscrete<Action>> mg =
-			new MarkovGenerator<ObservationDiscrete<Action>>(hmm);
+		MarkovGenerator<O> mg = new MarkovGenerator<O>(hmm);
 		
-		List<List<ObservationDiscrete<Action>>> observations = new ArrayList<List<ObservationDiscrete<Action>>>();		
+		List<List<O>> observations = new ArrayList<List<O>>();		
 		for (int i = 0; i < observationSize; i++) {
 			observations.add(mg.observationSequence(sequenceLength));
 		}
 		return observations;
 	}
-	
+
 	/**
 	 * Classification Test. Generate emissions from different HMMs. 
 	 * Check each emission against all hmms - the one which has generated
@@ -122,7 +122,7 @@ public class JahmmTest {
 		
 	}
 
-	public void runGenerateDataSet()  {
+	public void runGenerateNominalDataSet()  {
 		
 		int observationSize = 100;
 		int sequenceLength = 50;
@@ -160,12 +160,70 @@ public class JahmmTest {
 				allObservations.set(newPos, temp);
 			}
 		}
+		
 		for (int i=0; i<sequenceLength; i++) {
 			String s = "000"+i;
 			s=s.substring(s.length()-3);
 			System.out.print("Seq_"+s+",");			
 		}
 		System.out.println("Class");
+
+
+		for (String string: allObservations ) {
+			System.out.println(string);
+		}
+			
+		// OutPut
+		
+	}
+
+	
+	public void runGenerateNumericDataSet()  {
+		
+		int observationSize = 100;
+		int sequenceLength = 50;
+	
+		//generate sequences
+		List<String> allObservations = new ArrayList<String>();
+		for (int i=0; i<4; i++) {
+			Hmm<ObservationReal> hmm = HMMSetup.getNumericHMM(i);
+			// The training data
+			List<List<ObservationReal>> observations = 
+				getRandomObservations(hmm, observationSize, sequenceLength);
+			for (List<ObservationReal> observation: observations) {
+				StringBuffer buffer = new StringBuffer();
+				for (ObservationReal observationReal: observation) {
+					String s = ""+Math.round(100*observationReal.value)/100.0;
+					
+					buffer.append(s);
+					buffer.append(",");
+				}
+				buffer.append("C"+i);
+				allObservations.add(buffer.toString());
+			}
+		}
+		
+		// permute instances
+		for (int i=0; i<allObservations.size()-1; i++) {
+			int newPos = random.nextInt(allObservations.size()-i)+i;
+			if (newPos != i) {
+				String temp = allObservations.get(i);
+				allObservations.set(i, allObservations.get(newPos));
+				allObservations.set(newPos, temp);
+			}
+		}
+		
+		System.out.println("@relation num_testhmm");
+
+		for (int i=0; i<sequenceLength; i++) {
+			String s = "000"+i;
+			s=s.substring(s.length()-3);
+			System.out.println("@attribute Seq_"+s+" numeric");
+		}
+		System.out.println("@attribute Class {C0,C1,C2,C3}");
+		System.out.println("");
+		System.out.println("@data");
+		
 		for (String string: allObservations ) {
 			System.out.println(string);
 		}
@@ -175,7 +233,7 @@ public class JahmmTest {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("SIMPLE TEST:");
+	/*	System.out.println("SIMPLE TEST:");
 		new JahmmTest().runSimple();
 		
 		System.out.println("\r\n\r\nTRAINING TEST:");
@@ -185,8 +243,11 @@ public class JahmmTest {
 		new JahmmTest().runClassificationTest();
 		 
 		
-		//System.out.println("\r\n\r\nGENERATING DATASETS:");
-		//new JahmmTest().runGenerateDataSet();
+		System.out.println("\r\n\r\nGENERATING NOMINAL DATASETS:");
+		new JahmmTest().runGenerateNominalDataSet();
+*/
+		//System.out.println("\r\n\r\nGENERATING NUMERIC DATASETS:");
+		new JahmmTest().runGenerateNumericDataSet();
 		
 	}
 

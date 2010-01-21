@@ -6,6 +6,17 @@ public class HMMUtil {
 
 	
 	/**
+	 * Create an array filled with the given value
+	 */
+	public static double[] getHomogenArray(int size, double value) {
+		double[] d = new double[size];
+		for (int i=0; i<size; i++) {
+			d[i] = value;
+		}
+		return d;
+	}
+	
+	/**
 	 * Create a uniformly filled matrix (sums up to 1)
 	 */
 	public static double[][] getUniformMatrix(int rows, int columns) {

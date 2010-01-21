@@ -1,11 +1,15 @@
 package at.ac.tuwien.hmm;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.ObservationDiscrete;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.OpdfDiscrete;
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussian;
 
 /**
  * Helper class for handling HMM generation.
@@ -165,5 +169,54 @@ public class HMMSetup {
 		}
 	}
 
+	public static Hmm<ObservationReal> getNumericHMM(int index) {
+
+		if (index == 0 ) {
+			double[] mean = {1, 1.5};
+			double[] variance = {3.9, 1.1};
+			double[][] transitionMatrix = {{0.7, 0.3} , {0.4, 0.6}};
+			double initP[] = {0.3, 0.7};
+			
+			List<Opdf<ObservationReal>> opdfs = new ArrayList<Opdf<ObservationReal>>();
+			for (int i=0; i<mean.length; i++ ) {
+				opdfs.add(new OpdfGaussian(mean[i], variance[i]) );
+			}
+			return new Hmm<ObservationReal>(initP, transitionMatrix, opdfs);
+		} else if (index == 1 ) {
+			double[] mean = {2.0, 2.0};
+			double[] variance = {4.0, 2.0};
+			double[][] transitionMatrix = {{0.8, 0.2} , {0.8, 0.2}};
+			double initP[] = {0.5, 0.5};
+			
+			List<Opdf<ObservationReal>> opdfs = new ArrayList<Opdf<ObservationReal>>();
+			for (int i=0; i<mean.length; i++ ) {
+				opdfs.add(new OpdfGaussian(mean[i], variance[i]) );
+			}
+			return new Hmm<ObservationReal>(initP, transitionMatrix, opdfs);
+		} else if (index == 2 ) {
+			double[] mean = {0.4, 0.9};
+			double[] variance = {1.0, 1.6};
+			double[][] transitionMatrix = {{0.6, 0.4} , {0.4, 0.6}};
+			double initP[] = {0.1, 0.9};
+			
+			List<Opdf<ObservationReal>> opdfs = new ArrayList<Opdf<ObservationReal>>();
+			for (int i=0; i<mean.length; i++ ) {
+				opdfs.add(new OpdfGaussian(mean[i], variance[i]) );
+			}
+			return new Hmm<ObservationReal>(initP, transitionMatrix, opdfs);
+		} else if (index == 3 ) {
+			double[] mean = {0.6, 0.7};
+			double[] variance = {2.0, 1.3};
+			double[][] transitionMatrix = {{0.7, 0.3} , {0.5, 0.5}};
+			double initP[] = {0.3, 0.7};
+			
+			List<Opdf<ObservationReal>> opdfs = new ArrayList<Opdf<ObservationReal>>();
+			for (int i=0; i<mean.length; i++ ) {
+				opdfs.add(new OpdfGaussian(mean[i], variance[i]) );
+			}
+			return new Hmm<ObservationReal>(initP, transitionMatrix, opdfs);
+		}
+		return null;
+	}
 	
 }
