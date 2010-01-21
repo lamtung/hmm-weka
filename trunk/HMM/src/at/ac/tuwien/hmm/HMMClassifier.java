@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.Vector;
 
-import weka.classifiers.Classifier;
+import weka.classifiers.RandomizableClassifier;
 import weka.core.Attribute;
 import weka.core.Capabilities;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Option;
+import weka.core.Utils;
 import weka.core.Capabilities.Capability;
 import at.ac.tuwien.hmm.training.SimpleTrainer;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
@@ -19,7 +22,7 @@ import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
-public class HMMClassifier extends Classifier {
+public class HMMClassifier extends RandomizableClassifier {
 	
     private Map<String, Integer> nominalsMap;
     private Map<Integer, Hmm<ObservationInteger>> hmms;
@@ -30,12 +33,14 @@ public class HMMClassifier extends Classifier {
     private Random random;
     private int attributeValuesCount;
     
+    protected int m_Accuracy = 50;
+    
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
 	  
 	public void buildClassifier(Instances data) throws Exception {
 		
-		random = data.getRandomNumberGenerator(0);
+		random = data.getRandomNumberGenerator(getSeed());
 	    
 		// can classifier handle the data?
 	    getCapabilities().testWithFail(data);
@@ -66,7 +71,7 @@ public class HMMClassifier extends Classifier {
 	    
 	    SimpleTrainer<ObservationInteger> trainer = 
 	    	new SimpleTrainer<ObservationInteger>(numClasses, 
-	    	stateCount, attributeValuesCount, accuracy, odpfCreator);
+	    	stateCount, attributeValuesCount, m_Accuracy, odpfCreator);
 
 	    trainer.setRandom(random);
 	    trainer.trainHmms(getTrainingInstances(data));
@@ -194,6 +199,100 @@ public class HMMClassifier extends Classifier {
 	  public String toString() {
 
 	    return ("Test classifier");
+	  }
+	  
+	  /**
+	   * Returns an enumeration describing the available options.
+	   *
+	   * @return an enumeration of all the available options.
+	   */
+	  @SuppressWarnings("unchecked")
+	public Enumeration listOptions() {
+
+	    Vector newVector = new Vector(2);
+
+	    newVector.addElement(new Option(
+		      "\tAccuracy for Baum-Welch-Learner.\n"
+		      + "\t(default 1)",
+		      "A", 50, "-A <num>"));
+
+	    Enumeration enu = super.listOptions();
+	    while (enu.hasMoreElements()) {
+	      newVector.addElement(enu.nextElement());
+	    }
+	    return newVector.elements();
+	  }
+
+	  /**
+	   * Parses a given list of options. Valid options are:<p>
+	   *
+	   * -A num <p>
+	   * Sets the accuracy of the Baum-Welch-Learner
+	   * 
+	   * Options after -- are passed to the designated classifier.<p>
+	   *
+	   * @param options the list of options as an array of strings
+	   * @exception Exception if an option is not supported
+	   */
+	  public void setOptions(String[] options) throws Exception {
+	    
+	    String accuracy = Utils.getOption('A', options);
+	    if (accuracy.length() != 0) {
+	      setAccuracy(Integer.parseInt(accuracy));
+	    } else {
+	      setAccuracy(50);
+	    }
+
+	    super.setOptions(options);
+	  }
+
+	  /**
+	   * Gets the current settings of the classifier.
+	   *
+	   * @return an array of strings suitable for passing to setOptions
+	   */
+	  public String [] getOptions() {
+
+	    String [] superOptions = super.getOptions();
+	    String [] options = new String [superOptions.length + 2];
+
+	    int current = 0;
+	    options[current++] = "-A"; 
+	    options[current++] = "" + getAccuracy();
+
+	    System.arraycopy(superOptions, 0, options, current, 
+			     superOptions.length);
+
+	    return options;
+	  }
+	  
+	  /**
+	   * Returns the tip text for this property
+	   * @return tip text for this property suitable for
+	   * displaying in the explorer/experimenter gui
+	   */
+	  public String accuracyTipText() {
+	    return "The accuracy for the Baum-Welch-Learner.";
+	  }
+
+	  /**
+	   * Set the accuracy for the Baum-Welch-Learner
+	   *
+	   * @param seed the accuracy 
+	   */
+	  public void setAccuracy(int accuracy) {
+
+	    m_Accuracy = accuracy;
+	  }
+
+	  /**
+	   * Gets the accuracy for the Baum-Welch-Learner
+	   *
+	   * @return the accuracy for the Baum-Welch-Learner
+	   */
+	  public int getAccuracy() {
+	    
+	    return m_Accuracy;
 	  }
 	  
 	  /**
