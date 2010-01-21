@@ -14,10 +14,10 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Capabilities.Capability;
 import at.ac.tuwien.hmm.training.SimpleTrainer;
-import at.ac.tuwien.hmm.training.Trainer;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
-import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
 public class HMMClassifier extends Classifier {
 	
@@ -27,6 +27,8 @@ public class HMMClassifier extends Classifier {
     private int attributeCount;
     private int accuracy = 50;
     private Random random;
+    private int stateCount = 2;// HACK - how to get this is unknown
+    private int attributeValuesCount;
     
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
@@ -38,8 +40,6 @@ public class HMMClassifier extends Classifier {
 		// can classifier handle the data?
 	    getCapabilities().testWithFail(data);
 	    
-	    int stateCount = 2;// HACK - how to get this is unknown
-	    int attributeValuesCount = 3; // HACK - get from attributes
 	    attributeCount = data.numAttributes()-1;
 	    // remove instances with missing class
 	    data = new Instances(data);
@@ -48,15 +48,29 @@ public class HMMClassifier extends Classifier {
 	    numClasses = data.numClasses();
 	    
 	    buildNominalsMap(data);
+
+	    train(data);
 	    
-	    Trainer trainer = new SimpleTrainer(numClasses, 
-	    		stateCount, attributeValuesCount, accuracy);
+	    System.out.println("building done");
+	}
+	
+	private void train(Instances data) {
+	    OdpfCreator<ObservationInteger> odpfCreator = new OdpfCreator<ObservationInteger>() {
+			public Opdf<ObservationInteger> createEmission(double[] emission) {
+				return new OpdfInteger(emission);
+			}
+	    	
+	    };
+	    
+	    SimpleTrainer<ObservationInteger> trainer = 
+	    	new SimpleTrainer<ObservationInteger>(numClasses, 
+	    	stateCount, attributeValuesCount, accuracy, odpfCreator);
+
 	    
 	    trainer.setRandom(random);
 	    trainer.trainHmms(getTrainingInstances(data));
 	    hmms = trainer.getHmms();
-	    
-	    System.out.println("building done");
+
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -73,6 +87,7 @@ public class HMMClassifier extends Classifier {
 		    	}
 	    	}
 	    }
+	    this.attributeValuesCount = nominalsMap.keySet().size();
 	}
 	
 	@SuppressWarnings("unchecked")
