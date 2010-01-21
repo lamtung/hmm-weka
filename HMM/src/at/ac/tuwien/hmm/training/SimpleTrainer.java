@@ -77,7 +77,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	    	System.out.println("UnTrained HMM No "+classNo+":\r\n"+hmm.toString());
     	    Hmm<O> trainedHmm = learner.learn(hmm, trainingInstances);
 	     	hmms.put(classNo, trainedHmm);
-	    	System.out.println("Trained HMM No "+classNo+":\r\n"+hmm.toString());
+	    	System.out.println("Trained HMM No "+classNo+":\r\n"+trainedHmm.toString());
 
 		}		
 	}
