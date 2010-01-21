@@ -16,31 +16,30 @@ import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.Capabilities.Capability;
-import at.ac.tuwien.hmm.training.SimpleTrainer;
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
-import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussian;
 import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
 public class HMMClassifier extends RandomizableClassifier {
 	
     private Map<String, Integer> nominalsMap;
-    private Map<Integer, Hmm<ObservationInteger>> hmms;
     private int numClasses;
     private int attributeCount;
     private Random random;
     private int attributeValuesCount;
-    
+    private HMMHandler<? extends Observation> handler;
+
     protected int m_Accuracy = 50;
     protected int m_States = 2;
-    
+        
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
 	  
 	public void buildClassifier(Instances data) throws Exception {
-		
+
 		random = data.getRandomNumberGenerator(getSeed());
 	    
 		// can classifier handle the data?
@@ -52,33 +51,81 @@ public class HMMClassifier extends RandomizableClassifier {
 	    data.deleteWithMissingClass();
 	    
 	    numClasses = data.numClasses();
+
+	    handler = getAttributeValueType(data);
 	    
-	    //build an index over the nominal values
-	    buildNominalsMap(data);
 
 	    //train the HMMs
-	    train(data);
+	    handler.train(data);
 	    
 	    System.out.println("building done");
 	}
-	
-	private void train(Instances data) {
-	    OdpfCreator<ObservationInteger> odpfCreator = new OdpfCreator<ObservationInteger>() {
-			public Opdf<ObservationInteger> createEmission(double[] emission) {
-				return new OpdfInteger(emission);
-			}
-	    	
-	    };
-	    
-	    SimpleTrainer<ObservationInteger> trainer = 
-	    	new SimpleTrainer<ObservationInteger>(numClasses, 
-	    	m_States, attributeValuesCount, m_Accuracy, odpfCreator);
+		
+	private HMMHandler<? extends Observation> getAttributeValueType(Instances data)
+			throws Exception {
+		
+		boolean isNominal = true;
+		boolean isNumeric = true;
+		
+		for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
+			Attribute attribute = data.attribute(attributeNo);
+			if (!attribute.isNominal()) {
+				isNominal = false;
+			} 
+			if (!attribute.isNumeric()) {
+				isNumeric = false;
+			} 
+		}
+		
+		if (isNumeric) {
+			if (isNominal) {
+				throw new Exception("Failure: Both numeric and nominal values present!");
+			} else {
+				return new HMMHandler<ObservationReal>(numClasses, m_States,
+						attributeValuesCount, m_Accuracy, random) {
+					public List<Opdf<ObservationReal>> createOdpf() {
+						List<Opdf<ObservationReal>> opdfs = 
+							new ArrayList<Opdf<ObservationReal>>();
+						double[] means = getTrainer().getNumericMeanArray();
+						double[] variance = getTrainer().getNumericVarianceArray();
+						//HACK we should'n cast!
+						for (int i = 0; i< means.length; i++) {
+							opdfs.add(new OpdfGaussian(means[i],variance[i]));
+						}
+						return opdfs;
+					}
+			
+					public ObservationReal createObservation(Instance instance, int attributeNo) {
+						double value = instance.value(attributeNo);
+						return new ObservationReal(value);
+					}
+				};			}
+		} else {
+			if (isNominal) {
+			    //build an index over the nominal values
+			    buildNominalsMap(data);
 
-	    trainer.setRandom(random);
-	    trainer.trainHmms(getTrainingInstances(data));
-	    hmms = trainer.getHmms();
-        System.out.println(hmms.get(0).toString());
-
+				return new HMMHandler<ObservationInteger>(numClasses, m_States,
+						attributeValuesCount, m_Accuracy, random) {
+					public List<Opdf<ObservationInteger>> createOdpf() {
+						List<Opdf<ObservationInteger>> opdfs = 
+							new ArrayList<Opdf<ObservationInteger>>();
+				    	for (double[] emission :getTrainer().getNominalEmissionMatrix()) {
+							opdfs.add(new OpdfInteger(emission) );
+						}
+						return opdfs;
+					}
+			
+					public ObservationInteger createObservation(Instance instance, int attributeNo) {
+						String value = instance.stringValue(attributeNo);
+						int nominalId = nominalsMap.get(value);
+						return new ObservationInteger(nominalId);
+					}
+				};
+			} else {
+				throw new Exception("Failure: Neither numeric nor nominal values present!");
+			}		
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -98,50 +145,6 @@ public class HMMClassifier extends RandomizableClassifier {
 	    this.attributeValuesCount = nominalsMap.keySet().size();
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Map<Integer, List<List<ObservationInteger>>> getTrainingInstances(Instances data) {
-	    Map<Integer, List<List<ObservationInteger>>> trainingInstancesMap = 
-	    	new TreeMap<Integer, List<List<ObservationInteger>>>();
-	        
-		Enumeration<Instance> instances = (Enumeration<Instance>)data.enumerateInstances();
-		
-	    while (instances.hasMoreElements()) {
-	    	Instance instance = instances.nextElement();
-			int classNo = (int)instance.classValue();
-	    	
-			List<ObservationInteger> trainingObservation = 
-				getObservationFromInstance(instance);
-			
-	    	List<List<ObservationInteger>> trainingInstances = 
-	    		trainingInstancesMap.get(classNo);
-	    	if (trainingInstances == null) {
-	    		trainingInstances = new ArrayList<List<ObservationInteger>>();
-	    		trainingInstancesMap.put(classNo, trainingInstances);
-	    	}
-	    	trainingInstances.add(trainingObservation);
-	    }
-	    return trainingInstancesMap;
-	}
-	
-	/** Creates an Jahmm observation out of an WEKA instance
-	 * 
-	 * @param instance the instance to transform
-	 * @return an observation list
-	 */
-	private List<ObservationInteger> getObservationFromInstance(Instance instance) {
-    	List<ObservationInteger> trainingObservation = 
-    		new ArrayList<ObservationInteger>();
-    	for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
-    		String attributeValue = instance.stringValue(attributeNo);
-    		int nominal = nominalsMap.get(attributeValue);
-    		ObservationInteger observation = 
-    			new ObservationInteger(nominal);
-    		trainingObservation.add(observation);
-    	}
-    	
-    	return trainingObservation;
-	}
-
 	  /**
 	   * Classifies the given test instance. The instance has to belong to a
 	   * dataset when it's being classified. Note that a classifier MUST
@@ -153,20 +156,8 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * @exception Exception if an error occurred during the prediction
 	   */
 	  public double classifyInstance(Instance instance) throws Exception {
- 		  List<ObservationInteger> observations = 
- 			  getObservationFromInstance(instance);
-
-		  int bestClass = -1;
-		  double bestProbability = -100000;
-		  
-		  for (int classNo=0;classNo<numClasses; classNo++ ) {
-			  Hmm<ObservationInteger> hmm = hmms.get(classNo);
-			  double lnProbability = hmm.lnProbability(observations);
-			  if (lnProbability > bestProbability) {
-				  bestProbability = lnProbability;
-				  bestClass = classNo;
-			  }
-		  }
+ 		 
+		  int bestClass = this.handler.classifyInstance(instance);
 		  
 		  return bestClass;
 	  }
@@ -186,7 +177,7 @@ public class HMMClassifier extends RandomizableClassifier {
 		    result.disableAll();
 		    
 		    result.enable(Capability.NOMINAL_ATTRIBUTES);
-		    
+		    result.enable(Capability.NUMERIC_ATTRIBUTES);
 
 		    // class
 		    result.enable(Capability.NOMINAL_CLASS);
