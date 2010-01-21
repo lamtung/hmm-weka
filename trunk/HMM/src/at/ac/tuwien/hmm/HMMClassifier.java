@@ -21,13 +21,13 @@ import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
 public class HMMClassifier extends Classifier {
 	
-    private int numClasses;
     private Map<String, Integer> nominalsMap;
     private Map<Integer, Hmm<ObservationInteger>> hmms;
-    private int attributeCount;
-    private int accuracy = 50;
-    private Random random;
+    private int accuracy = 50;  //TODO This should be given as parameter
     private int stateCount = 2;// HACK - how to get this is unknown
+    private int numClasses;
+    private int attributeCount;
+    private Random random;
     private int attributeValuesCount;
     
 	/** for serialization */
@@ -47,8 +47,10 @@ public class HMMClassifier extends Classifier {
 	    
 	    numClasses = data.numClasses();
 	    
+	    //build an index over the nominal values
 	    buildNominalsMap(data);
 
+	    //train the HMMs
 	    train(data);
 	    
 	    System.out.println("building done");
@@ -66,7 +68,6 @@ public class HMMClassifier extends Classifier {
 	    	new SimpleTrainer<ObservationInteger>(numClasses, 
 	    	stateCount, attributeValuesCount, accuracy, odpfCreator);
 
-	    
 	    trainer.setRandom(random);
 	    trainer.trainHmms(getTrainingInstances(data));
 	    hmms = trainer.getHmms();
@@ -99,17 +100,11 @@ public class HMMClassifier extends Classifier {
 		
 	    while (instances.hasMoreElements()) {
 	    	Instance instance = instances.nextElement();
-	    	int classNo = (int)instance.classValue();
-	    	List<ObservationInteger> trainingObservation = 
-	    		new ArrayList<ObservationInteger>();
-	    	for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
-	    		String attributeValue = instance.stringValue(attributeNo);
-	    		int nominal = nominalsMap.get(attributeValue);
-	    		ObservationInteger observation = 
-	    			new ObservationInteger(nominal);
-	    		trainingObservation.add(observation);
-	    	}
+			int classNo = (int)instance.classValue();
 	    	
+			List<ObservationInteger> trainingObservation = 
+				getObservationFromInstance(instance);
+			
 	    	List<List<ObservationInteger>> trainingInstances = 
 	    		trainingInstancesMap.get(classNo);
 	    	if (trainingInstances == null) {
@@ -119,6 +114,25 @@ public class HMMClassifier extends Classifier {
 	    	trainingInstances.add(trainingObservation);
 	    }
 	    return trainingInstancesMap;
+	}
+	
+	/** Creates an Jahmm observation out of an WEKA instance
+	 * 
+	 * @param instance the instance to transform
+	 * @return an observation list
+	 */
+	private List<ObservationInteger> getObservationFromInstance(Instance instance) {
+    	List<ObservationInteger> trainingObservation = 
+    		new ArrayList<ObservationInteger>();
+    	for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
+    		String attributeValue = instance.stringValue(attributeNo);
+    		int nominal = nominalsMap.get(attributeValue);
+    		ObservationInteger observation = 
+    			new ObservationInteger(nominal);
+    		trainingObservation.add(observation);
+    	}
+    	
+    	return trainingObservation;
 	}
 
 	  /**
@@ -133,15 +147,8 @@ public class HMMClassifier extends Classifier {
 	   */
 	  public double classifyInstance(Instance instance) throws Exception {
  		  List<ObservationInteger> observations = 
-	    		new ArrayList<ObservationInteger>();
-		  for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
-				String attributeValue = instance.stringValue(attributeNo);
-				int nominal = nominalsMap.get(attributeValue);
-				ObservationInteger observation = 
-					new ObservationInteger(nominal);
-				observations.add(observation);
-		  }
-		  
+ 			  getObservationFromInstance(instance);
+
 		  int bestClass = -1;
 		  double bestProbability = -100000;
 		  

@@ -13,6 +13,14 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 
+/**
+ * Simple Training implementation. Only builds one random HMM and trains 
+ * it with the training data. 
+ * 
+ * @author Christof Schmidt
+ *
+ * @param <O>
+ */
 public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 
 	private Random random = new Random();
