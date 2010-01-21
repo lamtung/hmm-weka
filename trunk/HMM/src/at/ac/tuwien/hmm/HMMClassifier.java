@@ -18,6 +18,8 @@ import weka.core.Utils;
 import weka.core.Capabilities.Capability;
 import at.ac.tuwien.hmm.training.SimpleTrainer;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
@@ -184,6 +186,7 @@ public class HMMClassifier extends RandomizableClassifier {
 		    result.disableAll();
 		    
 		    result.enable(Capability.NOMINAL_ATTRIBUTES);
+		    
 
 		    // class
 		    result.enable(Capability.NOMINAL_CLASS);

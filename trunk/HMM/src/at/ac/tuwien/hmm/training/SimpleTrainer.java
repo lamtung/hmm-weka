@@ -10,6 +10,7 @@ import at.ac.tuwien.hmm.HMMUtil;
 import at.ac.tuwien.hmm.OdpfCreator;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 
@@ -21,6 +22,7 @@ import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
  *
  * @param <O>
  */
+@SuppressWarnings("hiding")
 public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 
 	private Random random = new Random();
