@@ -26,14 +26,13 @@ public class HMMClassifier extends RandomizableClassifier {
 	
     private Map<String, Integer> nominalsMap;
     private Map<Integer, Hmm<ObservationInteger>> hmms;
-    private int accuracy = 50;  //TODO This should be given as parameter
-    private int stateCount = 2;// HACK - how to get this is unknown
     private int numClasses;
     private int attributeCount;
     private Random random;
     private int attributeValuesCount;
     
     protected int m_Accuracy = 50;
+    protected int m_States = 2;
     
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
@@ -71,11 +70,12 @@ public class HMMClassifier extends RandomizableClassifier {
 	    
 	    SimpleTrainer<ObservationInteger> trainer = 
 	    	new SimpleTrainer<ObservationInteger>(numClasses, 
-	    	stateCount, attributeValuesCount, m_Accuracy, odpfCreator);
+	    	m_States, attributeValuesCount, m_Accuracy, odpfCreator);
 
 	    trainer.setRandom(random);
 	    trainer.trainHmms(getTrainingInstances(data));
 	    hmms = trainer.getHmms();
+        System.out.println(hmms.get(0).toString());
 
 	}
 	
@@ -209,12 +209,16 @@ public class HMMClassifier extends RandomizableClassifier {
 	  @SuppressWarnings("unchecked")
 	public Enumeration listOptions() {
 
-	    Vector newVector = new Vector(2);
+	    Vector newVector = new Vector(3);
 
 	    newVector.addElement(new Option(
 		      "\tAccuracy for Baum-Welch-Learner.\n"
-		      + "\t(default 1)",
+		      + "\t(default 50)",
 		      "A", 50, "-A <num>"));
+	    newVector.addElement(new Option(
+			      "\tNo of hidden states in the HMM.\n"
+			      + "\t(default 2)",
+			      "N", 2, "-N <num>"));
 
 	    Enumeration enu = super.listOptions();
 	    while (enu.hasMoreElements()) {
@@ -227,7 +231,11 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * Parses a given list of options. Valid options are:<p>
 	   *
 	   * -A num <p>
-	   * Sets the accuracy of the Baum-Welch-Learner
+	   * Sets the accuracy of the Baum-Welch-Learner <p>
+	   * 
+	   * *
+	   * -N num <p>
+	   * Sets the no of hidden states of the HMM <p>
 	   * 
 	   * Options after -- are passed to the designated classifier.<p>
 	   *
@@ -242,6 +250,12 @@ public class HMMClassifier extends RandomizableClassifier {
 	    } else {
 	      setAccuracy(50);
 	    }
+	    String states = Utils.getOption('N', options);
+	    if (states.length() != 0) {
+	      setStates(Integer.parseInt(states));
+	    } else {
+	      setStates(2);
+	    }
 
 	    super.setOptions(options);
 	  }
@@ -254,11 +268,13 @@ public class HMMClassifier extends RandomizableClassifier {
 	  public String [] getOptions() {
 
 	    String [] superOptions = super.getOptions();
-	    String [] options = new String [superOptions.length + 2];
+	    String [] options = new String [superOptions.length + 4];
 
 	    int current = 0;
 	    options[current++] = "-A"; 
 	    options[current++] = "" + getAccuracy();
+	    options[current++] = "-N"; 
+	    options[current++] = "" + getStates();
 
 	    System.arraycopy(superOptions, 0, options, current, 
 			     superOptions.length);
@@ -293,6 +309,35 @@ public class HMMClassifier extends RandomizableClassifier {
 	  public int getAccuracy() {
 	    
 	    return m_Accuracy;
+	  }
+	  
+	  /**
+	   * Returns the tip text for this property
+	   * @return tip text for this property suitable for
+	   * displaying in the explorer/experimenter gui
+	   */
+	  public String statesTipText() {
+	    return "The number of Hidden States in the HMM";
+	  }
+
+	  /**
+	   * Sets the number of Hidden States in the HMM
+	   *
+	   * @param number of hidden states
+	   */
+	  public void setStates(int states) {
+
+	    m_States = states;
+	  }
+
+	  /**
+	   * Gets the number of states of the HMM
+	   *
+	   * @return the no of states of the HMM
+	   */
+	  public int getStates() {
+	    
+	    return m_States;
 	  }
 	  
 	  /**
