@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import weka.classifiers.Classifier;
@@ -25,14 +26,16 @@ public class HMMClassifier extends Classifier {
     private Map<Integer, Hmm<ObservationInteger>> hmms;
     private int attributeCount;
     private int accuracy = 50;
-    
+    private Random random;
     
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
 	  
 	@SuppressWarnings("unchecked")
 	public void buildClassifier(Instances data) throws Exception {
-
+		
+		random = data.getRandomNumberGenerator(0);
+	    
 		// can classifier handle the data?
 	    getCapabilities().testWithFail(data);
 	    
@@ -62,17 +65,16 @@ public class HMMClassifier extends Classifier {
 	    
 	    Map<Integer, List<List<ObservationInteger>>> trainingInstancesMap = 
 	    	new TreeMap<Integer, List<List<ObservationInteger>>>();
-	    
 	    for (int classNo=0;classNo<numClasses; classNo++ ) {
-	    	double[][] transitionMatrix = HMMSetup.getRandomMatrix(stateCount, stateCount);
-	    	double[][] emissionMatrix = HMMSetup.getRandomMatrix(stateCount, attributeValuesCount);
+	    	double[][] transitionMatrix = HMMUtil.getRandomMatrix(stateCount, stateCount, random);
+	    	double[][] emissionMatrix = HMMUtil.getRandomMatrix(stateCount, attributeValuesCount, random);
 	    	java.util.List<Opdf<ObservationInteger>> opdfs = 
 	    		new ArrayList<Opdf<ObservationInteger>>();
 			for (double[] emission :emissionMatrix) {
 				opdfs.add(new OpdfInteger(emission) );
 			}
 	    	Hmm<ObservationInteger> hmm = new Hmm<ObservationInteger>(
-	    			HMMSetup.getRandomArray(stateCount), 
+	    			HMMUtil.getRandomArray(stateCount, random), 
 	    			transitionMatrix, opdfs);
 	    	
 	    	hmms.put(classNo, hmm);

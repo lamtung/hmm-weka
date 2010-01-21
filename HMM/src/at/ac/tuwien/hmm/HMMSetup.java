@@ -1,9 +1,9 @@
 package at.ac.tuwien.hmm;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import be.ac.ulg.montefiore.run.jahmm.ObservationDiscrete;
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.OpdfDiscrete;
 
@@ -21,15 +21,17 @@ public class HMMSetup {
 	double[][] emissionMatrix;
 	double[] initialProbabilities;
 
+	private static Random random = new Random();
 
 	/** An HMM Setup. Uniform distribution for all matrices
     @param stateNames array of state names (except initial state)
     @param emissionSymbols string of emission names (one char per state)
     */
 	public HMMSetup(String[] stateNames, String emissionSymbols) {
-		this( stateNames, getRandomMatrix(stateNames.length,stateNames.length), 
-				emissionSymbols,  getRandomMatrix(stateNames.length,emissionSymbols.length()), 
-				getRandomArray(stateNames.length));
+		this( stateNames, HMMUtil.getRandomMatrix(stateNames.length,stateNames.length,random), 
+				emissionSymbols,   
+				HMMUtil.getRandomMatrix(stateNames.length,emissionSymbols.length(),random), 
+				HMMUtil.getRandomArray(stateNames.length,random));
 	}
 
 	/** An HMM Setup. 
@@ -39,7 +41,8 @@ public class HMMSetup {
     @param emissionMatrix matrix of emission probabilities
     */
 	public HMMSetup(String[] stateNames, double[][] transitionMatrix, String emissionSymbols, double[][] emissionMatrix) {
-		this( stateNames, transitionMatrix, emissionSymbols, emissionMatrix, getUniformArray(stateNames.length));
+		this( stateNames, transitionMatrix, emissionSymbols, 
+				emissionMatrix, HMMUtil.getUniformArray(stateNames.length));
 	}
 	
 	/** An HMM Setup.
@@ -161,55 +164,6 @@ public class HMMSetup {
 			return null;
 		}
 	}
-	
-	/**
-	 * Create a uniformly filled matrix (sums up to 1)
-	 */
-	public static double[][] getUniformMatrix(int rows, int columns) {
-		double[][] matrix = new double[rows][];
-		for(int i=0; i<rows;i++) {
-			matrix [i] = getUniformArray(columns); 
-		}
-		return matrix;
-	}
-	
-	/**
-	 * Create a uniformly filled array (sums up to 1)
-	 */
-	public static double[] getUniformArray(int size) {
-		double[] d = new double[size];
-		double value = 1.0/size;
-		for (int i=0; i<size; i++) {
-			d[i] = value;
-		}
-		return d;
-	}
-	
-	/**
-	 * Create a Random filled matrix (sums up to 1)
-	 */
-	public static double[][] getRandomMatrix(int rows, int columns) {
-		double[][] matrix = new double[rows][];
-		for(int i=0; i<rows;i++) {
-			matrix [i] = getRandomArray(columns); 
-		}
-		return matrix;
-	}
-	/**
-	 * Create a Random filled array (sums up to 1)
-	 */	
-	public static double[] getRandomArray(int n) { //taken from dina
-		double[] ps = new double[n];
-		double sum = 0;
-		// Generate random numbers
-		for (int i=0; i<n; i++) {
-			ps[i] = Math.random();
-			sum += ps[i];
-		}
-		// Scale to obtain a discrete probability distribution
-		for (int i=0; i<n; i++) 
-			ps[i] /= sum;
-		return ps;
-	}
+
 	
 }
