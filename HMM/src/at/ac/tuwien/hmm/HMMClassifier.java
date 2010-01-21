@@ -13,10 +13,10 @@ import weka.core.Capabilities;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Capabilities.Capability;
+import at.ac.tuwien.hmm.training.SimpleTrainer;
+import at.ac.tuwien.hmm.training.Trainer;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
-import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 
 public class HMMClassifier extends Classifier {
@@ -31,7 +31,6 @@ public class HMMClassifier extends Classifier {
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183989L;
 	  
-	@SuppressWarnings("unchecked")
 	public void buildClassifier(Instances data) throws Exception {
 		
 		random = data.getRandomNumberGenerator(0);
@@ -48,10 +47,25 @@ public class HMMClassifier extends Classifier {
 	    
 	    numClasses = data.numClasses();
 	    
-	    nominalsMap = new TreeMap<String, Integer>();
+	    buildNominalsMap(data);
+	    
+	    Trainer trainer = new SimpleTrainer(numClasses, 
+	    		stateCount, attributeValuesCount, accuracy);
+	    
+	    trainer.setRandom(random);
+	    trainer.trainHmms(getTrainingInstances(data));
+	    hmms = trainer.getHmms();
+	    
+	    System.out.println("building done");
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void buildNominalsMap(Instances data) {
+		nominalsMap = new TreeMap<String, Integer>();
 	    for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
 	    	Attribute attribute = data.attribute(attributeNo);
-	    	Enumeration attributeValues = attribute.enumerateValues();
+	    	Enumeration<String> attributeValues = 
+	    		(Enumeration<String>)attribute.enumerateValues();
 	    	while (attributeValues.hasMoreElements()) {
 		    	String value = (String)attributeValues.nextElement();
 		    	if (!nominalsMap.containsKey(value)) {
@@ -59,31 +73,13 @@ public class HMMClassifier extends Classifier {
 		    	}
 	    	}
 	    }
-	    
-	    
-	    hmms = new TreeMap<Integer, Hmm<ObservationInteger>>();
-	    
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<Integer, List<List<ObservationInteger>>> getTrainingInstances(Instances data) {
 	    Map<Integer, List<List<ObservationInteger>>> trainingInstancesMap = 
 	    	new TreeMap<Integer, List<List<ObservationInteger>>>();
-	    for (int classNo=0;classNo<numClasses; classNo++ ) {
-	    	double[][] transitionMatrix = HMMUtil.getRandomMatrix(stateCount, stateCount, random);
-	    	double[][] emissionMatrix = HMMUtil.getRandomMatrix(stateCount, attributeValuesCount, random);
-	    	java.util.List<Opdf<ObservationInteger>> opdfs = 
-	    		new ArrayList<Opdf<ObservationInteger>>();
-			for (double[] emission :emissionMatrix) {
-				opdfs.add(new OpdfInteger(emission) );
-			}
-	    	Hmm<ObservationInteger> hmm = new Hmm<ObservationInteger>(
-	    			HMMUtil.getRandomArray(stateCount, random), 
-	    			transitionMatrix, opdfs);
-	    	
-	    	hmms.put(classNo, hmm);
-	    }
-	    
-	    Attribute classAttribute = 	data.classAttribute();
-	    classAttribute.enumerateValues();
-	    
-	    
+	        
 		Enumeration<Instance> instances = (Enumeration<Instance>)data.enumerateInstances();
 		
 	    while (instances.hasMoreElements()) {
@@ -107,23 +103,7 @@ public class HMMClassifier extends Classifier {
 	    	}
 	    	trainingInstances.add(trainingObservation);
 	    }
-
-	    BaumWelchLearner learner = new BaumWelchLearner();
-		learner.setNbIterations(accuracy); // "accuracy" - 
-		//TODO: set in config
-		
-	    for (int classNo=0; classNo<numClasses; classNo++) {
-	    	System.out.println("Training class "+classNo);
-	    	List<List<ObservationInteger>> trainingInstances  = 
-	    		trainingInstancesMap.get(classNo);
-	    	Hmm<ObservationInteger> hmm = hmms.get(classNo);
-	    	System.out.println("UnTrained HMM No "+classNo+":\r\n"+hmm.toString());
-	    	Hmm<ObservationInteger> trainedHmm = hmm.clone();
-	    	hmm = learner.learn(trainedHmm, trainingInstances);
-	    	System.out.println("Trained HMM No "+classNo+":\r\n"+hmm.toString());
-	    }
-	    
-	    System.out.println("building done");
+	    return trainingInstancesMap;
 	}
 
 	  /**

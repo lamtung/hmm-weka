@@ -30,7 +30,7 @@ public class HMMSetup {
 	public HMMSetup(String[] stateNames, String emissionSymbols) {
 		this( stateNames, HMMUtil.getRandomMatrix(stateNames.length,stateNames.length,random), 
 				emissionSymbols,   
-				HMMUtil.getRandomMatrix(stateNames.length,emissionSymbols.length(),random), 
+				HMMUtil.getRandomMatrix(stateNames.length, emissionSymbols.length(),random), 
 				HMMUtil.getRandomArray(stateNames.length,random));
 	}
 
