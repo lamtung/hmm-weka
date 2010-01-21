@@ -24,4 +24,10 @@ public interface Trainer<O extends Observation> {
 	
 	Map<Integer, Hmm<O>> getHmms();
 	
+	double[][] getNominalEmissionMatrix();
+
+	double[] getNumericMeanArray();
+	
+	double[] getNumericVarianceArray();
+	
 }

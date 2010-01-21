@@ -7,10 +7,9 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import at.ac.tuwien.hmm.HMMUtil;
-import at.ac.tuwien.hmm.OdpfCreator;
+import at.ac.tuwien.hmm.HMMHandler;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 
@@ -31,17 +30,17 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	private int stateCount; 
 	private int attributeValuesCount;
 	private int accuracy;
-	private OdpfCreator<O> odpfCreator;
+	private HMMHandler<O> handler;
     BaumWelchLearner learner = new BaumWelchLearner();
 	
 	public SimpleTrainer(int numClasses, int stateCount,
 			int attributeValuesCount, int accuracy,
-			OdpfCreator<O> odpfCreator) {
+			HMMHandler<O> handler) {
 		this.numClasses = numClasses;
 		this.stateCount = stateCount;
 		this.attributeValuesCount = attributeValuesCount;
 		this.accuracy = accuracy;
-		this.odpfCreator = odpfCreator;
+		this.handler = handler;
 	}
 
 	public void setRandom(Random random) {
@@ -53,13 +52,9 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		hmms = new TreeMap<Integer, Hmm<O>>();
     	
 	    for (int classNo=0;classNo<numClasses; classNo++ ) {
+	    	List<Opdf<O>> opdfs = handler.createOdpf();
 			double[][] transitionMatrix = HMMUtil.getRandomMatrix(stateCount, stateCount, random);
-	    	double[][] emissionMatrix = HMMUtil.getRandomMatrix(stateCount, attributeValuesCount, random);
-	    	java.util.List<Opdf<O>> opdfs = 
-	    		new ArrayList<Opdf<O>>();
-			for (double[] emission :emissionMatrix) {
-				opdfs.add(odpfCreator.createEmission(emission) );
-			}
+	    			    	
 	    	Hmm<O> hmm = new Hmm<O>(
 	    			HMMUtil.getRandomArray(stateCount, random), 
 	    			transitionMatrix, opdfs);
@@ -87,4 +82,17 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	public Map<Integer, Hmm<O>> getHmms() {
 		return hmms;
 	}
+
+	public double[][] getNominalEmissionMatrix() {
+		return HMMUtil.getRandomMatrix(stateCount, attributeValuesCount, random);
+	}
+
+	public double[] getNumericMeanArray() {
+		return HMMUtil.getHomogenArray(stateCount, 0);
+	}
+
+	public double[] getNumericVarianceArray() {
+		return HMMUtil.getHomogenArray(stateCount, 1);
+	}
+	
 }
