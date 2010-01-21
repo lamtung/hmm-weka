@@ -5,14 +5,14 @@ import java.util.Map;
 import java.util.Random;
 
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
 
-public interface Trainer {
+public interface Trainer<O extends Observation> {
 	
 	void setRandom(Random random);
 	
-	void trainHmms(Map<Integer, List<List<ObservationInteger>>> trainingInstancesMap);
+	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap);
 	
-	Map<Integer, Hmm<ObservationInteger>> getHmms();
+	Map<Integer, Hmm<O>> getHmms();
 	
 }
