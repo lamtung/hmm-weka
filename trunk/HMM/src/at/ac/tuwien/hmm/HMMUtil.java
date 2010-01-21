@@ -46,7 +46,8 @@ public class HMMUtil {
 		double sum = 0;
 		// Generate random numbers
 		for (int i=0; i<n; i++) {
-			ps[i] = random.nextDouble();
+			//prob should be larger than 0.00001
+			while ((ps[i] = random.nextDouble()) <= 1.e-5) {};
 			sum += ps[i];
 		}
 		// Scale to obtain a discrete probability distribution
