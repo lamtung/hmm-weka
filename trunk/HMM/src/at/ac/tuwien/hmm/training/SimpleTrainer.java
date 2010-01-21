@@ -75,14 +75,8 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	    		trainingInstancesMap.get(classNo);
 			Hmm<O> hmm = hmms.get(classNo);
 	    	System.out.println("UnTrained HMM No "+classNo+":\r\n"+hmm.toString());
-	    	Hmm<O> trainedHmm;
-			try {
-				trainedHmm = hmm.clone();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-				trainedHmm = hmm;
-			}
-	    	hmm = learner.learn(trainedHmm, trainingInstances);
+    	    Hmm<O> trainedHmm = learner.learn(hmm, trainingInstances);
+	     	hmms.put(classNo, trainedHmm);
 	    	System.out.println("Trained HMM No "+classNo+":\r\n"+hmm.toString());
 
 		}		
