@@ -7,6 +7,15 @@ import java.util.Random;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 
+/**
+ * Superclass for all Training implementaions.
+ * 
+ * Subclass it to implement different strategies
+ * 
+ * @author Christof Schmidt
+ *
+ * @param <O> Type of Observation
+ */
 public interface Trainer<O extends Observation> {
 	
 	void setRandom(Random random);
