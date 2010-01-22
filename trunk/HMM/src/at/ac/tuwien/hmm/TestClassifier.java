@@ -8,6 +8,10 @@ import weka.core.Capabilities.Capability;
 
 public class TestClassifier extends Classifier {
 
+	/** for serialization */
+	static final long serialVersionUID = -123468294659183900L;
+
+	
 	public void buildClassifier(Instances data) throws Exception {
 		
 	}

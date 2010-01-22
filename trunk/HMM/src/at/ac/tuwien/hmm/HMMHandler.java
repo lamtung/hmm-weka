@@ -22,7 +22,7 @@ import be.ac.ulg.montefiore.run.jahmm.Opdf;
  *
  * @param <O> Class of observation
  */
-public abstract class HMMHandler<O extends Observation> {
+public abstract class HMMHandler<O extends Observation> implements java.io.Serializable {
 
 	private Map<Integer, Hmm<O>> hmms;
 	
