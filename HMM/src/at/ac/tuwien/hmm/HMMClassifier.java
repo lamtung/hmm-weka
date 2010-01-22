@@ -36,10 +36,12 @@ public class HMMClassifier extends RandomizableClassifier {
     protected int m_States = 2;
         
 	/** for serialization */
-	static final long serialVersionUID = -3481068294659183989L;
+	static final long serialVersionUID = -3481068294659183000L;
 	  
 	public void buildClassifier(Instances data) throws Exception {
+	    System.out.println("Start building");
 
+	    
 		random = data.getRandomNumberGenerator(getSeed());
 	    
 		// can classifier handle the data?
@@ -92,6 +94,9 @@ public class HMMClassifier extends RandomizableClassifier {
 				
 				return new HMMHandler<ObservationReal>(numClasses, m_States,
 						attributeValuesCount, m_Accuracy, random) {
+					/** for serialization */
+					static final long serialVersionUID = -3481068294659183001L;
+
 					public List<Opdf<ObservationReal>> createOdpf() {
 						List<Opdf<ObservationReal>> opdfs = 
 							new ArrayList<Opdf<ObservationReal>>();
@@ -116,6 +121,9 @@ public class HMMClassifier extends RandomizableClassifier {
 
 				return new HMMHandler<ObservationInteger>(numClasses, m_States,
 						attributeValuesCount, m_Accuracy, random) {
+					/** for serialization */
+					static final long serialVersionUID = -3481068294659183002L;
+
 					public List<Opdf<ObservationInteger>> createOdpf() {
 						List<Opdf<ObservationInteger>> opdfs = 
 							new ArrayList<Opdf<ObservationInteger>>();
@@ -166,9 +174,9 @@ public class HMMClassifier extends RandomizableClassifier {
 	   */
 	  public double classifyInstance(Instance instance) throws Exception {
  		 
-		  int bestClass = this.handler.classifyInstance(instance);
-		  
-		  return bestClass;
+		int bestClass = this.handler.classifyInstance(instance);
+		
+		return bestClass;
 	  }
 	  
 	  /**

@@ -16,7 +16,7 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
  *
  * @param <O> Type of Observation
  */
-public interface Trainer<O extends Observation> {
+public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	void setRandom(Random random);
 	

@@ -31,7 +31,10 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	private int attributeValuesCount;
 	private int accuracy;
 	private HMMHandler<O> handler;
-    BaumWelchLearner learner = new BaumWelchLearner();
+	
+	/** for serialization */
+	static final long serialVersionUID = -3481068294659183010L;
+
 	
 	public SimpleTrainer(int numClasses, int stateCount,
 			int attributeValuesCount, int accuracy,
@@ -65,7 +68,8 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		
 	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap) {
 		initHmms();
-		
+	    BaumWelchLearner learner = new BaumWelchLearner();
+
 		learner.setNbIterations(accuracy); // "accuracy" - 
 		for (int classNo:trainingInstancesMap.keySet()) {
 			List<List<O>> trainingInstances  = 
