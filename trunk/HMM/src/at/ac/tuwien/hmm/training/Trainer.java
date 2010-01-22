@@ -26,8 +26,8 @@ public interface Trainer<O extends Observation> {
 	
 	double[][] getNominalEmissionMatrix();
 
-	double[] getNumericMeanArray();
+	double[] getNumericMeanArray(double givenMean);
 	
-	double[] getNumericVarianceArray();
+	double[] getNumericVarianceArray(double givenVariance);
 	
 }

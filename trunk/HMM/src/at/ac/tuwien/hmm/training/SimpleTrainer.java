@@ -87,12 +87,13 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		return HMMUtil.getRandomMatrix(stateCount, attributeValuesCount, random);
 	}
 
-	public double[] getNumericMeanArray() {
-		return HMMUtil.getHomogenArray(stateCount, 0);
+	public double[] getNumericMeanArray(double givenMean) {
+		return HMMUtil.getHomogenArray(stateCount, givenMean);
 	}
 
-	public double[] getNumericVarianceArray() {
-		return HMMUtil.getHomogenArray(stateCount, 1);
+	public double[] getNumericVarianceArray(double givenVariance) {
+		return HMMUtil.getHomogenArray(stateCount, givenVariance);
+		
 	}
 	
 }

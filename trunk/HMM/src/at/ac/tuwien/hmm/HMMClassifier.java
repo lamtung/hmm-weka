@@ -81,16 +81,25 @@ public class HMMClassifier extends RandomizableClassifier {
 			if (isNominal) {
 				throw new Exception("Failure: Both numeric and nominal values present!");
 			} else {
+				double[] allValues = new double[(data.numAttributes()-1) * data.numInstances()];
+				for (int attributeNo = 0; attributeNo < attributeCount;attributeNo++ ) {
+					double[] values = data.attributeToDoubleArray(attributeNo);
+					System.arraycopy(values, 0, allValues, attributeNo * data.numInstances(), 
+							data.numInstances());
+				}
+				final double mean = Utils.mean(allValues);
+				final double variance = Utils.variance(allValues);
+				
 				return new HMMHandler<ObservationReal>(numClasses, m_States,
 						attributeValuesCount, m_Accuracy, random) {
 					public List<Opdf<ObservationReal>> createOdpf() {
 						List<Opdf<ObservationReal>> opdfs = 
 							new ArrayList<Opdf<ObservationReal>>();
-						double[] means = getTrainer().getNumericMeanArray();
-						double[] variance = getTrainer().getNumericVarianceArray();
+						double[] means = getTrainer().getNumericMeanArray(mean);
+						double[] variances = getTrainer().getNumericVarianceArray(variance);
 						//HACK we should'n cast!
 						for (int i = 0; i< means.length; i++) {
-							opdfs.add(new OpdfGaussian(means[i],variance[i]));
+							opdfs.add(new OpdfGaussian(means[i],variances[i]));
 						}
 						return opdfs;
 					}
