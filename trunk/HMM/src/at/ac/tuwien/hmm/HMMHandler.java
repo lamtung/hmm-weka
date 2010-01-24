@@ -243,9 +243,6 @@ public abstract class HMMHandler<O extends Observation> implements
 				}
 
 			}
-			// DEBUG
-			System.out.println("Setting the best found HMM for class "
-					+ classNo);
 			
 			setHmm(bestHmm, classNo);			
 		}
@@ -275,18 +272,6 @@ public abstract class HMMHandler<O extends Observation> implements
 		for (int classNo = 0; classNo < numClasses; classNo++) {
 
 			Hmm<O> hmm = this.hmms.get(classNo);
-			// DEBUG
-			if (hmm == null) {
-				System.out.println("Can't find HMM for class " + classNo);
-				for (int i = 0; i < 4; i++) {
-					if (hmms.get(i) != null) {
-						System.out.println("HMM number " + i);
-					}
-				}
-				System.exit(1);
-			} else {
-				System.out.println("Found HMM for class " + classNo);
-			}
 
 			double lnProbability = hmm.lnProbability(observations);
 			if (lnProbability > bestProbability) {
