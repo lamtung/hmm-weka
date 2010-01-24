@@ -31,7 +31,6 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	private int numClasses; 
 	private int _stateCount; 
 	private int attributeValuesCount;
-	private int accuracy;
 	private int numAttributes;
 	private HMMHandler<O> handler;
 	
@@ -40,11 +39,10 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 
 	
 	public SimpleTrainer(int numClasses, int numAttributes, int stateCount,
-			int attributeValuesCount, int accuracy,	HMMHandler<O> handler) {
+			int attributeValuesCount, HMMHandler<O> handler) {
 		this.numClasses = numClasses;
 		this._stateCount = stateCount;
 		this.attributeValuesCount = attributeValuesCount;
-		this.accuracy = accuracy;
 		this.handler = handler;
 		this.numAttributes = numAttributes;
 	}
@@ -73,8 +71,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
     }
 
 		
-	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap) {
-		initHmms();
+	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy) {
 	    BaumWelchLearner learner = new BaumWelchLearner();
 
 		learner.setNbIterations(accuracy); // "accuracy" - 
