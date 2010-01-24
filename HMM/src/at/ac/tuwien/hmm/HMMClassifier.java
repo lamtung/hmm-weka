@@ -241,7 +241,7 @@ public class HMMClassifier extends RandomizableClassifier {
 			      "V", 1, "-V <num>"));
 	    newVector.addElement(new Option(
 	    		  "\tTurns on the tabu search algorithm (default: off)",
-	              "T", 0, "-T"));
+	              "H", 0, "-H"));
 
 	    Enumeration enu = super.listOptions();
 	    while (enu.hasMoreElements()) {
@@ -264,7 +264,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * -V num <p>
 	   * Sets the no of different HMMs to be trained <p>
 	   * 
-	   * -T <p>
+	   * -H <p>
 	   * turns on the tabu search algorithm (default: off)
 	   * 
 	   * Options after -- are passed to the designated classifier.<p>
@@ -293,7 +293,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	      setVariations(1);
 	    }
 	    
-	    setTabusearch(!Utils.getFlag('T', options));
+	    setTabusearch(!Utils.getFlag('H', options));
 
 	    super.setOptions(options);
 	  }
