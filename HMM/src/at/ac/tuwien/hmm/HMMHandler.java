@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import weka.core.Instance;
 import weka.core.Instances;
@@ -178,7 +179,7 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 		
 		// Train HMMs for each class
 		for (int classNo=0 ; classNo < data.numClasses(); classNo++) {
-			
+			Vector<Integer> tabuList = new Vector<Integer>();
 			int iterationCnt = 1;		    		    
 			double bestRatio = 0;
 			Hmm<O>  bestHmm = null;
@@ -186,6 +187,9 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 			double currentRatio = 0;
 			
 			currentHmm = trainer.getHmm(classNo);
+			
+			tabuList.add(currentHmm.nbStates());
+			
 			setHmm(currentHmm, classNo);
 			currentRatio = evaluate(data, classNo);
 			
@@ -194,14 +198,14 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 			while (iterationCnt <= iterationNumber) {
 				System.out.println ("Tabu Search: Begin iteration " + iterationCnt);			
 				if (k < 3 && bestFound) {
-					trainer.perturbate1();
+					trainer.perturbate1(classNo);
 				}
 				else {
 					k = 0;
-					trainer.perturbate2();
+					int newStateNb = trainer.perturbate2(classNo, tabuList);
+					tabuList.add(newStateNb);
 				}			 
-				trainer.trainHmms(trainingInstancesMap, 10);
-				Hmm<O> newHmm = trainer.getHmm(classNo);
+				Hmm<O> newHmm  = trainer.trainHmm(trainingInstancesMap, 10, classNo);
 			    setHmm(newHmm,classNo);
 			    double newRatio = evaluate(data,classNo);
 			    

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import at.ac.tuwien.hmm.HMMClassifier;
 import at.ac.tuwien.hmm.HMMHandler;
@@ -136,18 +137,41 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		
 	}
 
-	// Change the number of states
+	// Create a completely new HMM by changing the number of states. If the new number of states are 
 	@Override
-	public void perturbate1() {
-		assert (hmms != null);
+	public int perturbate2(int classNo, Vector<Integer> tabuList) {		
+		assert (hmms != null);		
+		int newStateNb = HMMUtil.getRandomStateCount(numAttributes,random);
+		if (tabuList.contains(newStateNb)) {
+			return -1;
+		}
 		
+		List<Opdf<O>> opdfs = handler.createOdpf(newStateNb);
+		double[][] transitionMatrix = getMatrix(newStateNb, newStateNb, random);
+		Hmm<O> hmm = new Hmm<O>(HMMUtil.getRandomArray(newStateNb, random), transitionMatrix, opdfs);
 		
+		// update the new HMM
+		hmms.put(classNo, hmm);
+		return newStateNb;
 	}
 
-	// Randomly change the Pi Matrix or the Transition Matrix 
+	// Randomly change the pi array
 	@Override
-	public void perturbate2() {
-		// TODO Auto-generated method stub
+	public void perturbate1(int classNo) {
+		assert (hmms != null);
+		Hmm<O> hmm = hmms.get(classNo);
+		int nbStates = hmm.nbStates();
+		
+		//Generate new pi array
+		double[] newPi = HMMUtil.getRandomArray(nbStates, random);
+		
+		//Set the new pi array
+		for (int i = 0; i < newPi.length ; i++) {
+			hmm.setPi(i, newPi[i]);
+		}
+		
+		// update the new HMM
+		hmms.put(classNo, hmm);
 		
 	}
 

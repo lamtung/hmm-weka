@@ -3,6 +3,7 @@ package at.ac.tuwien.hmm.training;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Vector;
 
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
@@ -22,9 +23,9 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	void initHmms();
 	
-	void perturbate1();
+	public void perturbate1(int classNo);
 	
-	void perturbate2();
+	public int perturbate2(int classNo, Vector<Integer> tabuList);
 	
 	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy);
 	
