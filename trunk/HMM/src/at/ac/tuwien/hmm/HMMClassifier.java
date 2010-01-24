@@ -63,9 +63,10 @@ public class HMMClassifier extends RandomizableClassifier {
 	    handler = getAttributeValueType(data);
 	    
 	    //train the HMMs
-	    handler.train(data, m_Variations);
-	    
+	    //handler.train(data, m_Variations);
+	    handler.trainWithTabuSearch(data, 50);	    
 	    System.out.println("building done");
+	    
 	}
 		
 	private HMMHandler<? extends Observation> getAttributeValueType(Instances data)

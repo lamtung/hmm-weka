@@ -1,5 +1,6 @@
 package at.ac.tuwien.hmm.training;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -55,8 +56,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	
 	public void initHmms() {
 		
-		hmms = new TreeMap<Integer, Hmm<O>>();
-    	
+		hmms = new TreeMap<Integer, Hmm<O>>();		
 	    for (int classNo=0;classNo<numClasses; classNo++ ) {
 			int noOfStates = _stateCount; 
 			if (noOfStates == -1) {

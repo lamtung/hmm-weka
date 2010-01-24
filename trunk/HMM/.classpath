@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/privat/MI/eclipse/HMM/lib/java-cup.jar"/>
-	<classpathentry kind="lib" path="D:/privat/MI/eclipse/HMM/lib/JFlex.jar"/>
-	<classpathentry kind="lib" path="D:/privat/MI/eclipse/HMM/lib/junit.jar"/>
-	<classpathentry kind="lib" path="D:/privat/MI/eclipse/HMM/lib/libsvm.jar"/>
-	<classpathentry kind="lib" path="C:/Programme/Weka-3-6/weka.jar"/>
+	<classpathentry kind="lib" path="/home/tung/Downloads/weka-3-6-1/weka.jar"/>
+	<classpathentry kind="lib" path="lib/java-cup.jar"/>
+	<classpathentry kind="lib" path="lib/JFlex.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/libsvm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
