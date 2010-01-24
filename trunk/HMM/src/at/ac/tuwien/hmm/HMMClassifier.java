@@ -36,9 +36,8 @@ public class HMMClassifier extends RandomizableClassifier {
 
     protected int m_Accuracy = 50;
     protected int m_States = -1;
-    protected int m_Variations = 5; //TODO Wolfgang : make this configurable (default 1)
-    								//it is the number of different initianl HMM setups to be 
-    								// trained - the best setup will be chosen
+    protected int m_Variations = 5; 
+    protected boolean m_Tabusearch = false;
         
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183000L;
@@ -62,9 +61,11 @@ public class HMMClassifier extends RandomizableClassifier {
 
 	    handler = getAttributeValueType(data);
 	    
-	    //train the HMMs
-	    //handler.train(data, m_Variations);
-	    handler.trainWithTabuSearch(data, m_Variations, m_Accuracy);	    
+	    if (m_Tabusearch)
+		    handler.trainWithTabuSearch(data, m_Variations, m_Accuracy);	    
+	    else
+	    	handler.train(data, m_Variations);
+	    	
 	    System.out.println("building done");
 	    
 	}
@@ -227,7 +228,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	  @SuppressWarnings("unchecked")
 	public Enumeration listOptions() {
 
-	    Vector newVector = new Vector(3);
+	    Vector newVector = new Vector(5);
 
 	    newVector.addElement(new Option(
 		      "\tAccuracy for Baum-Welch-Learner.\n"
@@ -241,6 +242,9 @@ public class HMMClassifier extends RandomizableClassifier {
 			      "\tNo of different HMMs to be trained.\n"
 			    + "\t(default 1)",
 			      "V", 1, "-V <num>"));
+	    newVector.addElement(new Option(
+	    		  "\tTurns on the tabu search algorithm (default: off)",
+	              "T", 0, "-T"));
 
 	    Enumeration enu = super.listOptions();
 	    while (enu.hasMoreElements()) {
@@ -262,6 +266,9 @@ public class HMMClassifier extends RandomizableClassifier {
        *
 	   * -V num <p>
 	   * Sets the no of different HMMs to be trained <p>
+	   * 
+	   * -T <p>
+	   * turns on the tabu search algorithm (default: off)
 	   * 
 	   * Options after -- are passed to the designated classifier.<p>
 	   *
@@ -286,8 +293,10 @@ public class HMMClassifier extends RandomizableClassifier {
 	    if (variations.length() != 0) {
 	      setVariations(Integer.parseInt(variations));
 	    } else {
-	      setVariations(-1);
+	      setVariations(1);
 	    }
+	    
+	    setTabusearch(!Utils.getFlag('T', options));
 
 	    super.setOptions(options);
 	  }
@@ -300,7 +309,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	  public String [] getOptions() {
 
 	    String [] superOptions = super.getOptions();
-	    String [] options = new String [superOptions.length + 6];
+	    String [] options = new String [superOptions.length + (getTabusearch()?7:6)];
 
 	    int current = 0;
 	    options[current++] = "-A"; 
@@ -309,11 +318,43 @@ public class HMMClassifier extends RandomizableClassifier {
 	    options[current++] = "" + getStates();
 	    options[current++] = "-V"; 
 	    options[current++] = "" + getVariations();
+	    
+	    if (getTabusearch())
+	        options[current++] = "-H";
 
 	    System.arraycopy(superOptions, 0, options, current, 
 			     superOptions.length);
 
 	    return options;
+	  }
+	  
+	  /**
+	   * Returns the tip text for this property
+	   * @return tip text for this property suitable for
+	   * displaying in the explorer/experimenter gui
+	   */
+	  public String tabusearchTipText() {
+	    return "Enables/disables Tabusearch algorithm.";
+	  }
+
+	  /**
+	   * enables disables tabusearch
+	   *
+	   * @param tabusearch
+	   */
+	  public void setTabusearch(boolean tabusearch) {
+
+	    m_Tabusearch = tabusearch;
+	  }
+	  
+	  /**
+	   * Gets status of tabusearch
+	   *
+	   * @return the status of tabusearch
+	   */
+	  public boolean getTabusearch() {
+	    
+	    return m_Tabusearch;
 	  }
 	  
 	  /**
