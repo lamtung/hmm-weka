@@ -66,4 +66,29 @@ public class HMMUtil {
 			ps[i] /= sum;
 		return ps;
 	}
+	
+
+	// generate a number between 2 and the log2 of of attributes. 
+	// the probability of higher numbers decreases 
+	public static int _getRandomStateCount(int numAttributes, Random random) {
+		int maxStateCount = Math.max(2,(int)(Math.log(numAttributes) / Math.log(2)));
+		int randomStateCount = Integer.MAX_VALUE;
+		while (randomStateCount > maxStateCount) {
+			randomStateCount = 1 + (int)(1.0 / (random.nextDouble() + 0.000000001));
+		}
+		
+		return randomStateCount;
+	}
+	
+	// the probability of higher numbers decreases 
+	public static int getRandomStateCount(int numAttributes, Random random) {
+		int maxStateCount = Math.max(2,(int)(Math.log(numAttributes) / Math.log(2)));
+		while (true) {
+			for (int i=2; i<= maxStateCount; i++) {
+				if (random.nextDouble() < 0.34) {
+					return i;
+				}
+			}
+		}		
+	}
 }

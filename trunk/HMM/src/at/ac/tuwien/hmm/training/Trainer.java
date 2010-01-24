@@ -24,10 +24,10 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	Map<Integer, Hmm<O>> getHmms();
 	
-	double[][] getNominalEmissionMatrix();
+	double[][] getNominalEmissionMatrix(int stateCount);
 
-	double[] getNumericMeanArray(double givenMean);
+	double[] getNumericMeanArray(double givenMean,int stateCount);
 	
-	double[] getNumericVarianceArray(double givenVariance);
+	double[] getNumericVarianceArray(double givenVariance,int stateCount);
 	
 }
