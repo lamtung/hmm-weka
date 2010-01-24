@@ -236,6 +236,10 @@ public class HMMClassifier extends RandomizableClassifier {
 			      "\tNo of hidden states in the HMM.\n"
 			    + "\t(default -1, this lets the algorithm choose the number)",
 			      "N", -1, "-N <num>"));
+	    newVector.addElement(new Option(
+			      "\tNo of different HMMs to be trained.\n"
+			    + "\t(default 1)",
+			      "V", 1, "-V <num>"));
 
 	    Enumeration enu = super.listOptions();
 	    while (enu.hasMoreElements()) {
@@ -250,9 +254,13 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * -A num <p>
 	   * Sets the accuracy of the Baum-Welch-Learner <p>
 	   * 
-	   * *
+	   * 
 	   * -N num <p>
 	   * Sets the no of hidden states of the HMM <p>
+	   *
+       *
+	   * -V num <p>
+	   * Sets the no of different HMMs to be trained <p>
 	   * 
 	   * Options after -- are passed to the designated classifier.<p>
 	   *
@@ -273,6 +281,12 @@ public class HMMClassifier extends RandomizableClassifier {
 	    } else {
 	      setStates(-1);
 	    }
+	    String variations = Utils.getOption('V', options);
+	    if (variations.length() != 0) {
+	      setVariations(Integer.parseInt(variations));
+	    } else {
+	      setVariations(-1);
+	    }
 
 	    super.setOptions(options);
 	  }
@@ -285,13 +299,15 @@ public class HMMClassifier extends RandomizableClassifier {
 	  public String [] getOptions() {
 
 	    String [] superOptions = super.getOptions();
-	    String [] options = new String [superOptions.length + 4];
+	    String [] options = new String [superOptions.length + 6];
 
 	    int current = 0;
 	    options[current++] = "-A"; 
 	    options[current++] = "" + getAccuracy();
 	    options[current++] = "-N"; 
 	    options[current++] = "" + getStates();
+	    options[current++] = "-V"; 
+	    options[current++] = "" + getVariations();
 
 	    System.arraycopy(superOptions, 0, options, current, 
 			     superOptions.length);
@@ -355,6 +371,35 @@ public class HMMClassifier extends RandomizableClassifier {
 	  public int getStates() {
 	    
 	    return m_States;
+	  }
+	  
+	  /**
+	   * Returns the tip text for this property
+	   * @return tip text for this property suitable for
+	   * displaying in the explorer/experimenter gui
+	   */
+	  public String variationsTipText() {
+	    return "The number of different HMMs to be trained";
+	  }
+
+	  /**
+	   * Sets the number of different HMMs to be trained
+	   *
+	   * @param number of different HMMs to be trained
+	   */
+	  public void setVariations(int variations) {
+
+	    m_Variations = variations;
+	  }
+
+	  /**
+	   * Gets the number of different HMMs to be trained
+	   *
+	   * @return the no of different HMMs to be trained
+	   */
+	  public int getVariations() {
+	    
+	    return m_Variations;
 	  }
 	  
 	  /**
