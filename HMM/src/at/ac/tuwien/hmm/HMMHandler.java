@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import weka.core.Instance;
 import weka.core.Instances;
+import at.ac.tuwien.hmm.training.MultiInitTrainer;
 import at.ac.tuwien.hmm.training.SimpleTrainer;
 import at.ac.tuwien.hmm.training.Trainer;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
@@ -30,23 +31,25 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	private int numClasses; 
 	private int stateCount; 
 	private int numAttributes;
+	private int attributeValuesCount;
 	private int accuracy;
 	private Trainer<O> trainer;
 	
-	public HMMHandler(int numClasses, int stateCount,
-			int numAttributes, int accuracy, Random random) {
+	public HMMHandler(int numClasses, int numAttributes, int stateCount,	int attributeValuesCount, 
+			 int accuracy, Random random) {
 		this.numClasses = numClasses;
 		this.stateCount = stateCount;
 		this.numAttributes = numAttributes;
 		this.accuracy = accuracy;
 		this.random = random;
+		this.attributeValuesCount = attributeValuesCount;
 		trainer = createTrainer();
 
 	}
 
 	
 	// override this 
-	public abstract List<Opdf<O>> createOdpf ();
+	public abstract List<Opdf<O>> createOdpf (int stateCount);
 	
 	// override this 
 	public abstract O createObservation (Instance instance, int attributeNo);
@@ -60,7 +63,7 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	    while (instances.hasMoreElements()) {
 	    	Instance instance = instances.nextElement();
 			int classNo = (int)instance.classValue();
-	    	
+	    	//System.out.println(classNo+":"+instance.stringValue(instance.numAttributes()));
 			List<O> trainingObservation = 
 				getObservationFromInstance(instance);
 			
@@ -95,18 +98,46 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 		this.hmms = hmms;
 	}
 	
-	public void train(Instances data) {
+	public double evaluate(Instances data) throws Exception{
+		int correct = 0;
+		for (int instanceNo=0; instanceNo< data.numInstances(); instanceNo++) {
+			Instance instance = data.instance(instanceNo);
+			int bestClass = classifyInstance(instance);
+			int classNo = (int)instance.classValue();
+			if (bestClass == classNo) {
+				correct++;
+			}
+		}
+		return (double)correct/data.numInstances();
+	}
+		
+	public void train(Instances data, int variations) throws Exception{
 	    trainer.setRandom(random);
-	    trainer.trainHmms(getTrainingInstances(data));
-	    setHmms(trainer.getHmms());
+	    Map<Integer, List<List<O>>> trainingInstancesMap = getTrainingInstances(data);
+		double bestRatio = 0;
+		Map<Integer, Hmm<O>>  bestHmms = null;
+	    for (int variation=0;variation<variations; variation++ ) {
+		    trainer.trainHmms(trainingInstancesMap);
+		    setHmms(trainer.getHmms());
+		    double ratio = evaluate(data);
+		    if (ratio > bestRatio) {
+		    	bestHmms = trainer.getHmms();
+		    	bestRatio = ratio;
+		    }
+		    //System.out.println("Run "+variation +" "+ratio);
+	    }
+	    setHmms(bestHmms);
 	}
-	
+
+
 	public Trainer<O> createTrainer() {
-	    SimpleTrainer<O> trainer = 
-	    	new SimpleTrainer<O>(numClasses, stateCount, numAttributes, accuracy, this);
-	    return trainer;
+		return new SimpleTrainer<O>(numClasses, numAttributes, stateCount, attributeValuesCount, accuracy, this);
 	}
 	
+	public Trainer<O> _createTrainer() {
+		return new MultiInitTrainer<O>(numClasses, numAttributes, stateCount,attributeValuesCount, 
+				 accuracy, this);
+	}
 	
 	  public int classifyInstance(Instance instance) throws Exception {
  		  List<O> observations = getObservationFromInstance(instance);
@@ -126,8 +157,14 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 		  return bestClass;
 	  }
 
+	  
 
 	public Trainer<O> getTrainer() {
 		return trainer;
+	}
+
+
+	public Map<Integer, Hmm<O>> getHmms() {
+		return hmms;
 	}
 }

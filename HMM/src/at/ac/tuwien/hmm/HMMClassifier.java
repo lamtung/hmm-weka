@@ -16,6 +16,7 @@ import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.Capabilities.Capability;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
@@ -27,13 +28,17 @@ public class HMMClassifier extends RandomizableClassifier {
 	
     private Map<String, Integer> nominalsMap;
     private int numClasses;
+    private int numAttributes;
     private int attributeCount;
     private Random random;
     private int attributeValuesCount;
     private HMMHandler<? extends Observation> handler;
 
     protected int m_Accuracy = 50;
-    protected int m_States = 2;
+    protected int m_States = -1;
+    protected int m_Variations = 1; //TODO Wolfgang : make this configurable (default 1)
+    								//it is the number of different initianl HMM setups to be 
+    								// trained - the best setup will be chosen
         
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183000L;
@@ -53,12 +58,12 @@ public class HMMClassifier extends RandomizableClassifier {
 	    data.deleteWithMissingClass();
 	    
 	    numClasses = data.numClasses();
+	    numAttributes = data.numAttributes();
 
 	    handler = getAttributeValueType(data);
 	    
-
 	    //train the HMMs
-	    handler.train(data);
+	    handler.train(data, m_Variations);
 	    
 	    System.out.println("building done");
 	}
@@ -92,16 +97,16 @@ public class HMMClassifier extends RandomizableClassifier {
 				final double mean = Utils.mean(allValues);
 				final double variance = Utils.variance(allValues);
 				
-				return new HMMHandler<ObservationReal>(numClasses, m_States,
-						attributeValuesCount, m_Accuracy, random) {
+				return new HMMHandler<ObservationReal>(numClasses, numAttributes, m_States, 
+						 attributeValuesCount, m_Accuracy, random) {
 					/** for serialization */
 					static final long serialVersionUID = -3481068294659183001L;
 
-					public List<Opdf<ObservationReal>> createOdpf() {
+					public List<Opdf<ObservationReal>> createOdpf(int stateCount) {
 						List<Opdf<ObservationReal>> opdfs = 
 							new ArrayList<Opdf<ObservationReal>>();
-						double[] means = getTrainer().getNumericMeanArray(mean);
-						double[] variances = getTrainer().getNumericVarianceArray(variance);
+						double[] means = getTrainer().getNumericMeanArray(mean, stateCount);
+						double[] variances = getTrainer().getNumericVarianceArray(variance,stateCount);
 						//HACK we should'n cast!
 						for (int i = 0; i< means.length; i++) {
 							opdfs.add(new OpdfGaussian(means[i],variances[i]));
@@ -119,15 +124,15 @@ public class HMMClassifier extends RandomizableClassifier {
 			    //build an index over the nominal values
 			    buildNominalsMap(data);
 
-				return new HMMHandler<ObservationInteger>(numClasses, m_States,
-						attributeValuesCount, m_Accuracy, random) {
+				return new HMMHandler<ObservationInteger>(numClasses, numAttributes, m_States, 
+						 attributeValuesCount,  m_Accuracy, random) {
 					/** for serialization */
 					static final long serialVersionUID = -3481068294659183002L;
 
-					public List<Opdf<ObservationInteger>> createOdpf() {
+					public List<Opdf<ObservationInteger>> createOdpf(int stateCount) {
 						List<Opdf<ObservationInteger>> opdfs = 
 							new ArrayList<Opdf<ObservationInteger>>();
-				    	for (double[] emission :getTrainer().getNominalEmissionMatrix()) {
+				    	for (double[] emission :getTrainer().getNominalEmissionMatrix(stateCount)) {
 							opdfs.add(new OpdfInteger(emission) );
 						}
 						return opdfs;
@@ -155,7 +160,8 @@ public class HMMClassifier extends RandomizableClassifier {
 	    	while (attributeValues.hasMoreElements()) {
 		    	String value = (String)attributeValues.nextElement();
 		    	if (!nominalsMap.containsKey(value)) {
-		    		nominalsMap.put(value, nominalsMap.size());
+		    		int index = nominalsMap.size();
+		    		nominalsMap.put(value, index);
 		    	}
 	    	}
 	    }
@@ -228,8 +234,8 @@ public class HMMClassifier extends RandomizableClassifier {
 		      "A", 50, "-A <num>"));
 	    newVector.addElement(new Option(
 			      "\tNo of hidden states in the HMM.\n"
-			      + "\t(default 2)",
-			      "N", 2, "-N <num>"));
+			    + "\t(default -1, this lets the algorithm choose the number)",
+			      "N", -1, "-N <num>"));
 
 	    Enumeration enu = super.listOptions();
 	    while (enu.hasMoreElements()) {
@@ -265,7 +271,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	    if (states.length() != 0) {
 	      setStates(Integer.parseInt(states));
 	    } else {
-	      setStates(2);
+	      setStates(-1);
 	    }
 
 	    super.setOptions(options);
