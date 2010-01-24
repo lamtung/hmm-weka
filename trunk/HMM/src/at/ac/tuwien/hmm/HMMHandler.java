@@ -118,7 +118,8 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 		
 		// split the accuracy between init an final training
 		// altogether we train variation times for init an one time for final
-		int accuracyPart = accuracy / (variations +1);
+		// use the half of the time on init, rest on final training
+		int accuracyPart = accuracy / (variations * 2);
 
 		
 		// initial training and comparing
@@ -139,7 +140,7 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	    // final round of training - use remaining iterations
 	    int remianingiterations = accuracy - (variations * accuracyPart);
 	    trainer.trainHmms(trainingInstancesMap, remianingiterations);
-	    
+	    setHmms(trainer.getHmms());
 	}
 
 
