@@ -238,4 +238,36 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 
 	}
 
+
+	@Override
+	public void setHmms(Map<Integer, Hmm<O>> hmms) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void perturbate1() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void perturbate2() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Hmm<O> getHmm(int classNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Hmm<O> trainHmm(Map<Integer, List<List<O>>> trainingInstancesMap,
+			int accuracy, int classNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
