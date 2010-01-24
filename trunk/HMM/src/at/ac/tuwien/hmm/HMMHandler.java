@@ -191,17 +191,6 @@ public abstract class HMMHandler<O extends Observation> implements
 			tabuList.add(currentHmm.nbStates());
 
 			//setHmm(currentHmm, classNo);
-			System.out.println("Evaluating the initial HMM for class " + classNo);
-			System.out.println("At the moment hmms has " + hmms.size() + " elements");
-			System.out.println("All the keys are: ");
-			System.out.println(hmms.keySet().toString());
-			System.out.println("HMM for class 0 is ");
-			System.out.println(hmms.get(0).toString());
-			System.out.println("HMM for class 1 is ");
-			System.out.println(hmms.get(1).toString());
-			System.out.println("HMM for class 2 is ");
-			System.out.println(hmms.get(2).toString());
-			currentRatio = evaluate(data, classNo);
 
 			int k = 0;
 			boolean bestFound = true;
