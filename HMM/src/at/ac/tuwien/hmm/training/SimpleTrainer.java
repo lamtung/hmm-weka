@@ -44,12 +44,13 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		this._stateCount = stateCount;
 		this.attributeValuesCount = attributeValuesCount;
 		this.handler = handler;
-		this.numAttributes = numAttributes;
+		this.numAttributes = numAttributes;		
 	}
 
 	public void setRandom(Random random) {
 		this.random = random;
 	}
+	
 	
 	public void initHmms() {
 		
@@ -63,9 +64,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	    	List<Opdf<O>> opdfs = handler.createOdpf(noOfStates);
 			double[][] transitionMatrix = getMatrix(noOfStates, noOfStates, random);
 	    			    	
-	    	Hmm<O> hmm = new Hmm<O>(
-	    			HMMUtil.getRandomArray(noOfStates, random), 
-	    			transitionMatrix, opdfs);
+	    	Hmm<O> hmm = new Hmm<O>(HMMUtil.getRandomArray(noOfStates, random), transitionMatrix, opdfs);
 	    	hmms.put(classNo, hmm);
 	    }
     }
@@ -76,8 +75,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 
 		learner.setNbIterations(accuracy); // "accuracy" - 
 		for (int classNo:trainingInstancesMap.keySet()) {
-			List<List<O>> trainingInstances  = 
-	    		trainingInstancesMap.get(classNo);
+			List<List<O>> trainingInstances  = trainingInstancesMap.get(classNo);
 			Hmm<O> hmm = hmms.get(classNo);
 	    	if (DISPLAY) System.out.println("UnTrained HMM No "+classNo+":\r\n"+hmm.toString());
 	    	Hmm<O> trainedHmm = learner.learn(hmm, trainingInstances);
@@ -85,6 +83,22 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	    	if (DISPLAY) System.out.println("Trained HMM No "+classNo+":\r\n"+trainedHmm.toString());
 
 		}		
+	}
+	
+	// Train HMM for a certain Class
+	public Hmm<O> trainHmm(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,int classNo) {
+	    BaumWelchLearner learner = new BaumWelchLearner();
+		learner.setNbIterations(accuracy);
+		List<List<O>> trainingInstances  = trainingInstancesMap.get(classNo);
+		Hmm<O> hmm = hmms.get(classNo);
+    	if (DISPLAY) System.out.println("UnTrained HMM No "+classNo+":\r\n"+hmm.toString());
+    	Hmm<O> trainedHmm = learner.learn(hmm, trainingInstances);
+    	// Update trained HMM
+    	hmms.put(classNo, trainedHmm);
+    	if (DISPLAY) System.out.println("Trained HMM No "+classNo+":\r\n"+trainedHmm.toString());
+    	
+    	return trainedHmm;
+		
 	}
 
 	public double[][] getMatrix(int rows, int columns, Random random) {
@@ -115,5 +129,33 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		return HMMUtil.getHomogenArray(stateCount, givenVariance);
 		
 	}
+
+	@Override
+	public void setHmms(Map<Integer, Hmm<O>> hmms) {
+		this.hmms = hmms;
+		
+	}
+
+	// Change the number of states
+	@Override
+	public void perturbate1() {
+		assert (hmms != null);
+		
+		
+	}
+
+	// Randomly change the Pi Matrix or the Transition Matrix 
+	@Override
+	public void perturbate2() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Hmm<O> getHmm(int classNo) {
+		return this.hmms.get(classNo);
+	}
+
+
 	
 }
