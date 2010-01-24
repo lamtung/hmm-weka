@@ -138,8 +138,8 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	    setHmms(bestHmms);
 	    
 	    // final round of training - use remaining iterations
-	    int remianingiterations = accuracy - (variations * accuracyPart);
-	    trainer.trainHmms(trainingInstancesMap, remianingiterations);
+	    int remainingIterations = accuracy - (variations * accuracyPart);
+	    trainer.trainHmms(trainingInstancesMap, remainingIterations);
 	    setHmms(trainer.getHmms());
 	}
 
