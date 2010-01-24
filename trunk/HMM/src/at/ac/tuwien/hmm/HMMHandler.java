@@ -181,21 +181,20 @@ public abstract class HMMHandler<O extends Observation> implements
 		for (int classNo = 0; classNo < data.numClasses(); classNo++) {
 			assert (hmms.size() == data.numClasses());
 			Vector<Integer> tabuList = new Vector<Integer>();
-			double bestRatio = 0;			
-			
-			double currentRatio = 0;
-
+													
 			Hmm<O> currentHmm = trainer.getHmm(classNo);
 			Hmm<O> bestHmm = currentHmm;
 			
 			tabuList.add(currentHmm.nbStates());
 
-			//setHmm(currentHmm, classNo);
+			setHmm(currentHmm, classNo);
+			double currentRatio = evaluate(data,classNo);
+			double bestRatio = currentRatio;
 
 			int k = 0;
 			boolean bestFound = true;
 			for (int i = 1; i <= iterationNumber; i++) {
-				System.out.println("Tabu Search: Begin iteration " + i
+				System.out.println("Tabu Search at Iteration " + i
 						+ " of class " + classNo);
 				if (k < 3 && bestFound) {
 					trainer.perturbate1(classNo);
@@ -221,6 +220,7 @@ public abstract class HMMHandler<O extends Observation> implements
 				if (currentRatio > bestRatio) {
 					// save the new best Hmms
 					bestHmm = currentHmm;
+					bestRatio = currentRatio;
 					bestFound = true;
 
 					if (currentRatio - bestRatio < 0.01) {
