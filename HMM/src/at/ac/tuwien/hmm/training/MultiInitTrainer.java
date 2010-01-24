@@ -35,7 +35,6 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 	private int numAttributes;
 	private int _stateCount;
 	private int attributeValuesCount;
-	private int accuracy;
 	private HMMHandler<O> handler;
 	private int noInitials = 40;
 
@@ -44,11 +43,10 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 
 	public MultiInitTrainer(int numClasses, int numAttributes, 
 			int stateCount,	int attributeValuesCount,  
-			int accuracy, HMMHandler<O> handler) {
+			HMMHandler<O> handler) {
 		this.numClasses = numClasses;
 		this._stateCount = stateCount;
 		this.attributeValuesCount = attributeValuesCount;
-		this.accuracy = accuracy;
 		this.handler = handler;
 		this.numAttributes = numAttributes;
 	}
@@ -79,7 +77,7 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 		}
 	}
 
-	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap) {
+	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy) {
 		initHmms();
 
 		for (int classNo : trainingInstancesMap.keySet()) {
@@ -92,7 +90,7 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 				}
 			}
 			List<Hmm<O>> initialHmms = hmmsList.get(classNo);
-			trainHmm(trainingInstances, otherInstances, initialHmms);
+			trainHmm(trainingInstances, otherInstances, initialHmms, accuracy);
 			hmms.put(classNo, initialHmms.get(0));
 			System.out.println("Trained HMM No " + classNo + ":\r\n"
 					+ initialHmms.get(0).toString());
@@ -101,7 +99,7 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 	}
 
 	private void trainHmm(List<List<O>> trainingInstances,
-			List<List<O>> otherInstances, List<Hmm<O>> hmms) {
+			List<List<O>> otherInstances, List<Hmm<O>> hmms, int accuracy) {
 		BaumWelchLearner learner = new BaumWelchScaledLearner();
 		double stepSize = this.noInitials / (double) accuracy;
 		double stepSum = 0;

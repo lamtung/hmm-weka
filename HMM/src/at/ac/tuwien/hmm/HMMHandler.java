@@ -115,28 +115,41 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	    trainer.setRandom(random);
 	    Map<Integer, List<List<O>>> trainingInstancesMap = getTrainingInstances(data);
 		double bestRatio = 0;
+		
+		// split the accuracy between init an final training
+		// altogether we train variation times for init an one time for final
+		int accuracyPart = accuracy / (variations +1);
+
+		
+		// initial training and comparing
 		Map<Integer, Hmm<O>>  bestHmms = null;
 	    for (int variation=0;variation<variations; variation++ ) {
-		    trainer.trainHmms(trainingInstancesMap);
+	    	trainer.initHmms();
+		    trainer.trainHmms(trainingInstancesMap, accuracyPart);
 		    setHmms(trainer.getHmms());
 		    double ratio = evaluate(data);
 		    if (ratio > bestRatio) {
 		    	bestHmms = trainer.getHmms();
 		    	bestRatio = ratio;
 		    }
-		    //System.out.println("Run "+variation +" "+ratio);
+		    System.out.println("Run "+variation +" "+ratio);
 	    }
 	    setHmms(bestHmms);
+	    
+	    // final round of training - use remaining iterations
+	    int remianingiterations = accuracy - (variations * accuracyPart);
+	    trainer.trainHmms(trainingInstancesMap, remianingiterations);
+	    
 	}
 
 
 	public Trainer<O> createTrainer() {
-		return new SimpleTrainer<O>(numClasses, numAttributes, stateCount, attributeValuesCount, accuracy, this);
+		return new SimpleTrainer<O>(numClasses, numAttributes, stateCount, attributeValuesCount, this);
 	}
 	
 	public Trainer<O> _createTrainer() {
-		return new MultiInitTrainer<O>(numClasses, numAttributes, stateCount,attributeValuesCount, 
-				 accuracy, this);
+		return new MultiInitTrainer<O>(numClasses, numAttributes, stateCount, 
+				attributeValuesCount, this);
 	}
 	
 	  public int classifyInstance(Instance instance) throws Exception {

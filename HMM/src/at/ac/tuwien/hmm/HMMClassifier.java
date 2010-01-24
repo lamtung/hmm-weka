@@ -36,7 +36,7 @@ public class HMMClassifier extends RandomizableClassifier {
 
     protected int m_Accuracy = 50;
     protected int m_States = -1;
-    protected int m_Variations = 1; //TODO Wolfgang : make this configurable (default 1)
+    protected int m_Variations = 5; //TODO Wolfgang : make this configurable (default 1)
     								//it is the number of different initianl HMM setups to be 
     								// trained - the best setup will be chosen
         

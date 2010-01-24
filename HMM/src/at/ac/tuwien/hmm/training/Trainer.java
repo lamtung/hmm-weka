@@ -20,7 +20,9 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	void setRandom(Random random);
 	
-	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap);
+	void initHmms();
+	
+	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy);
 	
 	Map<Integer, Hmm<O>> getHmms();
 	
