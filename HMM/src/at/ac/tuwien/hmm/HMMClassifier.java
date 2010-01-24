@@ -64,7 +64,7 @@ public class HMMClassifier extends RandomizableClassifier {
 	    
 	    //train the HMMs
 	    //handler.train(data, m_Variations);
-	    handler.trainWithTabuSearch(data, 30);	    
+	    handler.trainWithTabuSearch(data, m_Variations, m_Accuracy);	    
 	    System.out.println("building done");
 	    
 	}
