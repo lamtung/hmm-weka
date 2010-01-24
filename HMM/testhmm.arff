@@ -1,0 +1,455 @@
+@relation testhmm
+
+@attribute Att_000 {W,S,C}
+@attribute Att_001 {S,W,C}
+@attribute Att_002 {C,W,S}
+@attribute Att_003 {C,S,W}
+@attribute Att_004 {W,S,C}
+@attribute Att_005 {W,C,S}
+@attribute Att_006 {W,S,C}
+@attribute Att_007 {S,W,C}
+@attribute Att_008 {W,S,C}
+@attribute Att_009 {W,S,C}
+@attribute Att_010 {W,S,C}
+@attribute Att_011 {S,W,C}
+@attribute Att_012 {W,C,S}
+@attribute Att_013 {W,S,C}
+@attribute Att_014 {W,S,C}
+@attribute Att_015 {S,C,W}
+@attribute Att_016 {W,C,S}
+@attribute Att_017 {S,W,C}
+@attribute Att_018 {W,S,C}
+@attribute Att_019 {C,S,W}
+@attribute Att_020 {S,W,C}
+@attribute Att_021 {C,W,S}
+@attribute Att_022 {W,C,S}
+@attribute Att_023 {W,S,C}
+@attribute Att_024 {W,C,S}
+@attribute Att_025 {W,C,S}
+@attribute Att_026 {C,W,S}
+@attribute Att_027 {C,W,S}
+@attribute Att_028 {W,S,C}
+@attribute Att_029 {S,C,W}
+@attribute Att_030 {S,C,W}
+@attribute Att_031 {S,W,C}
+@attribute Att_032 {W,C,S}
+@attribute Att_033 {W,C,S}
+@attribute Att_034 {W,C,S}
+@attribute Att_035 {W,S,C}
+@attribute Att_036 {S,C,W}
+@attribute Att_037 {S,C,W}
+@attribute Att_038 {C,S,W}
+@attribute Att_039 {W,S,C}
+@attribute Att_040 {C,S,W}
+@attribute Att_041 {W,S,C}
+@attribute Att_042 {W,C,S}
+@attribute Att_043 {S,C,W}
+@attribute Att_044 {W,C,S}
+@attribute Att_045 {S,W,C}
+@attribute Att_046 {S,C,W}
+@attribute Att_047 {C,S,W}
+@attribute Att_048 {C,S,W}
+@attribute Att_049 {C,S,W}
+@attribute Class {C1,C2,C0,C3}
+
+@data
+W,S,C,C,W,W,W,S,W,W,W,S,W,W,W,S,W,S,W,C,S,C,W,W,W,W,C,C,W,S,S,S,W,W,W,W,S,S,C,W,C,W,W,S,W,S,S,C,C,C,C1
+W,W,W,S,S,W,W,W,S,W,W,W,C,S,S,C,C,S,S,C,S,C,W,S,C,C,C,C,S,C,C,S,C,C,C,W,C,C,C,S,C,S,C,S,C,W,C,S,S,S,C1
+S,S,S,S,C,C,S,S,S,S,W,W,W,S,W,W,S,S,W,S,W,W,W,C,C,W,C,C,W,W,S,W,W,S,W,W,S,W,S,S,S,S,C,S,C,C,C,C,C,C,C1
+S,W,W,S,W,C,W,C,S,W,W,S,S,C,C,W,S,W,C,S,C,C,W,S,W,W,W,C,S,W,C,C,C,W,S,S,S,C,S,C,C,W,W,S,S,S,W,W,S,S,C1
+C,S,W,S,W,S,C,C,W,C,S,C,C,C,S,C,W,W,W,W,S,C,C,W,W,S,C,W,C,S,W,S,W,S,S,W,C,C,S,S,W,W,S,S,W,S,W,W,C,S,C2
+W,W,C,W,C,W,W,C,W,W,C,C,W,C,S,S,W,S,C,S,W,W,C,C,C,C,S,W,S,W,S,W,W,C,W,W,S,W,W,W,W,S,W,S,C,S,S,S,W,C,C0
+S,S,W,S,S,C,C,W,W,S,W,W,W,C,S,S,S,S,C,S,S,S,C,S,W,W,S,W,C,C,C,W,C,S,S,S,S,S,C,S,S,S,C,C,S,C,C,S,C,W,C1
+C,W,S,S,W,S,W,W,W,W,W,W,S,S,S,C,C,S,C,C,W,W,S,W,S,S,S,W,S,C,C,W,W,W,C,W,W,C,S,S,W,W,S,W,S,C,S,C,S,S,C1
+W,S,S,C,C,S,S,W,C,W,W,S,W,W,W,W,W,S,S,C,S,W,C,S,S,S,W,C,W,S,W,C,W,C,C,S,C,S,C,W,S,C,W,W,W,S,C,S,C,C,C0
+W,W,W,W,W,W,S,W,W,W,S,S,W,C,W,W,S,W,W,C,C,C,C,W,W,W,S,W,C,W,W,W,W,S,S,S,W,S,W,C,S,C,C,C,S,C,S,W,W,S,C1
+C,C,S,C,S,W,S,C,S,S,C,W,C,W,W,S,C,C,W,W,S,S,W,S,C,S,W,S,C,C,S,C,S,S,S,S,C,S,W,S,S,S,S,W,C,S,W,C,S,C,C1
+W,W,W,S,W,C,C,W,W,S,S,W,S,W,S,S,S,C,S,W,S,S,S,W,S,W,W,W,W,W,W,W,S,W,W,W,S,W,C,W,W,W,C,W,S,W,W,S,C,S,C3
+W,S,S,C,W,W,W,S,C,C,S,S,C,S,S,C,C,W,C,C,C,S,W,W,S,S,W,C,S,W,S,W,S,W,W,W,S,S,C,S,C,S,C,C,S,C,C,S,S,C,C1
+W,S,C,S,W,S,W,S,W,S,W,W,W,W,S,C,C,C,W,C,W,S,S,S,S,W,S,W,W,C,W,W,W,C,S,C,S,S,C,S,C,W,S,S,W,C,C,C,W,S,C0
+C,C,C,C,C,C,W,W,S,S,C,W,S,S,W,W,S,C,S,S,S,C,W,C,S,W,W,C,S,W,W,W,W,W,W,S,S,C,C,W,S,W,W,S,W,S,S,W,C,C,C0
+C,S,W,W,S,W,W,W,W,W,W,S,W,W,C,W,W,W,W,W,S,W,S,W,W,C,W,W,W,W,W,W,W,S,S,C,C,S,W,W,W,W,W,W,W,C,S,S,S,W,C3
+W,W,W,S,S,W,W,W,S,S,C,W,S,S,C,W,W,W,S,C,S,S,S,W,C,W,S,S,S,C,W,C,W,S,C,W,C,C,S,C,S,W,W,C,S,S,C,S,W,S,C0
+S,W,W,C,S,C,C,S,C,S,W,W,S,C,W,C,W,S,S,W,C,S,S,W,C,W,C,C,S,S,S,S,W,S,C,S,C,C,S,W,W,W,C,W,W,W,W,S,S,S,C0
+W,W,W,W,C,S,C,W,S,S,C,W,W,C,W,C,S,S,S,S,W,C,C,C,S,C,C,C,C,C,C,C,S,S,S,W,W,S,S,C,W,S,C,W,W,W,W,C,S,C,C1
+S,W,S,S,W,W,W,C,W,C,S,C,W,W,C,C,C,W,C,S,C,W,W,W,W,S,C,C,W,C,W,W,C,S,S,C,S,W,S,W,W,S,C,S,S,W,C,S,S,C,C2
+W,W,C,S,C,W,C,S,S,W,W,C,W,C,W,W,W,C,S,S,C,W,S,C,W,S,W,S,W,S,S,W,W,S,S,S,W,W,C,S,W,W,W,W,C,W,W,C,W,S,C3
+S,W,S,C,W,W,S,S,W,S,W,S,W,W,W,W,C,S,C,C,C,W,C,S,W,S,S,S,S,W,W,W,S,S,W,W,W,S,C,W,C,S,W,S,C,W,W,W,C,W,C3
+S,S,W,C,C,S,C,W,C,S,C,C,C,S,S,C,W,S,S,C,W,S,W,S,W,S,S,W,S,C,W,S,C,S,S,C,W,C,C,S,C,S,C,W,W,C,C,S,S,S,C0
+C,C,S,W,S,S,C,C,S,S,C,C,C,S,C,S,S,C,S,S,W,S,W,W,S,C,S,S,S,C,S,S,C,S,S,W,C,C,S,S,C,C,C,W,S,C,S,C,C,C,C1
+S,S,C,C,S,C,W,S,C,C,C,S,C,C,S,W,C,W,S,C,W,S,C,S,W,W,C,S,C,W,W,C,C,C,S,S,W,S,W,C,S,S,C,C,W,C,C,W,W,C,C2
+W,S,C,C,W,S,W,W,S,S,C,C,C,S,S,S,S,C,W,S,C,S,S,C,C,S,W,C,S,C,S,W,S,S,W,W,C,C,C,C,C,C,C,C,S,W,W,C,S,S,C0
+W,W,C,S,W,W,W,W,W,W,W,S,S,W,W,S,S,S,C,S,W,W,C,W,W,C,C,W,C,W,W,C,W,S,S,W,S,W,C,S,W,C,S,W,S,W,S,W,C,W,C3
+S,S,S,S,S,W,C,W,S,W,S,C,C,S,C,S,C,C,W,S,C,W,W,C,S,C,S,W,C,C,C,S,C,S,W,S,W,W,S,C,C,S,S,C,S,W,W,W,W,S,C2
+W,W,W,S,C,S,C,C,W,S,C,C,S,S,W,C,C,S,S,S,C,S,S,S,C,W,W,S,S,S,S,S,W,W,W,W,W,W,S,W,W,W,W,S,W,W,W,W,S,W,C1
+W,S,W,C,W,C,W,C,S,S,W,C,C,W,W,W,C,S,C,W,W,W,W,C,W,C,W,W,W,S,S,W,W,W,S,C,S,S,W,S,S,W,C,C,W,S,C,W,C,W,C3
+C,C,C,S,C,C,C,C,C,C,C,C,S,S,C,C,C,C,C,C,S,W,S,C,S,S,C,S,W,S,C,S,W,C,W,S,S,S,C,C,W,C,C,W,W,C,C,C,C,C,C1
+S,C,S,W,W,S,C,S,W,S,W,S,C,S,C,C,W,C,C,W,W,S,C,W,S,C,S,S,S,C,S,C,C,C,C,C,W,S,S,W,S,W,S,S,W,S,S,W,C,C,C0
+S,S,W,W,W,S,W,S,W,W,S,W,W,W,W,S,W,W,S,S,W,W,W,S,C,S,W,W,W,W,S,S,S,W,W,W,W,S,C,C,W,W,W,W,W,W,W,S,W,W,C3
+W,S,C,C,S,C,W,W,W,W,C,S,C,S,C,S,W,W,S,W,S,S,S,S,S,C,S,W,S,S,W,S,W,S,W,S,C,C,S,C,W,W,W,W,W,W,C,C,W,C,C0
+S,W,W,C,W,S,C,S,S,W,S,W,S,C,S,W,C,W,W,W,S,W,W,W,W,W,W,W,W,S,C,W,W,W,C,W,W,W,W,S,S,W,W,C,W,S,S,W,W,S,C3
+W,S,W,S,C,W,C,C,C,C,S,W,S,S,S,C,S,S,S,W,S,C,C,W,W,W,S,S,W,C,W,W,W,C,S,W,S,S,C,C,W,C,C,W,W,W,S,S,S,C,C2
+C,C,C,S,W,W,S,S,W,C,C,W,W,S,S,C,W,C,C,S,W,C,C,S,C,S,S,C,C,S,S,S,W,S,C,C,S,C,C,C,C,C,C,C,C,C,C,W,S,S,C1
+C,W,S,S,W,C,C,S,C,C,W,W,S,W,W,S,W,C,C,S,W,C,C,W,C,W,C,S,S,W,C,S,W,W,C,C,S,W,C,S,W,C,W,W,C,S,C,C,W,W,C2
+W,S,C,S,C,W,C,S,W,C,C,S,S,W,C,W,W,W,S,S,W,W,W,W,S,S,S,S,W,S,S,S,C,S,S,C,S,C,C,C,C,C,C,C,C,C,S,C,C,C,C1
+W,W,S,S,C,C,C,C,C,C,C,C,W,C,C,W,C,C,S,S,W,C,W,S,W,W,C,W,W,W,W,C,C,W,W,W,W,C,W,W,W,W,S,C,S,C,S,W,C,C,C1
+C,C,C,W,S,S,C,C,S,W,C,W,C,W,C,W,W,W,W,S,S,S,C,S,W,S,C,W,S,C,S,C,S,W,W,C,S,W,C,C,S,C,C,W,C,W,C,S,S,C,C2
+S,W,S,C,S,W,C,C,W,S,C,W,C,C,W,C,W,C,W,C,S,W,S,S,S,W,C,C,C,S,C,W,C,S,S,W,W,W,C,W,W,S,C,C,S,S,W,C,W,S,C2
+S,S,C,S,C,S,W,C,C,S,S,W,W,C,C,W,W,W,S,S,C,C,C,C,C,W,S,C,S,S,S,C,C,C,S,S,S,S,C,W,S,S,W,W,S,W,S,S,C,S,C1
+W,W,C,W,W,W,S,S,W,S,C,S,W,W,S,S,C,S,S,W,W,S,W,S,C,W,W,W,C,S,S,W,W,W,W,C,W,W,C,W,W,W,S,C,W,S,W,S,W,W,C3
+S,C,C,S,C,C,C,C,C,W,W,W,C,S,C,S,S,C,W,S,S,S,C,C,W,S,S,S,S,C,C,C,C,S,C,C,C,W,S,C,S,S,W,C,C,S,C,S,W,C,C1
+S,S,S,W,S,S,S,C,C,C,C,S,S,S,S,C,C,W,S,W,S,W,C,S,C,C,C,C,C,S,C,C,W,C,S,C,C,C,C,C,S,C,W,C,C,C,S,W,C,C,C1
+W,W,W,W,W,W,S,W,W,S,S,S,W,W,C,C,C,W,S,W,W,W,W,W,S,S,C,C,S,S,C,C,C,C,C,S,C,S,S,W,S,C,C,C,C,S,W,C,C,W,C1
+C,W,C,W,W,S,C,W,S,C,C,S,W,C,C,C,W,S,S,W,S,S,C,S,C,S,W,S,W,S,W,W,W,C,W,W,W,S,C,W,S,S,C,S,W,W,W,W,S,S,C0
+W,W,S,S,W,S,W,W,W,W,W,W,W,W,S,S,W,C,W,W,W,S,S,W,W,W,W,W,S,S,S,W,C,W,S,S,S,W,S,W,W,W,W,C,W,W,W,W,W,S,C3
+S,S,S,W,W,S,W,C,W,W,S,C,S,S,C,C,S,C,S,W,C,C,S,W,W,S,W,C,S,W,C,C,W,C,S,S,W,S,W,W,W,C,C,W,C,C,S,C,W,S,C2
+S,W,W,W,C,C,W,W,C,C,C,S,C,C,C,C,C,S,C,S,W,S,W,W,S,S,S,C,S,C,C,C,S,S,W,S,W,C,W,C,W,W,W,S,S,W,W,W,C,C,C1
+W,S,W,W,W,W,W,W,S,W,S,C,C,S,S,S,C,S,C,C,C,W,C,C,S,C,S,C,C,S,S,C,C,C,C,S,S,S,C,S,C,C,S,C,S,C,C,S,C,W,C1
+S,C,C,W,C,W,S,W,W,W,W,W,C,W,W,W,S,W,W,S,W,S,C,C,S,S,C,S,C,S,S,C,W,S,W,S,W,C,C,S,S,C,C,S,W,C,C,S,S,S,C1
+W,S,S,S,C,S,W,S,C,W,W,S,S,W,W,W,W,W,W,W,W,S,W,C,C,C,S,W,S,W,C,S,C,C,C,C,C,S,C,S,W,S,S,C,C,S,C,S,S,S,C0
+W,S,S,S,W,W,W,W,S,W,W,W,C,C,C,W,W,W,C,W,S,W,S,C,S,W,S,S,S,W,W,S,W,S,S,C,W,S,W,S,W,S,W,W,S,S,S,C,C,W,C3
+S,C,S,S,W,C,S,W,W,S,S,W,W,W,S,W,W,C,W,S,S,C,C,S,C,W,S,C,S,S,C,S,S,C,W,S,C,C,C,W,W,W,C,S,C,S,C,W,S,S,C0
+W,W,W,W,W,S,C,S,C,C,C,C,W,C,S,S,C,S,C,S,S,W,W,S,C,S,C,C,S,W,W,C,W,C,W,C,C,W,W,W,S,W,C,W,S,C,C,C,W,W,C0
+S,C,S,S,S,C,S,S,W,W,W,C,W,S,S,C,C,C,S,C,S,S,C,S,C,W,C,C,C,S,S,C,W,S,W,W,S,W,W,W,S,S,C,W,W,W,S,S,S,S,C1
+C,C,W,C,W,W,S,C,W,S,W,C,W,W,C,W,W,S,S,W,S,W,C,W,W,S,W,W,W,W,W,S,W,S,W,W,S,S,W,C,S,W,S,S,C,S,S,W,W,W,C3
+C,W,C,C,S,C,C,W,W,W,S,W,W,C,S,S,W,S,C,S,W,W,C,S,W,W,W,W,C,W,W,S,S,S,S,C,S,S,S,C,S,W,W,C,W,S,C,W,S,S,C2
+W,S,C,S,S,C,S,S,C,S,S,S,S,W,S,W,W,W,S,W,W,S,S,C,C,S,S,C,C,S,S,C,S,C,C,C,S,C,S,S,S,S,S,W,W,W,W,W,S,S,C1
+C,S,W,C,S,W,W,W,W,W,W,W,W,W,S,W,S,S,S,C,S,C,S,S,S,C,S,S,S,S,S,C,C,C,C,C,C,C,S,C,S,C,W,S,W,C,W,S,S,C,C1
+C,W,W,W,C,W,W,S,W,S,S,S,W,S,W,C,W,W,W,S,C,C,S,C,C,W,C,S,S,S,C,S,C,W,W,C,C,C,C,S,C,S,C,S,C,C,C,C,S,W,C1
+C,S,C,C,S,S,S,W,C,S,W,S,S,S,W,S,S,C,C,S,C,C,S,S,W,C,S,C,S,C,C,C,W,S,S,S,C,W,W,C,W,C,C,S,S,W,W,W,S,S,C0
+W,S,W,S,C,C,C,S,W,S,C,C,C,C,W,W,C,S,W,C,S,C,W,S,S,S,S,S,S,W,C,W,W,S,W,S,S,S,C,S,S,S,S,S,C,C,S,S,W,S,C0
+S,S,S,C,S,C,S,W,W,S,S,W,W,W,S,S,C,W,S,S,W,S,W,S,S,C,C,C,C,C,S,W,W,W,W,C,C,S,W,S,S,W,S,C,C,S,S,C,S,S,C2
+C,W,W,S,W,S,C,W,C,S,C,S,S,W,S,C,S,C,W,S,C,W,W,S,W,S,C,W,S,C,S,W,S,W,C,C,C,C,W,S,C,W,W,C,S,S,S,C,C,C,C2
+C,C,C,C,C,W,S,C,S,S,W,S,C,S,S,C,C,C,C,W,S,S,C,C,C,W,S,C,W,W,W,C,C,S,W,C,C,C,C,S,W,W,S,W,W,C,S,S,S,C,C1
+W,S,W,C,S,W,S,S,S,W,W,W,W,S,S,S,C,S,C,S,S,W,W,W,W,C,C,W,S,W,C,S,C,S,W,C,W,C,S,S,S,C,S,C,C,W,S,W,W,W,C1
+S,S,W,C,C,C,S,W,W,W,W,S,S,S,S,C,S,C,S,C,W,W,W,W,C,S,W,W,S,W,W,C,C,S,C,C,C,W,S,S,S,S,W,C,W,W,C,C,W,S,C0
+C,W,C,W,W,W,W,W,W,W,W,C,W,S,C,W,S,S,C,C,S,C,S,S,W,S,W,W,S,S,W,W,W,W,W,S,W,W,S,W,S,W,W,W,W,S,W,S,W,S,C1
+C,S,W,S,S,S,W,W,C,C,S,S,S,W,S,W,W,W,W,S,W,S,C,S,C,C,C,C,W,S,W,W,S,S,W,C,W,S,S,W,W,S,S,S,W,S,W,W,W,S,C3
+C,C,C,C,C,W,C,C,C,W,S,S,C,W,W,W,W,W,C,C,C,W,W,W,W,W,W,C,C,C,C,C,S,W,S,S,W,C,S,C,W,C,W,S,C,C,W,C,C,C,C0
+C,S,W,C,S,W,S,S,W,W,W,S,C,W,C,W,C,C,C,S,W,C,C,C,S,S,S,S,C,S,S,S,C,W,C,S,C,S,C,C,S,S,S,C,S,W,W,W,W,S,C1
+W,W,S,W,C,W,C,W,C,C,S,W,S,W,W,C,C,W,W,C,W,S,C,W,C,C,S,S,C,S,W,S,C,W,C,S,C,C,W,S,W,W,W,S,C,C,C,S,C,C,C0
+S,C,C,C,S,S,S,C,C,S,C,S,S,S,C,C,W,W,W,S,C,S,S,W,S,W,S,W,W,S,W,W,C,W,S,S,C,C,S,S,S,C,S,C,C,C,S,C,S,C,C1
+C,W,W,S,W,C,S,W,S,W,S,C,C,C,S,S,W,W,S,W,C,W,S,C,S,S,S,S,S,W,S,C,C,S,S,S,W,C,S,W,C,C,W,S,W,C,C,W,C,C,C2
+C,W,C,C,S,S,S,C,C,C,S,C,S,C,C,S,C,S,C,W,S,S,C,S,W,S,C,C,S,C,C,C,S,W,C,C,C,C,S,C,C,S,S,S,C,C,W,W,W,W,C1
+C,C,C,W,S,C,W,W,S,S,S,S,S,W,C,S,C,C,S,S,W,W,S,C,C,C,C,W,C,C,C,C,S,W,C,S,C,S,S,W,S,S,S,S,S,S,S,S,S,C,C0
+W,C,C,C,C,C,W,S,W,S,S,C,S,S,S,S,S,W,W,S,C,S,W,S,S,W,C,S,C,S,S,S,C,C,S,S,C,S,W,S,S,S,C,C,S,S,S,C,C,S,C0
+W,S,W,W,W,S,S,C,C,S,W,S,C,S,C,C,S,C,C,W,W,W,S,C,C,C,C,S,W,S,C,S,W,S,W,S,S,C,C,W,C,S,C,S,C,W,S,C,S,S,C2
+C,S,W,W,W,S,S,C,C,W,S,C,W,W,C,W,C,S,C,W,W,W,S,W,S,W,W,W,W,W,W,S,S,S,W,C,W,W,W,C,W,W,S,S,W,W,W,W,S,W,C3
+W,W,C,W,W,C,W,C,C,W,C,S,S,W,S,S,S,C,W,W,W,C,S,W,C,S,S,C,C,W,W,W,C,S,S,W,C,W,W,W,W,C,W,C,S,C,S,W,W,S,C2
+W,C,S,W,W,C,S,S,C,C,C,S,C,C,C,S,W,W,S,W,C,S,S,W,W,C,S,C,S,C,W,C,W,S,S,C,W,W,C,S,W,C,S,C,S,S,C,C,S,S,C0
+C,W,W,W,W,C,W,S,W,W,W,S,W,W,W,W,S,W,W,S,S,W,W,S,W,W,W,W,C,W,W,S,S,W,S,W,S,S,S,S,W,W,S,W,C,S,C,W,W,C,C3
+C,C,S,S,W,C,C,W,W,C,S,S,S,S,W,C,S,W,C,C,S,S,W,S,W,S,C,S,W,S,S,C,W,S,S,W,S,C,W,S,S,C,W,C,C,S,S,S,S,S,C2
+S,C,C,S,S,S,C,W,C,C,C,S,S,C,C,C,S,C,C,S,C,C,C,S,C,S,S,S,S,S,S,S,W,C,C,W,C,C,S,C,S,C,W,W,W,S,W,W,W,W,C1
+S,S,C,C,S,C,S,S,W,W,S,C,C,W,C,S,W,S,S,S,C,C,S,S,C,C,S,C,S,S,C,W,C,S,C,W,S,W,S,S,S,S,W,C,C,S,S,S,W,W,C2
+S,S,W,S,S,S,C,W,C,W,W,C,W,S,C,C,S,S,W,C,S,C,C,S,W,W,W,S,S,S,S,S,W,W,W,W,S,S,S,W,W,W,S,C,C,C,C,S,C,C,C2
+W,C,C,S,C,W,C,S,W,S,W,W,W,W,W,W,C,W,W,S,S,S,C,S,S,S,W,W,W,C,W,S,S,S,S,S,S,W,C,C,S,W,C,S,S,S,C,C,W,W,C2
+S,W,S,W,W,S,W,C,W,S,C,S,W,W,S,C,W,S,W,S,W,S,S,W,W,W,W,W,W,W,C,W,S,W,S,W,W,W,C,W,C,W,C,S,W,C,C,S,C,W,C3
+C,S,S,W,S,C,W,W,W,C,S,S,W,S,W,S,S,C,C,W,C,C,C,C,C,C,C,C,S,C,W,C,S,W,W,S,W,W,C,S,S,C,W,W,W,S,W,C,C,S,C2
+W,S,C,W,W,W,W,S,W,C,W,W,W,S,W,S,C,W,S,W,W,C,W,C,C,W,W,S,C,S,W,C,S,W,C,W,W,W,S,S,W,W,W,W,W,W,S,W,W,W,C3
+S,C,S,C,W,S,W,S,S,S,W,S,W,C,S,W,W,W,W,S,C,S,C,C,S,S,S,W,W,W,W,W,S,S,W,C,C,W,C,S,S,S,W,S,S,C,S,W,S,C,C2
+S,W,S,C,W,W,W,C,S,S,S,C,S,S,S,W,W,S,S,S,W,W,S,S,W,W,C,S,C,C,S,C,C,S,S,S,C,C,S,S,S,W,S,C,C,W,C,S,W,W,C0
+C,S,S,C,W,S,W,S,C,W,C,S,C,C,C,C,W,C,W,C,C,S,C,C,S,W,S,W,C,S,C,W,W,W,S,W,W,C,W,S,W,C,W,S,S,C,S,W,W,W,C2
+S,S,W,W,S,W,W,W,S,W,W,W,W,S,S,W,W,W,C,C,W,W,W,W,W,W,W,S,W,S,C,W,W,S,W,S,W,W,S,W,W,S,W,W,S,S,S,S,W,W,C3
+W,W,C,W,S,S,S,C,S,W,C,C,C,C,S,S,C,S,C,S,W,S,S,C,W,S,W,W,W,W,W,W,S,W,W,C,S,C,C,W,C,S,C,S,C,C,C,C,S,S,C1
+S,S,S,W,S,W,W,W,W,W,C,S,W,S,W,C,W,C,S,W,W,S,S,C,S,C,W,W,W,W,C,C,C,S,S,C,W,S,S,S,W,W,W,W,W,C,W,S,W,S,C3
+S,W,W,C,S,S,S,S,W,W,W,C,C,S,W,S,S,W,W,W,C,W,S,C,C,C,S,C,S,C,S,W,C,W,W,S,W,C,W,W,C,W,C,C,C,C,C,W,C,S,C0
+C,W,C,S,C,C,C,S,W,W,S,S,C,W,S,C,C,C,S,C,C,W,S,W,S,C,W,W,W,C,W,S,W,C,S,W,W,W,W,C,C,C,C,C,S,S,C,W,C,C,C0
+S,C,S,S,C,S,S,W,W,W,S,S,C,S,C,C,W,C,W,W,S,W,S,W,W,W,C,C,S,W,S,S,S,S,C,C,C,S,C,W,C,S,S,W,S,C,S,C,C,C,C0
+W,S,W,W,W,S,S,C,S,S,W,W,W,W,W,W,W,W,C,W,W,W,C,S,W,W,S,W,C,W,C,W,W,W,W,S,W,W,S,S,W,C,W,S,C,W,C,S,W,S,C3
+W,W,S,S,S,C,W,C,S,W,S,S,S,S,S,S,S,S,C,W,W,W,S,W,W,W,W,C,S,W,S,C,W,C,W,S,W,C,W,S,S,W,S,S,S,W,W,S,W,S,C3
+S,C,S,C,W,S,S,C,C,W,S,C,S,S,W,S,C,W,S,W,W,C,C,C,W,C,W,W,W,W,W,S,S,W,S,S,W,C,C,W,C,W,S,W,C,S,C,W,S,S,C0
+C,W,W,S,S,C,S,S,C,W,W,C,W,S,W,W,W,W,S,C,W,W,W,S,W,S,W,S,W,S,W,C,C,W,W,C,W,S,W,C,S,W,S,W,W,W,W,W,S,S,C3
+C,C,S,S,S,W,W,S,S,S,S,W,W,S,C,C,C,S,C,W,S,S,S,S,S,W,C,S,S,S,S,S,W,W,S,C,S,S,C,W,S,W,W,W,S,W,S,W,W,W,C2
+C,W,W,C,C,S,S,S,C,C,C,C,C,S,S,C,C,S,C,C,C,C,W,W,W,W,W,S,C,W,C,W,C,S,C,C,C,S,C,W,C,C,S,C,C,S,S,C,C,S,C1
+W,C,C,W,W,S,W,C,S,C,S,W,C,S,W,S,C,C,C,S,W,S,S,S,C,C,W,W,W,S,W,S,W,S,S,C,S,S,W,C,W,S,C,S,S,C,S,W,S,S,C0
+C,W,S,W,W,W,W,W,W,W,C,C,W,W,S,C,S,C,W,W,W,W,W,W,W,S,W,S,S,W,W,C,W,W,W,W,C,W,W,S,S,W,S,W,S,W,W,S,C,W,C3
+W,S,C,S,S,S,C,C,W,C,C,C,S,S,C,C,S,C,C,C,W,C,S,S,C,C,C,C,W,S,S,S,W,C,S,W,S,W,C,W,S,W,W,S,S,W,C,W,C,C,C0
+C,W,C,W,W,W,W,W,W,S,S,W,S,C,S,C,C,S,C,S,C,S,W,C,C,C,S,S,S,W,W,W,C,S,W,S,C,S,W,S,C,W,C,S,C,C,W,C,C,C,C0
+W,C,W,S,S,C,W,S,W,C,C,C,C,C,W,W,S,C,C,C,S,C,W,C,C,C,C,C,C,C,C,S,C,C,C,C,C,C,C,S,C,S,C,S,S,S,C,C,W,C,C1
+W,S,W,W,S,S,W,W,W,S,W,W,C,W,S,S,W,C,W,C,S,W,C,W,W,C,W,S,S,W,W,W,S,W,W,C,S,C,W,W,C,W,W,S,W,W,W,W,W,W,C3
+S,C,C,W,W,C,C,S,C,C,C,S,C,C,S,S,S,S,C,C,S,C,C,S,C,W,W,C,S,C,S,S,S,S,S,C,S,C,S,S,S,C,S,C,C,W,W,C,W,C,C0
+W,W,C,S,W,S,S,W,W,S,S,S,W,C,W,W,W,W,W,S,C,W,W,W,W,S,S,W,C,S,S,W,S,W,S,S,W,S,S,S,C,W,W,W,C,W,W,W,S,S,C3
+S,S,S,W,S,W,C,S,W,W,S,S,W,S,W,W,W,S,C,S,W,W,C,W,C,W,W,S,W,S,W,C,S,W,W,W,S,C,W,W,C,W,W,W,S,W,W,C,W,W,C3
+W,S,S,C,C,C,S,S,W,W,S,W,S,C,S,W,W,S,W,W,W,S,S,W,W,S,S,C,C,S,S,C,S,S,S,S,S,W,C,C,S,W,C,S,C,S,C,C,S,S,C1
+C,S,S,W,S,W,W,C,W,C,S,W,S,S,S,W,C,C,W,S,C,C,C,W,C,W,S,S,W,S,W,W,W,S,C,C,W,C,S,S,C,W,C,C,W,W,W,W,W,S,C2
+S,W,S,S,W,W,S,S,S,W,C,S,C,C,W,C,W,C,S,S,W,S,C,S,S,C,C,C,S,W,S,W,C,W,W,S,C,S,S,S,S,S,W,W,W,W,S,S,S,S,C0
+S,W,S,S,S,W,S,C,W,W,W,S,S,S,C,W,C,W,W,W,S,W,S,S,C,W,C,S,S,S,W,S,C,C,S,C,C,C,S,C,C,C,C,S,W,S,S,C,C,C,C1
+W,C,S,W,W,W,W,C,W,W,W,S,W,W,W,W,W,S,S,W,W,W,W,W,W,S,S,W,W,W,S,C,S,W,W,W,W,S,S,W,C,W,W,C,W,W,W,S,C,W,C3
+S,C,S,S,W,S,C,C,S,S,C,C,C,S,C,C,C,C,S,W,C,S,W,C,S,S,W,S,S,W,S,W,W,S,W,W,S,C,C,S,C,S,W,S,C,C,W,S,S,W,C0
+S,W,W,S,S,C,C,S,C,S,C,C,W,C,S,W,W,W,S,C,C,C,C,S,S,S,W,S,W,W,S,C,W,S,C,W,S,W,S,C,S,S,W,C,C,S,S,W,W,S,C0
+S,W,S,S,S,C,C,S,C,S,W,C,S,C,C,S,W,S,C,C,C,C,W,W,W,W,S,S,W,W,S,W,W,C,S,S,S,S,C,S,S,W,W,S,C,S,W,S,S,W,C1
+S,S,C,C,C,C,S,S,S,S,S,S,S,S,C,C,S,S,S,S,S,S,S,S,C,S,S,S,C,W,C,W,W,S,C,C,C,S,C,S,S,S,C,C,S,W,W,S,W,C,C1
+C,C,W,W,C,W,C,W,C,C,C,C,C,S,W,S,S,S,W,C,C,S,C,C,W,W,W,S,W,C,C,C,W,C,W,C,C,W,C,C,W,S,C,S,C,S,C,S,S,S,C2
+W,S,S,W,S,W,S,W,W,W,S,W,S,W,W,W,S,C,S,W,W,W,W,W,S,S,W,S,S,W,W,W,C,C,W,W,S,S,W,W,C,W,W,S,S,C,W,S,W,S,C3
+C,S,S,W,C,C,C,W,S,C,S,W,S,S,W,C,C,W,S,S,S,C,S,W,W,W,W,S,W,W,C,W,C,S,C,S,C,W,S,C,S,S,S,S,W,C,W,C,C,W,C2
+S,S,W,W,C,W,C,S,W,W,W,S,W,W,C,S,S,S,W,S,S,S,W,C,W,W,C,W,C,W,S,W,W,W,W,W,W,W,W,S,S,W,W,W,W,W,W,C,C,S,C1
+W,W,W,W,C,S,C,S,C,S,S,C,W,W,W,S,W,W,S,W,W,S,S,W,W,W,W,W,C,W,C,W,C,S,W,W,W,S,W,S,W,W,C,W,S,C,S,S,S,S,C1
+W,S,W,S,S,W,W,W,W,W,W,C,S,W,W,W,S,W,S,W,W,W,C,W,W,C,S,C,W,S,C,S,S,W,C,W,C,C,W,W,W,S,W,W,W,W,C,S,W,W,C3
+S,W,S,C,W,S,W,C,W,W,S,C,W,W,W,W,C,S,S,S,S,W,C,C,C,C,S,C,C,C,S,C,S,C,C,C,W,C,W,C,S,W,C,S,W,C,S,C,C,W,C2
+W,W,S,W,W,S,W,W,C,S,W,W,S,S,W,C,W,W,W,S,W,S,S,S,W,W,W,W,W,W,W,S,W,W,W,W,W,W,W,C,W,W,W,W,W,W,C,W,W,W,C3
+W,W,C,C,S,S,C,W,W,C,C,S,W,W,C,C,S,S,W,C,S,S,S,C,C,C,W,C,W,S,C,S,W,W,C,C,S,W,S,W,C,S,W,W,W,W,S,S,S,C,C0
+W,C,W,S,C,S,W,S,S,C,C,W,S,S,W,C,W,S,S,W,S,W,W,C,C,W,C,C,S,S,S,W,W,C,S,C,W,C,S,W,C,S,W,S,W,S,C,S,C,S,C2
+S,C,C,C,S,S,S,S,C,C,S,W,W,S,S,W,S,C,C,C,W,C,C,S,S,W,C,C,S,W,S,S,W,S,S,C,S,S,S,W,W,S,C,W,S,C,C,S,S,W,C0
+W,W,S,S,C,S,C,W,W,S,S,S,W,W,W,C,W,C,W,W,S,W,W,W,S,S,S,W,C,W,S,S,W,W,W,W,S,C,W,W,W,W,W,C,W,W,W,W,C,S,C3
+S,S,W,W,S,C,S,W,W,C,W,C,C,S,S,S,W,W,C,C,C,S,C,W,S,S,W,S,S,C,W,S,S,C,W,W,W,C,S,S,C,W,C,W,C,W,W,S,W,C,C2
+S,W,W,C,C,C,C,S,S,S,W,W,W,W,S,C,C,W,W,S,C,S,C,C,S,C,W,S,W,W,W,S,W,W,W,C,S,S,C,C,S,W,W,C,C,S,C,W,W,W,C0
+C,W,W,W,W,W,W,S,S,S,S,C,S,S,S,W,W,S,W,S,W,S,S,S,W,W,W,S,C,W,S,S,S,S,C,C,C,C,S,C,S,W,S,W,W,S,W,W,S,W,C1
+C,S,W,C,S,W,S,S,W,W,W,S,W,W,W,S,C,C,S,W,S,S,S,S,C,W,W,W,W,W,W,S,W,W,S,C,W,W,S,C,C,W,W,S,W,S,W,W,S,C,C1
+C,S,S,C,S,S,S,S,S,C,S,W,W,W,W,C,C,C,W,W,S,S,C,C,C,W,W,C,W,C,S,S,C,W,S,W,C,C,C,W,C,W,S,C,S,W,C,S,C,W,C0
+W,S,C,C,C,S,C,C,C,W,W,S,C,C,W,S,S,S,W,W,S,S,C,S,W,W,W,W,W,W,S,W,W,W,W,C,S,W,S,C,C,S,S,S,C,S,C,C,C,S,C1
+W,S,S,C,W,W,W,W,W,W,C,W,C,S,C,S,S,C,S,S,W,C,S,C,C,C,C,S,W,W,S,W,C,W,S,S,S,W,W,C,W,C,C,C,W,W,W,C,W,S,C0
+W,W,C,W,W,C,S,W,W,S,S,C,C,S,W,C,S,C,S,C,S,C,S,W,C,S,S,C,C,W,S,W,S,C,W,W,C,C,W,W,W,S,S,W,C,W,C,S,W,C,C2
+W,W,S,W,S,S,S,S,W,W,W,C,C,S,C,S,C,W,S,C,S,C,C,W,S,S,S,W,S,W,W,W,C,W,W,W,W,C,C,C,C,C,C,S,W,S,C,S,C,S,C0
+S,W,C,S,W,C,S,S,S,W,C,W,C,S,S,W,W,S,C,W,C,W,C,C,C,W,C,W,W,W,S,S,S,S,C,C,C,S,C,C,C,C,W,S,S,S,W,S,S,S,C0
+S,S,S,W,S,S,C,C,W,C,S,S,C,C,W,S,C,W,W,W,C,C,C,W,W,C,S,W,W,C,W,W,C,C,C,C,C,S,S,W,S,W,C,C,W,C,S,C,C,S,C2
+W,C,S,C,C,W,C,C,W,S,S,S,S,C,S,W,C,C,S,W,S,C,C,W,C,C,C,W,W,W,S,C,W,W,C,S,S,S,C,S,S,W,S,W,W,S,S,S,S,S,C2
+W,S,W,W,W,W,S,W,C,W,S,C,S,S,W,W,W,W,W,W,W,W,W,W,W,W,W,C,W,W,W,S,W,W,S,C,W,W,W,W,S,W,W,S,S,W,W,C,S,W,C3
+W,C,W,S,S,W,S,W,S,S,W,W,W,C,C,S,W,C,S,W,C,C,C,W,S,C,W,C,S,W,S,W,C,S,S,S,S,W,C,C,W,W,S,S,W,W,W,S,C,C,C0
+C,S,W,W,S,C,W,W,W,S,S,C,S,W,W,W,S,C,C,C,C,S,S,S,C,C,C,C,C,W,W,C,W,S,S,S,C,W,S,W,S,W,C,W,S,C,C,C,W,C,C0
+S,S,S,C,C,C,C,S,S,S,C,S,S,C,S,S,C,S,S,S,S,S,C,W,W,S,S,W,W,W,W,S,W,W,W,W,C,C,C,C,S,S,C,C,C,S,C,C,C,C,C1
+W,W,W,W,S,W,S,S,C,W,W,W,W,W,S,C,S,S,C,W,W,W,S,W,S,W,S,W,W,S,S,S,W,W,S,C,C,W,W,W,S,C,W,W,S,W,C,S,S,W,C3
+W,S,S,S,W,C,S,S,C,S,S,S,W,S,W,W,W,C,S,W,W,S,S,S,S,W,S,S,W,W,W,S,S,W,W,W,S,W,W,S,S,S,W,W,S,W,S,C,W,W,C3
+W,S,C,S,S,W,S,W,C,S,S,S,S,W,W,S,W,C,W,W,S,C,C,W,C,S,W,C,C,S,W,C,C,S,C,W,W,C,C,S,S,W,S,W,W,W,W,C,W,W,C2
+W,S,S,W,S,S,C,S,S,C,S,C,S,C,W,S,C,C,S,C,S,C,S,C,C,S,S,C,C,C,C,W,C,W,S,S,S,C,S,C,C,S,W,C,S,S,S,C,C,C,C1
+W,C,W,W,C,W,C,W,S,C,W,W,C,S,W,S,W,W,W,C,S,W,W,S,W,W,C,W,W,S,S,W,W,S,C,W,W,S,W,W,S,W,W,W,W,W,W,S,S,W,C3
+C,W,S,W,C,C,C,S,C,C,S,C,C,S,C,S,C,S,W,W,S,S,C,S,W,C,S,C,C,W,W,W,S,S,C,W,C,S,S,S,C,C,W,S,C,C,S,W,C,W,C0
+S,W,W,W,W,C,C,S,W,S,W,S,S,W,S,W,W,S,W,S,C,W,S,W,C,S,S,W,W,W,W,W,C,W,W,W,S,C,W,W,W,C,C,C,W,S,W,W,S,C,C3
+C,C,W,S,W,W,C,W,W,W,C,S,W,S,C,W,W,C,W,W,S,W,C,S,W,W,W,W,W,W,S,S,W,W,W,S,S,W,W,S,C,C,S,C,W,W,C,S,W,W,C3
+C,W,S,W,S,S,S,S,S,S,W,W,C,W,W,S,W,C,S,W,C,S,C,S,W,C,W,W,W,S,S,W,S,S,C,S,C,W,S,S,C,S,S,C,W,W,S,W,S,S,C0
+C,W,W,W,S,C,S,S,W,W,C,S,S,S,W,S,S,C,C,C,W,C,W,C,C,C,C,C,S,C,S,C,S,W,S,S,W,S,S,C,W,W,S,W,S,S,W,S,S,C,C2
+W,S,C,W,W,C,S,W,S,S,C,W,C,C,W,W,W,W,S,W,W,W,W,W,C,S,W,C,C,W,W,W,S,W,S,W,W,W,S,S,S,W,W,W,W,W,W,S,W,W,C3
+W,C,C,S,W,W,C,C,C,W,W,C,C,S,S,W,C,S,S,S,W,C,S,S,S,W,C,C,C,W,C,C,S,S,W,S,S,C,S,S,W,W,C,W,C,W,C,W,W,C,C2
+C,C,C,C,S,C,S,S,W,C,C,S,C,W,W,S,S,S,S,S,S,C,W,W,W,S,W,W,S,C,S,C,S,S,W,S,W,C,W,W,W,W,W,W,W,W,S,C,C,C,C1
+W,C,S,C,C,S,S,S,S,C,S,S,C,W,S,S,S,S,S,S,S,W,S,W,S,C,C,S,W,W,C,C,W,W,S,W,W,W,W,W,W,S,C,S,S,W,C,C,S,W,C0
+S,C,W,C,W,S,C,C,W,W,W,W,C,W,C,S,W,C,W,W,W,C,S,S,W,W,S,W,C,C,W,W,W,S,W,C,W,W,C,W,S,C,C,W,S,W,W,S,W,C,C0
+S,W,S,W,C,S,S,S,W,S,W,W,S,W,W,S,W,W,W,C,W,W,W,W,S,W,W,C,W,S,S,C,S,S,S,W,W,C,S,S,W,W,W,S,W,W,W,S,W,W,C3
+C,C,S,C,W,S,C,C,S,C,S,W,S,C,S,C,S,C,C,S,W,S,C,W,S,W,S,C,C,W,S,S,C,S,W,C,S,S,W,S,C,S,C,S,W,W,W,W,S,W,C2
+S,S,W,W,S,W,W,S,S,W,S,W,W,S,W,S,W,S,W,S,C,W,W,S,W,W,W,S,W,S,S,W,C,S,W,S,S,W,W,W,S,W,W,S,W,S,S,S,W,W,C3
+S,W,W,S,W,W,S,W,S,W,W,S,C,W,W,C,W,S,S,W,S,C,C,S,W,C,C,C,C,S,S,S,S,C,C,S,C,S,S,C,S,S,S,S,C,C,S,C,C,S,C1
+S,C,W,S,C,C,S,W,W,W,W,W,W,W,W,W,S,W,S,W,C,S,S,W,S,S,S,S,C,S,C,S,C,S,C,W,C,S,S,W,C,S,S,C,S,S,C,S,S,S,C1
+C,W,S,S,W,W,W,W,W,W,W,C,W,W,W,S,S,W,S,S,S,W,S,W,C,W,W,S,W,S,S,S,S,S,C,C,C,W,W,W,S,C,S,W,S,C,C,S,W,S,C0
+S,C,W,W,C,C,S,S,W,W,W,W,W,W,W,S,W,W,W,S,S,W,W,W,S,C,W,W,W,W,S,W,W,S,S,S,S,S,S,W,W,W,W,W,S,W,W,S,S,S,C3
+W,S,C,W,C,S,W,W,S,S,W,W,C,C,S,W,S,C,W,W,W,W,S,W,S,W,W,S,W,W,W,S,W,S,C,W,S,W,S,W,W,S,S,S,W,S,S,S,S,S,C3
+S,W,S,C,C,W,W,W,S,W,S,C,W,S,W,W,S,C,S,S,W,S,S,W,W,W,W,S,S,C,W,C,C,W,W,W,W,W,S,W,W,W,W,W,S,W,W,S,W,W,C3
+W,S,W,W,S,W,S,S,S,S,W,W,W,W,W,C,S,W,C,S,S,W,C,S,S,W,W,W,W,W,W,S,W,C,W,W,W,W,S,W,W,W,C,W,S,W,W,S,W,C,C3
+C,C,C,S,W,W,S,C,W,W,S,W,W,S,C,W,S,S,S,W,W,S,W,W,W,W,C,W,W,W,W,S,W,S,S,W,S,W,W,C,W,S,W,W,S,S,S,S,S,W,C3
+S,C,S,S,C,S,W,W,W,S,C,C,S,W,W,S,W,C,S,W,C,S,S,W,C,W,C,S,C,W,S,S,W,W,W,W,C,W,S,W,W,C,W,C,C,W,W,S,W,C,C2
+S,C,W,C,C,W,W,W,W,C,C,S,S,C,S,S,S,S,W,W,C,C,C,C,W,W,W,C,W,S,C,S,S,C,W,W,C,C,W,S,C,S,S,W,C,S,W,S,C,W,C2
+W,C,C,C,S,C,W,S,W,W,W,S,S,C,W,W,S,S,C,W,W,W,C,S,W,C,C,S,S,W,W,S,C,C,S,W,S,W,C,S,C,S,S,C,W,S,W,C,C,W,C2
+W,W,W,C,C,W,S,S,W,W,S,W,S,C,W,W,W,W,W,W,W,W,S,C,W,W,W,W,S,W,W,C,W,W,W,W,W,W,W,W,S,S,S,W,W,C,W,S,S,W,C3
+W,C,C,W,C,W,W,W,W,C,C,W,C,S,C,C,C,W,S,C,C,C,W,S,C,S,C,C,W,W,S,C,W,C,S,C,S,W,C,W,C,W,W,C,S,S,S,W,C,C,C0
+C,C,S,W,S,S,C,W,C,W,C,W,C,S,W,W,C,W,C,C,S,W,S,W,S,W,C,S,W,S,W,C,C,W,C,S,W,S,C,W,C,C,C,S,W,W,C,S,C,W,C2
+W,S,C,C,S,S,C,S,C,C,C,W,W,S,S,W,S,C,S,C,S,C,S,S,S,C,S,C,S,C,S,S,C,S,S,W,C,C,C,S,C,S,C,S,S,C,S,C,C,C,C1
+W,W,W,C,W,S,S,S,C,S,W,S,S,W,S,W,W,W,S,W,S,S,C,W,W,S,W,S,C,W,W,W,S,C,W,W,S,S,S,S,W,W,S,C,W,W,W,W,S,W,C3
+S,W,S,W,C,S,C,C,W,S,W,C,S,S,W,S,W,C,S,W,W,C,W,S,S,S,S,S,S,S,W,W,S,S,W,S,S,S,C,C,W,C,S,W,S,S,S,W,S,C,C0
+S,W,W,S,S,C,W,C,W,W,W,S,S,W,W,W,S,W,C,W,S,W,S,C,W,W,W,W,W,C,C,W,W,W,W,C,S,S,C,W,C,S,S,S,W,S,C,S,S,C,C3
+W,C,W,W,S,S,S,S,S,C,W,C,S,S,S,S,S,C,W,W,W,C,C,S,C,S,W,W,W,C,S,W,C,W,C,S,C,W,C,C,C,S,S,S,W,W,S,W,C,C,C2
+W,W,C,S,S,S,S,S,W,S,W,C,S,S,W,C,S,C,S,C,C,S,C,C,S,C,C,W,C,S,W,W,C,C,W,W,W,W,C,C,W,W,S,S,S,S,S,C,C,W,C0
+S,C,S,W,S,W,S,S,C,C,W,S,C,C,S,C,S,W,S,S,S,S,W,C,C,W,W,S,C,S,S,S,C,C,W,S,S,C,S,S,S,W,C,C,C,S,S,S,W,W,C0
+C,C,C,C,W,C,C,C,S,C,S,C,S,C,W,S,C,C,C,W,C,W,W,S,C,W,S,W,W,C,S,C,W,W,C,C,S,S,W,S,S,S,C,W,S,C,C,W,W,S,C2
+S,W,W,S,W,C,W,W,S,C,S,W,W,S,S,C,S,S,C,C,W,C,C,S,W,C,W,S,W,C,W,W,C,C,W,W,C,W,S,S,S,S,W,S,C,S,C,W,W,S,C2
+W,W,S,C,S,S,W,C,W,C,C,S,C,C,W,W,W,C,C,W,W,C,W,W,W,S,W,W,W,C,S,C,S,W,W,C,S,C,W,W,C,S,W,W,S,W,S,W,S,C,C0
+C,C,C,W,C,W,S,C,C,S,C,W,S,W,C,C,W,W,W,C,W,S,C,W,C,S,W,S,C,C,C,W,W,C,W,W,C,W,W,W,W,W,W,W,C,C,C,S,C,C,C1
+C,C,S,C,W,S,S,S,C,C,S,W,S,W,W,C,S,W,S,W,C,W,S,W,W,W,S,C,W,C,S,S,S,S,S,W,W,W,W,W,S,S,C,W,S,W,C,W,W,S,C1
+C,W,C,S,S,C,C,S,W,W,S,S,S,C,C,C,S,C,S,C,W,W,W,W,W,S,W,W,S,W,C,C,C,W,W,W,S,C,C,S,S,C,W,S,S,C,C,S,C,C,C0
+C,W,W,C,W,W,W,W,S,W,C,W,S,S,W,C,S,C,W,W,C,C,S,C,S,S,C,S,S,S,W,S,C,S,C,S,S,C,W,W,S,S,C,C,C,W,S,S,S,S,C2
+W,W,C,S,S,C,C,W,C,C,C,C,S,W,C,S,S,C,C,C,C,S,C,S,C,W,W,W,S,C,S,C,C,C,S,C,S,C,W,S,C,C,C,S,C,C,S,C,C,C,C1
+S,S,S,S,C,S,S,C,S,C,C,C,S,C,S,W,C,W,C,C,S,S,S,C,W,C,S,W,W,S,W,C,W,W,W,C,W,C,C,W,W,W,C,S,C,W,S,W,S,S,C2
+W,W,S,S,C,S,S,W,W,C,C,C,W,S,W,C,S,W,S,C,W,S,S,S,S,S,S,W,W,W,S,W,S,S,S,C,S,W,S,S,W,C,W,C,C,C,S,S,C,C,C0
+S,W,C,C,W,S,C,C,S,W,S,C,C,C,S,S,C,W,S,S,S,W,C,W,C,C,S,S,W,C,W,C,W,S,W,W,C,C,S,W,C,W,W,C,S,S,S,W,C,S,C2
+W,W,W,S,S,C,W,S,W,S,S,S,W,W,S,W,W,W,S,W,W,W,W,W,W,W,S,S,W,W,W,W,W,W,W,S,W,S,W,W,S,S,W,W,W,W,W,W,S,S,C3
+C,S,W,W,S,W,W,S,S,W,W,W,C,W,W,W,W,S,C,C,W,S,W,W,W,W,W,W,C,W,S,S,S,W,S,S,W,S,W,S,W,S,W,S,W,C,W,W,C,C,C3
+W,W,W,C,S,S,C,S,S,S,S,C,S,S,S,C,W,C,W,W,W,W,W,W,W,W,S,S,W,S,S,S,S,S,C,C,W,S,W,W,C,S,C,S,S,W,C,C,S,S,C0
+W,S,W,W,S,S,W,S,W,W,S,W,W,W,C,W,C,W,S,W,W,S,W,W,W,S,W,C,S,S,S,W,W,C,W,C,W,W,C,S,S,C,W,W,W,S,S,W,C,C,C3
+S,W,W,C,S,C,C,C,S,W,C,S,C,C,C,C,W,W,C,S,S,W,S,S,W,S,W,C,S,C,C,W,C,S,C,C,S,W,C,W,W,W,W,W,W,S,W,S,S,S,C0
+C,C,C,S,S,W,S,C,C,S,S,S,W,W,S,C,W,S,C,S,C,C,W,C,S,C,W,W,C,C,S,W,C,C,S,C,S,W,W,W,S,C,C,S,W,W,C,W,W,S,C0
+C,S,C,C,S,S,S,C,C,W,S,S,W,C,S,C,W,S,C,S,C,W,S,W,W,W,W,C,C,C,C,W,S,S,S,S,W,W,C,W,C,S,S,S,S,W,W,C,C,W,C0
+S,S,S,W,W,W,C,C,C,C,C,S,W,C,C,S,C,S,S,C,S,C,C,C,S,S,C,C,C,C,C,C,C,W,S,W,S,W,W,W,C,S,C,C,C,S,S,S,S,S,C1
+W,W,W,W,S,W,C,C,W,S,C,W,W,W,W,S,S,C,W,S,W,S,W,W,W,S,W,W,W,S,W,C,W,W,W,C,W,W,C,W,W,W,C,W,C,W,W,S,C,W,C3
+W,C,W,W,S,S,S,C,W,W,W,C,S,C,W,C,S,S,C,S,C,S,S,S,W,W,S,S,W,S,S,C,W,W,W,S,S,S,W,W,C,W,W,C,W,C,C,C,W,S,C2
+W,S,S,C,S,S,C,W,S,C,C,C,S,W,C,C,W,S,W,W,C,C,W,C,W,S,S,S,C,S,W,S,S,S,S,S,C,C,S,C,C,W,C,S,S,S,S,S,W,S,C2
+W,S,S,S,C,S,S,W,S,C,C,S,W,S,C,S,C,S,W,S,W,W,S,W,S,S,C,S,S,W,W,C,S,C,S,W,W,S,W,C,W,C,S,W,S,S,W,C,C,W,C2
+S,C,C,C,W,S,C,S,C,S,S,C,C,W,S,C,W,S,S,S,S,W,S,S,S,C,C,C,C,C,C,S,S,S,W,S,W,S,S,W,S,C,W,C,W,W,C,C,W,S,C0
+W,S,C,W,C,C,C,S,W,S,W,W,S,C,C,S,S,C,S,C,S,W,W,W,C,S,C,C,W,C,C,C,W,C,C,S,C,S,W,C,C,C,S,S,S,C,W,S,S,C,C2
+S,C,W,S,W,C,W,W,C,S,W,C,W,W,C,S,S,W,W,S,W,W,S,W,W,W,S,S,W,W,C,S,W,S,C,W,W,S,W,W,W,S,W,W,W,W,W,S,W,S,C3
+C,C,S,W,S,S,W,C,C,W,C,W,W,C,S,W,W,W,S,W,S,S,W,S,S,S,S,S,W,S,C,C,W,C,S,S,C,W,S,W,S,C,C,C,W,W,S,C,C,S,C2
+S,C,W,S,W,C,C,C,S,S,W,W,W,S,C,C,C,C,S,S,W,W,S,W,W,W,S,S,S,S,C,C,S,W,W,W,S,C,C,W,C,C,W,W,S,W,W,S,W,S,C0
+C,C,S,W,S,W,S,S,S,S,W,S,C,W,C,S,W,W,S,W,S,C,W,C,W,W,W,W,W,W,W,S,W,W,C,W,S,W,C,W,W,S,C,W,W,C,W,W,C,W,C3
+S,C,C,S,C,W,S,C,S,S,W,C,W,S,C,C,C,C,C,C,W,W,S,W,S,W,S,W,W,S,C,S,C,S,S,C,S,S,S,C,C,S,S,S,S,W,W,W,W,S,C1
+W,W,C,W,S,W,C,W,W,W,S,S,W,S,W,S,W,W,W,S,W,W,W,W,W,W,W,W,W,W,S,W,W,W,W,W,W,C,W,C,W,W,C,S,S,S,W,W,S,W,C3
+S,C,W,C,W,W,C,C,W,C,W,W,C,C,C,C,C,W,W,W,W,S,W,C,C,C,S,C,W,W,C,W,W,C,S,W,S,W,S,W,C,W,S,C,C,C,C,C,C,S,C2
+S,W,W,C,S,W,W,C,S,W,S,W,C,C,S,W,W,W,C,W,W,W,W,W,W,W,S,W,W,S,W,C,W,S,C,S,S,S,W,W,W,W,C,W,W,W,S,S,W,C,C3
+S,W,W,W,W,S,W,S,C,C,C,C,W,C,C,C,C,C,W,C,S,C,C,W,W,S,S,W,W,C,W,S,C,S,S,S,S,W,S,S,W,S,W,S,S,S,S,C,C,C,C0
+S,W,W,W,W,W,S,S,W,S,S,C,C,W,W,S,W,S,W,S,C,S,S,S,C,S,S,C,S,C,S,S,C,S,S,W,W,W,W,W,S,C,C,C,C,S,W,W,S,W,C2
+S,W,C,S,S,C,S,S,W,C,S,S,W,C,W,S,W,W,S,W,C,W,S,C,W,W,W,W,C,S,C,S,C,W,S,C,C,C,C,C,C,S,C,S,C,C,W,C,W,W,C2
+S,C,S,C,C,S,C,S,S,S,S,C,S,C,C,S,C,S,S,C,W,C,W,W,W,W,W,S,W,S,S,W,C,S,C,C,C,C,C,S,C,C,W,S,S,C,C,W,S,W,C1
+W,S,S,S,C,S,W,W,W,S,W,S,S,S,S,S,S,C,C,C,W,W,W,W,S,C,S,W,C,W,W,W,S,C,C,C,C,S,S,C,C,C,C,S,C,C,C,W,W,W,C1
+S,W,W,C,W,S,S,W,C,C,S,W,W,S,W,C,S,W,S,C,C,C,S,C,C,W,W,W,W,W,S,S,C,S,W,C,W,W,C,C,W,W,S,S,W,S,S,C,S,S,C2
+W,C,C,W,S,W,W,W,W,W,S,W,W,S,S,W,W,S,S,W,S,W,W,S,W,S,C,C,W,C,C,S,W,W,W,S,C,C,W,S,C,S,S,C,C,C,W,W,C,S,C3
+S,W,S,C,W,S,C,S,S,W,W,C,W,C,C,S,W,W,W,S,W,W,W,W,W,W,W,S,C,W,S,W,C,W,W,S,C,S,S,S,W,C,S,S,S,S,C,W,W,W,C3
+C,C,W,S,W,W,W,S,S,S,S,S,S,W,W,S,W,C,W,W,W,W,W,W,W,S,W,C,C,W,W,C,S,W,S,W,S,S,W,W,S,W,C,S,S,C,W,S,W,C,C3
+S,S,W,C,W,C,W,W,W,W,S,S,W,W,W,W,S,W,W,W,W,W,W,W,W,W,W,W,W,S,S,W,S,W,S,S,C,C,S,S,S,W,W,S,W,S,W,W,S,W,C3
+W,W,S,C,S,W,W,C,W,C,C,S,W,W,S,W,W,S,W,W,W,W,W,W,W,C,S,S,W,W,W,S,W,C,S,C,S,W,W,S,S,C,S,W,S,W,W,S,C,S,C3
+S,C,C,S,C,W,W,C,W,C,S,C,W,S,S,C,C,S,W,W,W,C,C,C,W,S,S,W,C,W,C,W,S,S,C,C,W,W,S,W,S,S,W,C,C,C,S,W,S,S,C2
+W,S,C,W,S,W,S,W,W,W,C,C,S,W,S,C,W,S,S,C,S,C,S,C,W,S,S,W,W,C,C,S,W,S,S,S,C,C,S,C,S,C,S,S,S,C,C,S,S,S,C0
+C,W,C,S,W,C,W,C,S,C,S,C,S,C,W,C,W,S,W,S,W,C,S,S,W,W,W,C,S,S,C,S,C,W,C,S,W,W,C,S,W,S,C,W,S,C,W,C,S,C,C2
+W,W,S,W,S,C,W,W,S,S,W,W,S,S,C,W,W,S,W,W,W,S,W,S,S,C,C,C,S,C,S,C,S,C,C,C,S,C,C,S,C,S,S,C,W,W,W,W,W,W,C1
+S,S,S,W,W,W,W,C,W,C,C,S,S,S,W,C,S,C,W,S,W,C,C,C,S,S,C,S,S,C,S,C,W,C,C,W,W,S,C,W,W,C,W,S,S,S,W,C,C,C,C0
+S,W,S,W,S,W,W,S,C,W,S,W,W,W,W,W,W,S,W,S,S,W,S,W,S,S,C,W,W,S,S,W,S,W,W,W,W,C,C,C,C,W,S,S,S,S,W,W,S,S,C3
+S,W,W,W,C,W,S,S,S,S,C,W,W,W,W,S,W,W,W,C,S,C,W,W,S,W,S,W,S,S,C,S,S,W,W,S,C,W,S,W,C,S,W,W,W,W,W,S,W,S,C3
+S,W,W,W,S,C,S,W,S,W,S,S,W,W,S,S,W,S,W,W,S,W,W,W,S,W,W,S,S,S,W,S,S,C,S,C,W,C,W,W,S,S,W,S,W,W,S,C,C,S,C3
+S,S,C,C,C,W,W,W,S,C,S,W,W,W,S,S,W,W,W,W,S,W,S,S,C,S,S,C,W,S,W,S,S,S,S,W,S,W,W,C,S,C,C,S,S,C,S,W,S,S,C1
+W,S,S,S,C,W,W,S,W,W,S,W,W,S,W,W,S,W,W,W,S,W,W,W,W,C,W,W,W,S,S,C,W,W,S,C,S,W,W,W,W,W,W,S,W,W,W,W,W,S,C3
+S,C,W,S,S,C,W,C,W,S,C,S,C,S,C,W,C,C,W,W,W,C,W,W,C,C,W,C,C,W,S,C,C,C,W,W,W,W,W,C,C,S,W,C,S,S,S,C,C,S,C2
+W,W,S,W,W,S,W,S,W,W,S,W,S,W,S,S,W,S,S,W,S,S,C,W,C,C,W,C,W,S,W,W,W,S,W,C,S,W,C,W,W,S,W,S,W,W,W,W,W,W,C3
+C,W,W,S,S,C,W,C,C,C,W,W,W,C,W,S,W,S,S,C,C,C,W,W,W,S,S,W,W,S,S,S,C,W,W,W,C,S,S,S,S,C,C,C,W,W,W,S,S,C,C0
+W,S,W,S,W,W,S,W,C,W,W,W,C,S,W,S,W,W,W,C,W,S,W,W,W,S,W,S,W,W,W,W,W,C,W,C,C,S,W,C,W,W,S,S,S,C,W,W,S,S,C3
+W,S,W,W,W,S,W,W,C,W,W,W,W,W,W,S,W,W,W,W,S,W,C,W,S,C,W,C,S,W,W,W,W,W,S,W,W,W,W,C,S,W,W,W,W,W,S,S,W,C,C3
+C,S,C,C,W,S,S,S,S,W,W,C,W,W,S,W,C,S,S,S,C,S,C,S,C,S,W,S,S,C,C,C,C,W,W,S,W,C,W,W,W,W,W,W,W,W,S,W,W,S,C1
+W,S,S,C,C,C,S,S,S,S,C,C,S,W,W,W,C,S,S,S,S,S,W,S,C,S,C,C,S,C,W,W,W,C,W,W,S,W,S,W,C,W,W,W,W,W,W,W,W,W,C1
+S,W,C,S,C,W,S,W,C,W,S,W,S,C,S,W,S,C,C,C,C,S,S,W,S,C,C,C,S,S,W,C,W,S,C,C,W,S,S,C,W,S,W,C,W,W,C,S,W,W,C0
+W,S,C,C,C,S,C,S,C,W,S,C,C,C,S,C,C,S,S,C,C,C,S,W,C,S,S,S,S,S,S,S,C,C,C,C,W,S,W,C,S,S,W,C,W,S,S,S,C,W,C0
+W,S,C,W,S,W,W,C,C,C,C,C,S,W,S,C,C,C,C,S,S,S,S,C,C,C,C,S,C,C,C,W,S,S,S,C,S,C,S,W,W,W,W,W,W,S,W,W,C,S,C1
+S,S,S,S,W,C,W,S,C,W,S,S,S,W,S,S,S,W,S,C,W,W,C,W,S,C,S,C,S,S,C,S,S,S,C,S,C,W,S,W,W,W,W,S,S,S,W,W,W,W,C2
+S,C,W,W,W,S,C,S,W,W,S,W,S,W,S,W,W,S,W,W,W,C,C,C,W,W,W,S,W,S,W,W,S,C,C,W,C,S,C,C,S,C,S,W,C,C,W,W,W,W,C3
+C,C,W,C,W,S,S,C,C,S,S,S,C,W,S,W,S,W,S,C,C,C,W,C,S,C,S,W,S,W,C,S,W,S,W,S,W,C,S,C,S,S,C,S,W,S,W,S,W,S,C0
+W,C,S,S,C,W,S,S,S,S,C,W,C,S,C,S,C,S,W,C,C,C,W,S,W,S,S,W,C,S,C,C,W,C,W,W,W,C,S,W,C,S,S,W,C,C,C,C,C,W,C2
+W,S,W,W,S,C,S,W,C,S,W,C,C,S,W,S,S,S,W,W,C,C,S,C,W,S,S,W,S,W,S,S,S,S,S,S,C,S,C,S,S,C,S,S,S,W,W,W,C,C,C2
+W,S,W,C,S,W,W,S,S,S,S,C,C,S,S,C,C,S,C,W,W,C,S,C,S,C,S,S,W,S,S,S,C,W,S,S,C,S,S,C,S,S,C,S,C,W,C,W,C,C,C0
+C,C,C,W,S,C,S,C,W,W,S,S,S,S,S,C,S,S,W,W,C,C,C,C,C,C,W,W,W,S,S,S,C,W,C,S,S,C,W,W,S,S,C,W,W,C,C,S,W,W,C2
+S,S,C,C,S,C,C,W,S,S,C,C,S,C,S,C,W,S,S,S,C,S,C,C,W,C,S,C,W,W,S,S,S,C,C,S,S,C,S,S,W,C,C,C,S,S,S,C,S,C,C1
+S,W,C,W,C,S,W,S,S,S,C,C,W,C,S,W,S,S,C,W,S,W,S,C,W,W,C,W,C,S,W,W,C,S,W,C,C,W,C,S,S,W,W,S,W,W,S,S,S,W,C2
+C,S,C,S,W,C,S,S,W,C,C,W,C,W,C,C,S,S,W,C,W,S,W,W,W,W,C,W,S,W,W,C,W,C,C,S,W,C,W,C,S,C,S,C,S,C,C,W,S,S,C2
+C,C,C,S,C,W,S,W,W,S,W,C,S,S,S,C,S,C,S,W,W,C,S,W,C,W,C,S,C,C,W,W,S,W,S,C,W,C,W,C,W,S,S,W,W,C,S,S,C,W,C2
+W,C,C,C,C,W,C,S,S,C,S,W,W,W,W,W,W,W,W,W,S,S,W,S,C,C,C,C,C,S,C,W,C,S,C,S,S,S,C,W,C,C,C,C,W,C,W,S,S,W,C1
+S,C,W,C,W,S,S,C,C,C,W,C,C,W,W,S,W,W,W,W,W,W,W,S,C,W,C,S,W,S,C,W,S,S,C,W,C,W,C,C,W,W,W,W,W,W,W,C,S,C,C3
+W,S,W,C,W,C,W,W,S,W,S,S,W,C,C,C,C,S,S,C,S,C,C,C,S,S,C,S,S,S,S,C,W,C,S,S,S,W,W,C,W,C,C,C,W,S,C,S,S,W,C1
+S,S,W,C,S,S,C,S,S,S,S,W,C,S,S,S,S,S,W,W,C,S,W,W,S,S,C,C,S,W,C,W,W,S,C,S,S,S,C,W,W,S,C,W,S,W,C,W,C,S,C2
+S,S,S,S,C,C,S,S,C,S,C,C,C,S,C,S,C,S,C,W,C,W,S,C,C,C,S,C,S,W,C,S,C,C,C,C,S,C,W,W,C,C,S,S,C,C,C,S,C,C,C1
+W,S,S,C,S,C,C,W,C,C,S,C,C,C,S,S,S,C,S,S,S,C,W,C,C,S,S,C,S,C,C,C,C,C,S,C,C,C,S,S,C,C,C,C,S,C,S,S,S,C,C1
+W,S,W,C,S,W,S,W,W,S,C,S,W,W,W,C,S,W,S,W,S,S,W,S,C,S,S,C,W,W,S,W,S,S,S,W,W,W,S,S,S,S,S,C,W,S,W,C,C,S,C2
+S,W,S,S,S,S,W,W,S,W,W,C,S,S,S,C,S,S,S,C,C,W,W,C,C,C,C,C,C,W,C,C,S,S,W,S,S,C,W,W,S,W,W,S,C,C,S,S,S,C,C0
+C,C,C,C,C,W,C,C,C,C,C,W,C,C,C,C,C,C,S,S,C,S,C,W,S,C,C,S,W,C,S,W,W,C,S,C,C,C,S,C,S,S,C,C,W,C,S,C,C,C,C1
+S,C,S,C,S,C,C,C,S,W,W,W,C,S,C,W,C,C,S,S,C,W,W,C,S,S,C,C,S,W,C,W,W,C,C,W,C,S,S,C,W,C,W,S,S,W,S,W,W,C,C2
+S,C,W,S,W,S,C,C,S,S,W,C,W,S,S,C,S,C,W,C,W,C,S,C,W,C,C,W,S,C,S,W,W,W,W,W,W,S,W,S,W,S,C,W,S,C,S,W,W,S,C2
+W,S,S,W,C,S,W,S,C,C,W,W,W,S,W,S,S,S,S,C,C,W,S,S,S,W,W,S,W,C,S,W,C,S,C,C,C,C,C,S,S,S,S,W,C,C,S,C,C,C,C0
+C,S,W,S,W,W,W,W,W,S,C,C,S,S,C,W,C,W,S,C,W,C,S,W,S,S,C,C,C,S,C,S,S,W,W,W,W,S,C,S,W,W,S,S,C,S,C,S,S,S,C1
+S,C,C,C,W,W,S,S,W,W,C,W,W,W,S,S,C,W,S,W,S,C,W,C,W,C,S,C,W,C,S,S,W,C,S,W,S,C,S,C,W,S,S,W,W,S,W,C,C,W,C2
+S,C,C,C,C,S,C,W,W,C,C,W,S,C,C,W,W,C,S,C,C,S,S,C,C,S,C,W,S,S,C,S,W,C,W,C,C,W,C,W,S,W,C,C,S,S,S,C,S,C,C0
+S,W,W,S,S,W,W,W,C,S,W,W,W,W,W,W,W,W,W,W,S,W,W,W,W,S,C,C,W,C,W,W,C,W,C,S,S,W,S,W,C,S,W,W,W,W,W,C,W,C,C3
+W,W,W,C,W,W,C,W,C,W,W,W,C,W,S,W,S,W,W,C,W,C,W,S,S,S,W,S,W,S,W,S,W,S,W,W,W,W,W,S,C,S,S,S,S,W,S,W,S,W,C3
+W,S,S,C,W,S,S,W,W,S,W,W,S,S,W,W,S,C,C,W,W,S,W,W,S,S,S,W,W,W,S,W,W,S,W,W,W,W,W,S,S,S,S,W,W,W,W,W,W,W,C3
+S,C,W,W,C,S,C,C,C,C,C,W,C,W,S,C,S,W,W,C,S,W,S,C,C,S,S,S,S,W,W,C,S,S,C,S,C,C,C,S,S,C,S,C,S,C,W,S,C,C,C0
+S,W,S,W,W,W,S,S,W,S,S,C,W,S,W,C,S,S,C,S,W,C,W,C,C,S,W,W,C,C,S,S,S,W,W,W,C,C,C,W,S,C,W,W,W,W,S,W,S,C,C2
+S,W,S,W,W,C,S,W,S,W,S,S,S,S,S,W,S,C,C,W,S,S,C,C,W,C,W,C,S,C,S,C,S,S,S,W,S,S,W,W,C,C,W,W,C,C,S,C,C,S,C2
+S,W,W,W,C,C,C,C,C,C,W,W,W,S,S,C,S,S,W,S,C,W,C,W,C,W,W,C,W,S,C,W,S,C,S,W,C,S,S,C,C,S,C,C,S,C,S,W,C,C,C2
+S,C,C,S,C,C,S,S,S,S,S,S,S,S,S,C,C,S,C,W,S,S,C,W,S,W,W,W,W,C,C,S,C,S,C,C,S,S,C,S,S,C,W,S,S,S,C,S,S,C,C1
+W,S,S,C,S,S,W,W,S,S,C,C,C,C,S,S,S,C,S,C,S,W,C,S,S,C,S,C,S,S,S,S,C,C,S,C,C,S,S,S,S,C,C,C,S,S,C,S,W,W,C1
+S,W,S,W,W,C,S,W,C,W,S,C,W,W,S,S,S,C,W,W,S,C,W,C,C,W,W,S,S,W,C,C,S,W,W,S,C,S,W,W,S,S,S,W,C,C,C,W,S,C,C2
+S,W,S,W,S,W,S,W,S,W,S,W,W,C,W,W,W,S,S,C,W,S,C,W,W,W,S,W,W,C,C,W,S,W,S,W,W,W,W,C,W,W,W,S,W,W,S,W,S,W,C3
+S,S,W,S,S,S,W,C,W,W,W,C,S,C,S,C,C,C,S,C,C,W,S,W,W,C,W,C,W,W,W,W,S,W,W,W,W,W,S,C,S,C,W,C,C,S,S,W,S,C,C1
+W,W,W,S,W,S,W,C,S,C,W,S,C,C,C,C,S,S,C,S,W,C,C,S,C,C,S,S,S,C,W,S,C,C,S,S,C,W,S,S,W,C,C,C,C,S,S,S,S,C,C1
+W,C,W,W,S,C,S,C,W,S,C,W,S,W,W,S,S,W,S,W,W,S,C,W,W,W,C,C,S,C,C,C,S,S,C,C,S,C,C,S,C,W,S,C,S,C,C,C,S,C,C1
+W,S,C,S,W,C,C,S,W,C,S,C,S,S,W,C,W,S,W,W,S,C,W,W,S,C,W,C,S,C,W,S,W,W,S,W,W,S,W,C,C,W,S,C,C,S,C,W,W,S,C2
+W,W,C,W,W,W,W,W,W,W,S,S,W,W,W,S,W,S,S,W,W,W,C,S,W,W,W,W,C,W,W,S,S,W,W,W,W,W,W,S,W,C,W,W,C,W,C,W,W,S,C3
+W,W,S,W,W,S,S,S,W,W,S,S,C,W,S,W,S,S,C,W,S,S,C,C,S,S,W,S,S,W,S,W,C,S,C,W,W,S,W,C,W,S,C,S,S,C,W,W,S,S,C2
+S,W,W,S,W,W,S,S,W,S,W,C,S,C,S,W,C,S,S,S,S,C,S,C,W,W,C,S,S,W,W,W,W,C,S,W,W,W,S,C,C,S,C,C,S,C,W,S,W,C,C0
+W,W,W,W,S,W,C,W,W,W,C,C,W,S,W,S,W,W,W,C,W,W,C,C,W,W,W,W,W,S,W,W,S,S,W,W,W,W,W,W,W,W,C,W,W,S,W,W,C,W,C3
+W,W,C,S,S,S,W,W,C,W,W,S,C,C,S,S,W,W,W,W,W,W,S,W,W,C,W,W,S,C,W,C,W,W,W,S,C,C,W,S,S,W,W,C,S,W,S,S,W,W,C3
+W,C,W,C,S,C,C,W,W,C,W,W,C,W,W,C,C,W,S,C,C,S,S,S,S,W,S,S,S,S,C,C,W,W,S,C,S,S,S,C,S,C,C,S,S,S,C,W,C,W,C0
+W,W,S,W,W,W,W,C,S,S,S,S,S,W,C,C,S,S,S,W,W,S,W,S,W,W,S,C,C,W,W,C,S,C,C,C,C,S,S,W,C,W,W,C,C,W,W,W,C,W,C0
+S,C,W,C,W,C,W,S,W,S,W,S,W,W,W,W,W,S,C,S,C,S,C,C,C,W,S,C,W,C,C,C,C,C,S,W,S,C,S,S,C,C,S,C,S,C,W,S,W,W,C2
+C,C,W,S,S,C,W,S,S,W,W,C,S,W,C,S,C,W,W,C,C,W,C,W,S,W,S,W,S,W,C,S,C,C,W,C,W,W,C,W,S,C,C,S,S,S,S,C,C,S,C2
+C,S,S,C,S,W,C,S,W,W,W,W,C,S,C,S,S,C,C,S,S,S,C,C,C,C,C,S,C,C,C,S,S,C,S,C,S,C,S,S,W,C,C,C,C,S,S,C,S,C,C1
+W,W,S,C,C,S,W,C,C,S,S,S,W,W,C,W,S,C,C,W,C,S,W,W,C,S,W,W,C,C,W,W,W,S,W,S,S,S,C,W,C,W,W,C,W,W,S,W,W,W,C2
+S,S,S,S,S,W,C,W,C,S,S,W,S,W,S,S,C,C,W,C,S,W,S,W,C,W,C,C,S,C,S,S,W,C,C,S,C,C,S,W,S,W,S,W,S,W,S,S,W,S,C2
+W,W,W,W,S,C,W,W,S,W,W,S,W,W,W,W,C,W,C,C,W,W,W,W,W,W,W,W,W,W,C,W,W,W,C,W,W,C,W,S,W,W,W,W,C,S,W,C,C,W,C3
+C,C,S,S,W,C,C,C,S,W,C,C,C,C,W,W,W,C,C,S,C,W,C,C,C,W,S,W,C,C,S,W,S,S,S,W,C,S,W,C,C,S,W,S,W,C,S,C,S,W,C2
+C,C,C,C,C,C,C,S,S,S,S,W,S,W,W,C,W,C,W,S,S,W,C,W,W,W,C,S,C,S,W,W,S,C,W,S,W,S,S,S,C,W,W,S,C,W,C,S,C,C,C0
+W,C,S,W,S,C,W,S,C,C,C,C,W,W,W,C,C,C,W,C,C,S,W,W,S,S,C,C,C,S,S,S,W,S,C,C,W,C,S,C,W,S,C,W,W,W,W,W,W,W,C0
+C,W,C,S,S,C,W,W,W,W,W,C,C,C,W,C,W,S,W,S,S,C,W,S,C,W,W,S,C,S,S,S,S,S,W,S,W,W,W,C,S,C,S,C,S,W,S,C,W,W,C0
+W,W,S,W,W,W,W,S,S,C,C,C,W,S,W,W,W,W,W,S,W,S,W,S,W,W,W,W,W,C,S,C,W,W,W,C,S,W,C,W,S,C,S,W,W,W,S,W,S,C,C3
+C,S,C,S,C,W,C,C,S,C,W,S,W,W,W,C,C,C,S,C,S,W,W,W,C,C,W,C,W,C,W,W,W,S,W,C,S,S,C,W,S,C,C,C,C,S,S,W,S,S,C0
+S,W,S,C,C,S,W,C,S,C,C,S,C,W,W,W,S,W,S,S,W,W,W,W,W,W,W,W,S,S,W,W,S,S,C,W,S,W,W,W,C,C,S,W,W,S,S,W,C,S,C3
+W,W,C,C,S,C,S,W,W,W,W,S,W,W,W,W,C,W,C,S,C,C,S,S,C,C,S,W,W,S,W,S,W,W,W,C,C,W,W,C,S,S,C,C,S,S,W,C,S,C,C1
+S,S,S,W,W,C,W,S,W,S,S,C,S,W,W,C,W,W,W,C,C,S,S,C,S,C,C,W,S,W,S,W,W,S,S,C,W,S,S,W,C,C,C,S,S,C,W,W,W,W,C0
+W,W,W,W,S,S,W,W,W,S,W,W,S,W,W,C,C,S,S,S,C,W,S,W,C,W,W,W,W,W,S,S,C,W,C,C,S,S,S,W,S,W,W,W,S,S,W,W,S,W,C3
+S,C,S,C,C,S,S,C,S,C,C,C,S,C,S,C,C,C,S,C,S,W,W,S,W,S,W,W,S,C,S,S,W,W,W,S,S,C,C,S,C,W,C,C,S,C,C,C,S,C,C1
+W,S,S,C,W,W,C,W,W,W,W,S,W,C,W,W,C,S,W,S,S,S,W,S,W,C,W,W,W,C,C,S,S,W,S,W,S,W,W,W,S,W,W,W,W,S,S,W,S,W,C3
+W,W,S,C,W,C,S,C,C,C,W,W,S,S,W,S,S,W,C,C,W,W,S,W,W,S,C,W,S,W,S,C,S,W,W,W,W,C,S,W,S,S,W,W,W,W,W,S,S,S,C2
+C,S,S,C,W,W,W,W,S,W,S,S,S,S,W,C,W,W,W,W,S,W,W,W,C,W,W,S,S,W,W,W,S,W,C,W,S,C,S,W,W,S,W,S,C,W,S,W,W,C,C2
+S,S,W,S,W,W,W,W,S,W,S,S,W,W,W,S,W,W,S,W,W,W,W,W,S,W,W,C,C,S,W,W,W,C,W,S,S,C,S,W,W,W,W,C,W,S,C,C,W,C,C3
+W,S,W,W,C,W,W,S,W,C,W,C,C,S,W,C,S,C,S,W,W,W,W,W,S,W,W,W,W,W,S,W,W,S,S,W,S,W,C,W,W,W,W,W,C,W,S,C,W,W,C3
+W,C,W,W,C,C,W,S,W,C,C,C,W,S,W,W,C,C,S,W,S,C,C,S,C,C,C,S,S,W,S,C,S,C,C,C,W,C,S,S,S,S,S,C,S,C,W,W,C,W,C0
+C,S,W,W,S,W,W,W,W,S,W,W,C,S,S,S,S,W,W,W,W,W,W,W,C,C,C,S,W,C,C,C,S,S,S,W,W,S,C,C,C,C,S,C,C,C,W,W,S,W,C1
+S,S,C,C,C,C,W,W,C,C,C,C,C,S,S,C,W,C,S,W,C,W,S,C,S,W,S,S,S,C,S,C,S,C,S,S,S,S,W,C,W,W,W,S,S,W,S,W,C,W,C2
+C,C,S,C,S,S,C,C,C,S,S,C,W,S,S,C,S,C,C,W,W,S,C,W,W,W,S,W,W,W,W,W,C,W,W,W,S,W,S,W,C,S,W,S,S,S,W,S,W,S,C1
+W,C,W,S,W,S,W,C,S,W,C,W,S,S,W,S,S,W,S,C,S,C,C,S,S,S,S,S,S,C,W,C,S,W,C,W,S,W,C,S,C,W,S,W,C,S,S,W,C,W,C2
+W,C,W,C,S,W,C,S,W,W,C,S,C,W,W,C,W,W,C,S,W,C,W,W,C,W,W,W,S,S,S,C,S,S,S,S,S,S,C,C,S,C,W,C,C,W,S,C,W,C,C2
+C,S,S,S,W,W,W,W,S,C,S,W,C,S,W,W,S,C,S,W,W,W,S,W,C,W,S,W,W,C,S,S,S,C,W,C,W,S,S,S,C,S,S,S,S,C,C,S,C,C,C1
+S,S,C,S,C,W,C,S,C,C,C,C,S,C,W,C,W,S,C,C,S,S,S,S,S,W,W,S,W,S,W,W,C,C,C,W,S,S,S,C,W,C,C,W,W,W,C,W,W,C,C0
+S,S,S,W,C,C,C,C,C,W,C,C,S,S,W,W,C,S,S,S,W,C,W,W,S,C,S,C,W,C,S,S,W,C,W,W,C,C,W,W,C,C,C,C,S,C,C,S,S,C,C0
+W,S,C,W,C,C,W,W,C,W,W,W,C,S,W,S,W,C,C,S,W,C,C,C,W,S,S,S,W,C,S,C,W,S,C,S,W,W,W,S,S,W,C,S,S,W,S,S,S,C,C0
+C,C,S,W,W,W,W,W,S,S,S,C,C,S,C,W,W,S,S,S,S,S,S,S,W,S,W,C,C,S,S,W,W,C,C,C,S,C,C,S,C,W,W,C,C,W,W,S,C,W,C0
+S,S,W,S,C,C,C,S,C,W,C,C,C,C,S,C,C,S,C,C,S,C,W,C,S,C,C,S,S,C,S,C,C,C,C,C,S,S,W,W,W,C,C,C,S,S,W,W,W,C,C1
+W,W,W,W,S,C,S,S,W,S,W,S,S,S,W,S,W,W,W,C,W,S,W,W,W,W,S,W,W,W,W,C,S,W,S,W,W,C,W,W,W,W,W,W,S,S,S,W,W,W,C3
+W,W,W,C,W,C,W,W,W,S,C,W,S,W,S,S,S,S,W,C,W,S,W,S,W,W,S,S,S,W,W,W,W,S,W,S,S,S,W,S,W,C,W,W,W,S,W,W,W,S,C3
+W,W,W,S,C,W,S,W,W,W,C,W,W,W,C,C,C,W,S,S,W,W,W,W,S,S,W,W,W,W,W,W,W,W,W,C,S,W,S,W,C,C,S,W,W,S,W,S,C,W,C3
+S,W,C,C,C,C,S,W,C,C,C,C,C,S,W,W,S,W,W,S,W,S,C,W,W,S,W,C,S,W,S,S,S,C,S,S,S,C,S,C,S,C,S,C,W,C,S,S,C,W,C2
+S,S,C,S,C,C,S,C,W,S,W,W,S,W,W,S,S,W,C,S,C,C,C,C,C,W,C,C,W,C,S,S,C,S,S,S,W,W,W,S,W,C,S,S,C,W,S,C,C,S,C1
+C,W,S,S,S,W,C,W,C,S,S,W,S,W,C,S,S,W,S,S,C,S,W,S,C,C,S,C,S,C,W,W,W,C,W,W,C,S,C,W,S,S,S,W,C,S,S,S,C,C,C0
+W,S,W,W,S,W,S,W,S,W,S,C,S,C,W,W,S,S,S,W,W,S,W,W,W,S,W,W,W,W,W,W,W,W,W,S,W,S,W,S,W,S,S,W,W,W,C,S,C,S,C3
+S,C,S,W,C,C,S,W,C,C,S,S,S,S,W,S,W,C,S,C,C,C,W,S,W,C,S,C,W,S,W,S,S,C,C,C,W,S,S,W,W,C,W,C,W,C,C,C,S,C,C2
+W,W,W,S,C,S,S,S,W,S,C,W,C,W,W,C,S,W,W,S,W,C,S,C,S,S,C,W,C,W,S,W,S,S,W,W,S,C,W,S,W,S,C,S,S,S,C,S,S,C,C2
+W,S,S,C,S,S,C,W,C,C,W,W,S,S,W,S,W,C,W,C,W,S,S,C,W,C,W,S,C,S,S,W,S,S,W,C,W,S,C,S,C,W,W,S,S,C,S,C,S,W,C2
+S,S,C,W,W,S,W,W,W,W,W,W,S,C,W,S,S,W,W,W,W,W,S,S,S,W,W,W,W,W,W,S,W,W,C,W,S,S,W,W,W,S,S,S,C,S,W,W,W,C,C3
+W,W,W,W,W,W,W,S,S,C,C,S,S,C,W,W,S,W,S,C,W,W,S,W,C,C,C,W,S,W,C,W,W,W,S,S,S,S,W,W,W,W,W,W,W,W,W,C,S,W,C3
+C,C,C,W,S,C,W,W,C,W,W,W,W,C,S,C,W,C,C,W,S,C,W,S,S,W,W,C,C,C,S,S,C,C,S,S,C,S,W,S,W,S,C,S,C,C,C,C,C,C,C1
+C,C,S,C,C,S,C,S,C,C,W,S,C,C,C,W,S,S,S,S,S,C,W,S,C,W,S,C,C,C,C,C,W,S,W,W,S,W,W,W,W,S,W,W,W,W,S,C,S,C,C1
+W,C,C,S,C,S,S,S,S,W,C,W,S,S,S,W,C,W,W,S,W,W,S,W,W,W,W,S,W,W,W,W,W,W,S,C,W,S,C,S,W,S,W,W,W,S,W,W,S,S,C3
+W,S,W,W,W,W,W,S,W,W,S,W,S,S,S,S,W,S,C,C,C,C,C,S,C,C,W,S,S,W,C,S,C,S,S,C,S,C,W,S,W,S,C,S,C,S,C,C,C,S,C1
+C,C,W,W,S,W,W,S,C,W,C,W,S,C,W,S,S,S,W,W,W,W,W,S,W,S,S,W,W,W,W,W,W,S,S,W,W,W,S,W,W,S,W,W,S,W,W,W,S,W,C3
+W,C,S,W,C,W,S,S,S,C,S,S,W,S,S,W,W,W,C,C,S,W,C,W,W,W,S,S,W,W,W,W,W,S,W,S,C,W,W,S,C,W,S,C,W,W,S,W,S,W,C3
+C,C,W,W,C,C,S,W,W,C,C,C,C,C,S,C,C,S,S,W,W,S,W,W,S,W,W,W,S,C,W,S,S,W,S,C,W,S,W,C,C,S,S,S,W,S,C,S,S,C,C0
+W,S,S,C,W,W,S,W,C,S,W,C,C,W,W,S,C,C,S,C,W,S,C,S,W,W,S,W,S,W,W,W,W,S,W,S,S,S,S,W,W,C,C,W,S,C,S,C,W,S,C0
+W,S,S,C,C,C,S,C,S,C,C,C,C,C,C,C,S,S,S,S,S,C,C,S,C,C,W,W,W,W,W,W,S,S,C,C,C,S,W,C,W,C,W,W,W,W,S,W,W,S,C1
+W,C,W,W,C,S,C,C,S,C,S,C,C,S,C,S,W,C,C,C,C,C,S,C,C,S,W,S,C,C,C,C,C,S,C,W,S,S,C,C,S,C,S,S,S,C,C,S,C,C,C1
+C,W,W,S,W,C,W,S,W,W,W,W,S,W,W,C,W,S,W,C,S,W,W,W,W,W,S,W,W,S,S,S,W,W,W,W,W,W,S,C,S,S,C,C,S,C,S,S,S,W,C3
+W,C,S,S,C,C,S,C,W,C,S,S,W,C,S,C,W,S,S,C,S,C,S,C,S,C,W,S,C,S,C,C,C,C,C,C,W,S,W,S,C,W,W,S,C,S,C,C,S,W,C0
+S,W,S,W,C,C,W,W,W,S,W,S,S,W,W,W,S,W,W,W,S,S,W,C,W,S,W,C,W,C,W,S,W,S,C,W,S,W,S,W,W,W,W,S,C,W,S,W,W,W,C3
+S,W,S,C,W,S,C,W,W,C,S,C,W,W,W,W,C,S,C,W,S,C,C,S,W,W,W,C,C,W,W,S,W,C,W,W,S,W,W,S,C,S,S,W,S,W,C,W,S,S,C0
+W,S,S,S,W,W,W,S,S,C,W,C,S,C,S,W,C,S,W,W,W,W,C,S,W,S,S,C,S,W,W,C,S,W,C,S,C,W,C,W,C,W,W,W,W,W,W,S,W,W,C3
+C,C,S,S,W,S,W,S,W,C,S,S,C,S,C,W,C,W,C,C,S,C,C,C,S,S,C,C,S,W,C,C,C,C,S,S,S,C,C,W,C,W,C,W,S,W,S,W,C,C,C0
+S,S,C,S,C,C,S,S,C,W,S,S,S,C,S,C,W,S,S,S,S,W,C,S,S,S,C,S,W,W,C,C,S,S,S,C,C,C,S,S,S,C,S,W,W,S,C,C,W,C,C1
+S,S,W,S,C,S,C,W,W,W,C,S,C,S,S,S,C,W,S,C,S,C,C,S,S,S,C,S,W,S,C,C,C,S,C,S,S,S,C,S,S,S,C,C,C,W,S,C,C,C,C1
+S,C,W,C,C,C,S,S,C,C,C,W,W,W,W,W,W,W,S,C,S,W,S,S,C,C,C,C,S,S,C,S,W,S,W,C,W,W,W,W,S,S,W,C,S,W,W,W,S,W,C1
+C,C,C,S,S,W,W,S,S,W,W,C,S,C,W,S,W,C,S,S,C,S,S,W,C,S,S,S,W,S,S,C,C,S,C,S,C,W,W,W,S,W,S,W,C,W,C,C,C,S,C0
+C,W,C,W,W,C,C,S,W,W,S,S,C,S,C,W,W,W,W,C,W,C,C,W,W,S,W,S,S,C,S,W,C,S,C,S,W,C,S,S,S,W,S,C,W,C,W,S,S,S,C2
+S,S,S,C,W,S,W,W,C,W,C,C,C,W,C,S,S,S,S,W,S,S,C,W,C,C,W,W,C,C,C,S,C,W,S,W,C,C,S,S,S,W,C,C,W,W,W,W,S,S,C2
+W,S,S,W,S,C,C,S,S,C,W,C,S,S,S,C,C,C,C,C,C,S,W,C,W,C,C,C,C,S,W,W,C,S,S,S,S,S,W,C,C,C,C,C,S,S,C,C,W,S,C0
+W,C,S,C,C,C,S,W,S,S,W,W,S,C,C,S,C,S,S,C,S,W,C,C,C,C,W,S,S,S,C,C,W,C,C,S,C,C,S,C,S,C,S,W,S,C,S,C,S,C,C1
+W,W,W,C,S,S,W,C,S,C,C,S,W,C,S,W,W,W,W,C,W,C,W,S,C,C,S,S,S,W,W,W,C,S,C,S,W,C,C,C,C,C,S,W,S,C,W,C,S,S,C2
+S,W,S,S,S,S,W,W,W,W,C,W,S,S,S,W,C,C,C,S,S,C,W,C,S,W,C,S,C,C,S,S,S,C,W,W,W,C,S,S,W,S,C,S,S,S,C,C,C,W,C1
+W,S,S,S,S,W,W,S,S,C,S,W,C,W,W,W,C,C,W,W,S,C,S,W,C,S,C,W,C,S,C,C,W,C,W,S,C,W,W,S,S,S,S,W,W,S,W,C,W,W,C0
+W,C,C,C,S,C,W,S,W,W,C,W,C,C,S,W,S,S,C,W,W,C,C,S,W,W,C,S,S,S,W,W,W,W,S,W,C,W,W,W,S,W,W,C,S,S,C,W,S,W,C0
+C,S,S,C,C,C,C,C,S,W,C,C,C,W,S,S,S,C,W,S,S,W,S,W,S,S,S,C,S,C,C,W,W,W,C,S,S,C,S,C,S,W,C,S,C,C,S,C,C,S,C2
+C,C,W,C,S,C,S,C,S,S,C,S,S,W,S,S,C,C,C,S,C,C,S,C,S,S,S,S,S,S,S,W,C,W,S,W,S,S,W,C,W,C,W,C,S,S,C,C,C,S,C1
+W,W,S,C,S,W,S,W,C,W,W,C,W,W,S,S,W,C,W,S,W,S,S,C,W,S,S,C,S,S,S,S,S,S,S,S,W,W,W,S,W,W,W,S,C,C,S,W,S,W,C3
+W,C,S,S,S,C,S,S,W,W,W,C,W,S,C,W,S,S,W,W,C,S,S,C,C,W,S,W,S,C,S,S,W,S,S,C,W,C,S,C,S,W,C,C,S,W,S,S,W,C,C0
+W,W,C,C,W,W,W,S,S,C,C,S,W,W,W,W,C,S,S,C,C,W,S,W,C,W,S,S,W,W,C,W,W,W,W,S,W,S,W,W,W,W,W,W,S,W,W,S,S,C,C3
+W,S,S,S,C,C,C,W,W,S,S,C,W,C,S,W,S,S,C,W,C,S,W,C,W,S,C,S,W,W,W,C,C,C,C,W,S,S,S,S,C,C,S,S,C,S,S,C,W,C,C2
+W,S,S,W,W,W,W,W,S,W,C,W,C,W,W,S,W,W,W,S,C,W,S,W,S,W,W,S,S,W,W,S,W,W,W,W,W,S,C,W,W,W,W,W,W,W,S,W,W,W,C3
+S,C,C,C,W,S,C,W,W,S,W,C,S,S,W,W,S,W,C,C,S,W,W,W,W,C,C,S,S,C,W,W,W,C,S,C,S,C,S,C,W,S,C,C,C,C,S,C,S,W,C0
+W,C,C,C,C,C,W,W,S,C,S,S,S,S,W,S,S,W,S,S,W,W,S,W,W,S,C,W,S,C,C,W,S,W,W,W,C,S,S,S,C,C,S,C,C,W,W,W,S,S,C0
+C,W,C,C,S,S,C,C,S,C,W,C,C,S,W,S,W,C,W,C,S,S,S,C,C,S,S,C,W,S,W,S,W,C,W,S,C,W,C,W,C,W,S,C,W,C,W,S,W,S,C2
+S,W,W,W,S,W,W,W,S,W,S,C,C,S,C,C,S,C,C,S,C,C,S,C,C,C,S,C,C,W,C,W,C,C,C,S,C,C,C,C,S,S,C,C,C,S,C,C,S,C,C1
+W,W,W,W,W,C,W,S,C,W,W,S,W,S,S,S,C,W,W,W,C,S,S,S,C,S,S,W,W,S,W,W,W,S,S,S,C,S,C,S,W,S,S,S,W,S,W,S,C,S,C2
+C,C,W,W,W,W,C,C,S,C,W,S,W,S,C,S,S,W,W,C,W,S,C,C,S,C,C,C,S,W,S,S,W,S,W,C,C,S,S,C,S,W,C,S,C,S,S,W,S,S,C2
+S,C,C,C,S,C,S,S,C,C,W,W,C,W,S,C,C,C,S,C,S,C,S,C,C,S,W,C,S,S,S,C,S,C,S,C,S,S,S,S,S,S,C,C,C,S,S,S,S,C,C1
+C,C,C,S,W,C,W,C,S,C,C,S,W,S,W,C,S,S,W,S,S,W,W,S,S,C,C,S,S,S,W,C,W,C,W,W,W,C,W,W,S,S,C,W,S,W,C,C,C,W,C2
+C,C,S,W,W,S,S,W,C,S,C,W,W,C,S,W,W,C,W,C,C,C,S,S,W,S,W,S,C,C,C,W,W,S,C,C,S,C,S,S,W,S,C,S,S,S,S,S,W,W,C0
+W,S,S,W,S,S,C,W,W,W,W,W,S,S,W,C,S,S,W,W,S,W,W,S,W,S,W,C,C,S,C,W,W,S,W,W,C,W,S,W,S,S,C,W,S,S,W,W,C,C,C3
+W,S,W,S,W,S,W,C,W,W,S,S,W,W,W,S,W,W,W,W,W,W,S,W,W,W,S,W,W,S,W,C,C,C,S,S,S,C,W,C,C,S,W,W,W,W,S,S,W,W,C1
+W,C,C,W,W,S,W,S,W,W,W,S,W,W,C,C,C,C,C,S,C,S,W,C,W,S,S,S,W,S,W,C,C,C,W,W,S,W,C,S,W,W,C,W,C,S,S,W,S,S,C2
+S,W,C,S,S,C,C,S,S,S,S,C,S,S,C,W,W,C,S,C,C,S,C,S,W,S,W,C,C,W,W,C,W,W,W,W,S,S,W,S,S,C,W,W,W,W,S,W,W,S,C1
+W,S,S,S,C,S,C,S,C,C,S,C,S,C,S,C,S,C,S,C,S,C,S,C,S,S,C,W,W,C,W,C,C,C,C,S,S,C,S,C,W,S,C,W,C,C,S,C,C,S,C1
