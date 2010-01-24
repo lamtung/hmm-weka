@@ -156,7 +156,7 @@ public abstract class HMMHandler<O extends Observation> implements
 				bestHmms = trainer.getHmms();
 				bestRatio = ratio;
 			}
-			System.out.println("Run " + variation + " " + ratio);
+			//System.out.println("Run " + variation + " " + ratio);
 		}
 		setHmms(bestHmms);
 

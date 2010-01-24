@@ -16,7 +16,6 @@ import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.Capabilities.Capability;
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
@@ -43,7 +42,6 @@ public class HMMClassifier extends RandomizableClassifier {
 	static final long serialVersionUID = -3481068294659183000L;
 	  
 	public void buildClassifier(Instances data) throws Exception {
-	    System.out.println("Start building");
 
 	    
 		random = data.getRandomNumberGenerator(getSeed());
@@ -66,7 +64,6 @@ public class HMMClassifier extends RandomizableClassifier {
 	    else
 	    	handler.train(data, m_Variations);
 	    	
-	    System.out.println("building done");
 	    
 	}
 		
