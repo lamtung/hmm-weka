@@ -202,12 +202,16 @@ public class JahmmTest {
 			}
 		}
 		
+		System.out.println("@relation nom_testhmm");
+
 		for (int i=0; i<sequenceLength; i++) {
 			String s = "000"+i;
 			s=s.substring(s.length()-3);
-			System.out.print("Seq_"+s+",");			
+			System.out.println("@attribute Seq_"+s+"  {W,S,C}");
 		}
-		System.out.println("Class");
+		System.out.println("@attribute Class {C0,C1,C2,C3}");
+		System.out.println("");
+		System.out.println("@data");
 
 
 		for (String string: allObservations ) {
@@ -294,17 +298,17 @@ public class JahmmTest {
 		System.out.println("\r\n\r\nCLASSIFY TEST:");
 		new JahmmTest().runClassificationTest();
 		 
-		
-		System.out.println("\r\n\r\nGENERATING NOMINAL DATASETS:");
-		new JahmmTest().runGenerateNominalDataSet();
-*/
+*/		
+		//System.out.println("\r\n\r\nGENERATING NOMINAL DATASETS:");
+		//new JahmmTest().runGenerateNominalDataSet();
+
 		/*System.out.println("\r\n\r\nGENERATING NUMERIC DATASETS:");
-		new JahmmTest().runGenerateNumericDataSet();*/
+		*/new JahmmTest().runGenerateNumericDataSet();
 		
-		System.out.println("\r\n\r\nGENERATING NUMERIC DATASETS:");
+//		System.out.println("\r\n\r\nGENERATING NUMERIC DATASETS:");
 //		new JahmmTest().runExtremeTraining();
 		
-		new JahmmTest().runRandomTest();
+		//new JahmmTest().runRandomTest();
 		
 		
 	}
