@@ -22,7 +22,16 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	void initHmms();
 	
+	void perturbate1();
+	
+	void perturbate2();
+	
 	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy);
+	
+	// Train HMM for a certain Class
+	public Hmm<O> trainHmm(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,int classNo);
+	
+	public Hmm<O> getHmm(int classNo);
 	
 	Map<Integer, Hmm<O>> getHmms();
 	
@@ -31,5 +40,7 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	double[] getNumericMeanArray(double givenMean,int stateCount);
 	
 	double[] getNumericVarianceArray(double givenVariance,int stateCount);
+	
+	void setHmms(Map<Integer, Hmm<O>> hmms);
 	
 }
