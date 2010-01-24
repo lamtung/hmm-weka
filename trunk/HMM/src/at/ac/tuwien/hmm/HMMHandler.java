@@ -166,7 +166,7 @@ public abstract class HMMHandler<O extends Observation> implements
 		setHmms(trainer.getHmms());
 	}
 
-	public void trainWithTabuSearch(Instances data, int iterationNumber)
+	public void trainWithTabuSearch(Instances data, int iterationNumber, int bw_accuracy)
 			throws Exception {
 
 		trainer.setRandom(random);
@@ -203,7 +203,7 @@ public abstract class HMMHandler<O extends Observation> implements
 					int newStateNb = trainer.perturbate2(classNo, tabuList);
 					tabuList.add(newStateNb);
 				}
-				Hmm<O> newHmm = trainer.trainHmm(trainingInstancesMap, 10,
+				Hmm<O> newHmm = trainer.trainHmm(trainingInstancesMap, bw_accuracy,
 						classNo);				
 				setHmm(newHmm, classNo);
 				double newRatio = evaluate(data, classNo);
