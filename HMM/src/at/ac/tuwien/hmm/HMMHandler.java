@@ -25,6 +25,11 @@ import be.ac.ulg.montefiore.run.jahmm.Opdf;
  */
 public abstract class HMMHandler<O extends Observation> implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Map<Integer, Hmm<O>> hmms;
 	
 	private Random random;
@@ -110,6 +115,24 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 		}
 		return (double)correct/data.numInstances();
 	}
+	
+	// Evaluate the precision for a certan classNo
+	public double evaluate(Instances data, int myClassNo) throws Exception{
+		int instanceOfClassCnt = 0;
+		int correct = 0;
+		for (int instanceNo=0; instanceNo< data.numInstances(); instanceNo++) {			
+			Instance instance = data.instance(instanceNo);
+			if ((int) instance.classValue() == myClassNo) {
+				instanceOfClassCnt++;
+				int bestClass = classifyInstance(instance);
+				if (bestClass == myClassNo) {
+					correct++;
+				}
+			}				
+
+		}
+		return (double)correct/instanceOfClassCnt;
+	}
 		
 	public void train(Instances data, int variations) throws Exception{
 	    trainer.setRandom(random);
@@ -143,7 +166,78 @@ public abstract class HMMHandler<O extends Observation> implements java.io.Seria
 	    setHmms(trainer.getHmms());
 	}
 
+	public void trainWithTabuSearch(Instances data, int iterationNumber) throws Exception {
+		
+		trainer.setRandom(random);
+		Map<Integer, List<List<O>>> trainingInstancesMap = getTrainingInstances(data);
+		// Initialize the trainer with start parameters
+		trainer.initHmms();
+		// Train the initial HMM with accuracy 10
+		trainer.trainHmms(trainingInstancesMap, 10);
+		setHmms(trainer.getHmms());
+		
+		// Train HMMs for each class
+		for (int classNo=0 ; classNo < data.numClasses(); classNo++) {
+			
+			int iterationCnt = 1;		    		    
+			double bestRatio = 0;
+			Hmm<O>  bestHmm = null;
+			Hmm<O>  currentHmm = null;
+			double currentRatio = 0;
+			
+			currentHmm = trainer.getHmm(classNo);
+			setHmm(currentHmm, classNo);
+			currentRatio = evaluate(data, classNo);
+			
+			int k = 0;
+			boolean bestFound = true;
+			while (iterationCnt <= iterationNumber) {
+				System.out.println ("Tabu Search: Begin iteration " + iterationCnt);			
+				if (k < 3 && bestFound) {
+					trainer.perturbate1();
+				}
+				else {
+					k = 0;
+					trainer.perturbate2();
+				}			 
+				trainer.trainHmms(trainingInstancesMap, 10);
+				Hmm<O> newHmm = trainer.getHmm(classNo);
+			    setHmm(newHmm,classNo);
+			    double newRatio = evaluate(data,classNo);
+			    
+			    // Tabu Criterion : New solution is acceptable if its cost is higher than the old one otherwise remove
+			    if (newRatio <= currentRatio) {
+			    	continue;
+			    }
+			    else {
+			    	currentRatio = newRatio;
+			    	currentHmm = newHmm;
+			    }
+			    		
+			    if (currentRatio > bestRatio) {
+			    	// save the new best Hmms
+			    	bestHmm = currentHmm;
+			    	bestFound = true;
+			    	
+			    	if (currentRatio - bestRatio < 0.01) {
+			    		k = k + 1;
+			    	}
+			    	
+			    }
+			    else {
+			    	bestFound = false;
+			    }
+			    
+			    iterationCnt++;
+			}
+			setHmm(bestHmm, classNo);
+		}					
+		
+	}
 
+	public void setHmm(Hmm<O> hmm, int classNo) {
+		this.hmms.put(classNo, hmm);
+	}
 	public Trainer<O> createTrainer() {
 		return new SimpleTrainer<O>(numClasses, numAttributes, stateCount, attributeValuesCount, this);
 	}
