@@ -25,6 +25,8 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	public void perturbate1(int classNo);
 	
+	public void perturbate3(int classNo);
+	
 	public int perturbate2(int classNo, Vector<Integer> tabuList);
 	
 	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy);

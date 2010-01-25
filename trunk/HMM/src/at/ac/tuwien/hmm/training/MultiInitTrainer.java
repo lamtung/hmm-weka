@@ -273,4 +273,10 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 		return 0;
 	}
 
+	@Override
+	public void perturbate3(int classNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
