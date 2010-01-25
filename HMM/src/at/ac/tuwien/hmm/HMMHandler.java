@@ -181,61 +181,82 @@ public abstract class HMMHandler<O extends Observation> implements
 		for (int classNo = 0; classNo < data.numClasses(); classNo++) {
 			assert (hmms.size() == data.numClasses());
 			Vector<Integer> tabuList = new Vector<Integer>();
-													
+
 			Hmm<O> currentHmm = trainer.getHmm(classNo);
 			Hmm<O> bestHmm = currentHmm;
-			
+
 			tabuList.add(currentHmm.nbStates());
 
 			setHmm(currentHmm, classNo);
-			double currentRatio = evaluate(data,classNo);
+			double currentRatio = evaluate(data, classNo);
 			double bestRatio = currentRatio;
 
 			int k = 0;
-			boolean bestFound = true;
+			int pertube1Nb = 0;
+			int pertube3Nb = 0;
+			int pertubeNo = 1;
 			for (int i = 1; i <= iterationNumber; i++) {
-				System.out.println("Tabu Search at Iteration " + i
-						+ " of class " + classNo);
-				if (k < 3 && bestFound) {
-					trainer.perturbate1(classNo);
+
+				// System.out.println("Tabu Search at Iteration " + i+
+				// " of class " + classNo);
+				if (k < 3) {
+					if (pertube1Nb < 6) {
+						trainer.perturbate1(classNo);
+						pertube1Nb++;
+						pertubeNo = 1;
+					} else {
+						pertube3Nb++;
+						if (pertube3Nb == 5) {
+							pertube1Nb = 0;
+						}
+						trainer.perturbate3(classNo);
+						pertubeNo = 3;
+					}
+
 				} else {
 					k = 0;
 					int newStateNb = trainer.perturbate2(classNo, tabuList);
 					tabuList.add(newStateNb);
 				}
 				Hmm<O> newHmm = trainer.trainHmm(trainingInstancesMap, bw_accuracy,
-						classNo);				
+						classNo);
 				setHmm(newHmm, classNo);
 				double newRatio = evaluate(data, classNo);
 
 				// Tabu Criterion : New solution is acceptable if its cost is
 				// higher than the old one otherwise remove
-				if (newRatio <= currentRatio) {
+				if (newRatio <= currentRatio) {					
 					continue;
 				} else {
 					currentRatio = newRatio;
 					currentHmm = newHmm;
+					if (pertubeNo == 1)
+						pertube1Nb = 0;
+					if (pertube3Nb == 3)
+						pertube3Nb = 0;
+					
 				}
 
 				if (currentRatio > bestRatio) {
 					// save the new best Hmms
 					bestHmm = currentHmm;
 					bestRatio = currentRatio;
-					bestFound = true;
 
+					System.out.println("Best new ratio for class " + classNo
+							+ " : " + bestRatio);
+					System.out.println("Best HMM " + bestHmm.toString());
+					if (bestRatio == 1.0) {
+						break;
+					}
 					if (currentRatio - bestRatio < 0.01) {
 						k = k + 1;
 					}
 
-				} else {
-					bestFound = false;
 				}
 
+				setHmm(bestHmm, classNo);
 			}
-			
-			setHmm(bestHmm, classNo);			
 		}
-
 	}
 
 	public void setHmm(Hmm<O> hmm, int classNo) {
