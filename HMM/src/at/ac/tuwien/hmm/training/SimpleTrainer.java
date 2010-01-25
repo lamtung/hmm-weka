@@ -7,6 +7,8 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import javax.smartcardio.ATR;
+
 import at.ac.tuwien.hmm.HMMClassifier;
 import at.ac.tuwien.hmm.HMMHandler;
 import at.ac.tuwien.hmm.HMMUtil;
@@ -141,10 +143,7 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 	@Override
 	public int perturbate2(int classNo, Vector<Integer> tabuList) {		
 		assert (hmms != null);		
-		int newStateNb = HMMUtil.getRandomStateCount(numAttributes,random);
-		if (tabuList.contains(newStateNb)) {
-			return -1;
-		}
+		int newStateNb = HMMUtil.newStates(tabuList,numAttributes);
 		
 		List<Opdf<O>> opdfs = handler.createOdpf(newStateNb);
 		double[][] transitionMatrix = getMatrix(newStateNb, newStateNb, random);
@@ -173,6 +172,21 @@ public class SimpleTrainer<O extends Observation> implements Trainer<O> {
 		// update the new HMM
 		hmms.put(classNo, hmm);
 		
+	}
+	
+	// Randomly change the transition matrix
+	public void perturbate3(int classNo) {
+		assert (hmms != null);
+		Hmm<O> hmm = hmms.get(classNo);
+		int nbStates = hmm.nbStates();
+		double[][] newTransitionMatrix = getMatrix(nbStates, nbStates, random);
+		for (int i = 0; i < nbStates; i++) {
+			for (int j = 0; j < nbStates; j++) {
+				hmm.setAij(i, j, newTransitionMatrix[i][j]);
+			}
+		}
+		
+		hmms.put(classNo, hmm);
 	}
 
 	@Override
