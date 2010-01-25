@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.Vector;
+
 
 import weka.core.Instances;
-import at.ac.tuwien.hmm.HMMHandler;
 import at.ac.tuwien.hmm.HMMUtil;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;

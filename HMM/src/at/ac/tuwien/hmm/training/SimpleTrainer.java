@@ -6,7 +6,6 @@ import java.util.TreeMap;
 
 import weka.core.Instances;
 
-import at.ac.tuwien.hmm.HMMHandler;
 import at.ac.tuwien.hmm.HMMUtil;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
