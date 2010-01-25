@@ -16,6 +16,7 @@ import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.Capabilities.Capability;
+import at.ac.tuwien.hmm.training.TrainerType;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
@@ -32,12 +33,12 @@ public class HMMClassifier extends RandomizableClassifier {
     private Random random;
     private int attributeValuesCount;
     private HMMHandler<? extends Observation> handler;
+    private TrainerType trainerType;
 
     protected int m_Accuracy = 50;
     protected int m_States = -1;
     protected int m_Variations = 5; 
     protected boolean m_Tabusearch = false;
-        
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183000L;
 	  
@@ -57,13 +58,15 @@ public class HMMClassifier extends RandomizableClassifier {
 	    numClasses = data.numClasses();
 	    numAttributes = data.numAttributes();
 
+	    if (m_Tabusearch) {
+	    	trainerType = TrainerType.Tabu;
+	    } else {
+	    	trainerType = TrainerType.Simple;
+	    }
+	    
 	    handler = getAttributeValueType(data);
 	    
-	    if (m_Tabusearch)
-		    handler.trainWithTabuSearch(data, m_Variations, m_Accuracy);	    
-	    else
-	    	handler.train(data, m_Variations);
-	    	
+    	handler.train(data, m_Variations);
 	    
 	}
 		
@@ -97,7 +100,7 @@ public class HMMClassifier extends RandomizableClassifier {
 				final double variance = Utils.variance(allValues);
 				
 				return new HMMHandler<ObservationReal>(numClasses, numAttributes, m_States, 
-						 attributeValuesCount, m_Accuracy, random) {
+						 attributeValuesCount, m_Accuracy, m_Variations, trainerType, random) {
 					/** for serialization */
 					static final long serialVersionUID = -3481068294659183001L;
 
@@ -124,7 +127,7 @@ public class HMMClassifier extends RandomizableClassifier {
 			    buildNominalsMap(data);
 
 				return new HMMHandler<ObservationInteger>(numClasses, numAttributes, m_States, 
-						 attributeValuesCount,  m_Accuracy, random) {
+						 attributeValuesCount,  m_Accuracy, m_Variations, trainerType, random) {
 					/** for serialization */
 					static final long serialVersionUID = -3481068294659183002L;
 
