@@ -38,8 +38,7 @@ public abstract class AbstractTrainer<O extends Observation> implements Trainer<
 	public void setRandom(Random random) {
 		this.random = random;
 	}
-	
-	
+		
 	public double[][] getMatrix(int rows, int columns, Random random) {
 		double[][] matrix = new double[rows][];
 		for(int i=0; i<rows;i++) {
@@ -66,14 +65,6 @@ public abstract class AbstractTrainer<O extends Observation> implements Trainer<
 
 	public double[] getNumericVarianceArray(double givenVariance,int stateCount) {
 		return HMMUtil.getHomogenArray(stateCount, givenVariance);	
-	}
-
-	public void setHmms(Map<Integer, Hmm<O>> hmms) {
-		this.hmms = hmms;
-	}
-
-	public Hmm<O> getHmm(int classNo) {
-		return this.hmms.get(classNo);
 	}
 	
 	public void setHMMHandler(HMMHandler<O> handler) {

@@ -76,7 +76,7 @@ public class SimpleTrainer<O extends Observation> extends AbstractTrainer<O> {
 			}
 			//System.out.println("Run " + variation + " " + ratio);
 		}
-		setHmms(bestHmms);
+		this.hmms = bestHmms;
 
 		// final round of training - use remaining iterations
 		int remainingIterations = accuracy - (variations * accuracyPart);

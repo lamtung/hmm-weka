@@ -224,6 +224,10 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 		hmms.put(classNo, hmm);
 	}
 
+	public Hmm<O> getHmm(int classNo) {
+		return this.hmms.get(classNo);
+	}
+
 
 	
 }
