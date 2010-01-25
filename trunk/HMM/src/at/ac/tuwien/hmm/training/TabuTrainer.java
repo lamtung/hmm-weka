@@ -54,11 +54,12 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 	    	hmms.put(classNo, hmm);
 	    }
     }
-	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,
+	public void trainHmmsOLD(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,
 			Instances data) throws Exception {
 
 	System.out.println("Number of Iteration : " + iterationNumber);
 	System.out.println("Baum Welcher Accuracy : " + accuracy);
+	System.out.println("Number of states for generated model " + _stateCount);
 	// Initialize the trainer with start parameters
 	initHmms();
 	// Train the initial HMM with accuracy
@@ -107,16 +108,19 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 				}
 				*/
 				tabuList = perturbate4(classNo, tabuList);
+				//perturbate3(classNo);
 
 			} else {
 				k = 0;
 				l = 0;
 				//int newStateNb = trainer.perturbate2(classNo, tabuList);
+				
 				//Randomize the model completely
 				int nbStates = perturbate2(classNo);
 				//tabuList.add(newStateNb);
 				tabuList = new int[nbStates];
 			}
+			// Train the new HMM
 			Hmm<O> newHmm = trainHmm(trainingInstancesMap, accuracy,
 					classNo);
 			handler.setHmm(newHmm, classNo);
@@ -161,39 +165,60 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 		}
 	}
 }	
-	/*
-	public void _trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,
-			Instances data) throws Exception {
+
+	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,Instances data) throws Exception {
+		System.out.println("Number of Iteration : " + iterationNumber);
+		System.out.println("Baum Welcher Accuracy : " + accuracy);
+		System.out.println("Number of states for generated model " + _stateCount);
+		// Initialize the trainer with start parameters
 		initHmms();
-		// Train the initial HMM with accuracy bw_accuracy
+		// Train the initial HMM with accuracy
 		trainHmms(trainingInstancesMap, accuracy);
 		handler.setHmms(getHmms());
 
-		// Train HMMs for each class
-		for (int classNo = 0; classNo < data.numClasses(); classNo++) {
 			assert (hmms.size() == data.numClasses());
-			Vector<Integer> tabuList = new Vector<Integer>();
+			int[] tabuList = new int[data.numClasses()]; // Contains the frequency of optimized Model
 
-			Hmm<O> currentHmm = getHmm(classNo);
-			Hmm<O> bestHmm = currentHmm;
+			Map<Integer, Hmm<O>> currentHmms = getHmms();
+			Map<Integer, Hmm<O>> bestHmms = currentHmms;
 
-			tabuList.add(currentHmm.nbStates());
+			//tabuList.add(currentHmm.nbStates());
 
-			handler.setHmm(currentHmm, classNo);
-			double currentRatio = handler.evaluate(data, classNo);
+			double currentRatio = handler.evaluate(data);
 			double bestRatio = currentRatio;
 
 			int k = 0;
-			int pertube1Nb = 0;
-			int pertube3Nb = 0;
-			int pertubeNo = 1;
-			for (int i = 1; i <= iterationNumber; i++) {
+			int l = 0;
+//			int pertube1Nb = 0;
+//			int pertube3Nb = 0;
+//			int pertubeNo = 1;
+						
+			for (int n = 1; n <= iterationNumber; n++) {
 
-				// System.out.println("Tabu Search at Iteration " + i+
-				// " of class " + classNo);
-				if (k < 3) {
+				System.out.println("Tabu Search at Iteration " + n);
+				// choose a HMM based on tabu list to optimize
+				//Go through the tabu list and choose the first found least use row
+				int bestFreq = 1000000;
+				int classNo = -1; // Index of the Model that will be changed
+				for (int i = 0 ; i < tabuList.length ; i++) {
+					if (tabuList[i] < bestFreq) {
+						bestFreq = tabuList[i];
+					}
+				}
+				
+				for (int i = 0 ; i < tabuList.length ; i++) {
+					if (tabuList[i] == bestFreq) {
+						classNo = i;
+					}
+				}
+				
+				System.out.println("Optimizing class " + classNo);
+				tabuList[classNo]++;
+				
+				if (l < 3 && k < 3) {
+					/*
 					if (pertube1Nb < 6) {
-						perturbate1(classNo);
+						trainer.perturbate1(classNo);
 						pertube1Nb++;
 						pertubeNo = 1;
 					} else {
@@ -201,56 +226,62 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 						if (pertube3Nb == 5) {
 							pertube1Nb = 0;
 						}
-						perturbate3(classNo);
+						trainer.perturbate3(classNo);
 						pertubeNo = 3;
 					}
+					*/
+					perturbate3(classNo);
 
 				} else {
 					k = 0;
-					int newStateNb = perturbate2(classNo, tabuList);
-					tabuList.add(newStateNb);
+					l = 0;
+					//int newStateNb = trainer.perturbate2(classNo, tabuList);
+					//Randomize the model completely
+					perturbate2(classNo);
 				}
-				Hmm<O> newHmm = trainHmm(trainingInstancesMap,
-						accuracy, classNo);
+
+				Hmm<O> newHmm = trainHmm(trainingInstancesMap, accuracy,
+						classNo);
 				handler.setHmm(newHmm, classNo);
-				double newRatio = handler.evaluate(data, classNo);
+				double newRatio = handler.evaluate(data);
 
 				// Tabu Criterion : New solution is acceptable if its cost is
 				// higher than the old one otherwise remove
 				if (newRatio <= currentRatio) {
+					l++;
 					continue;
 				} else {
+					// If the new solution is better than the current solution then set new solution as current solution
+					l = 0;
 					currentRatio = newRatio;
-					currentHmm = newHmm;
+					currentHmms.put(classNo, newHmm);
+					/*
 					if (pertubeNo == 1)
 						pertube1Nb = 0;
 					if (pertube3Nb == 3)
 						pertube3Nb = 0;
+					*/
+					
+					if (currentRatio > bestRatio) {
+						// save the new best Hmms
+						bestHmms = currentHmms;
+						bestRatio = currentRatio;
 
-				}
+						System.out.println("Best new ratio found " + bestRatio);
 
-				if (currentRatio > bestRatio) {
-					// save the new best Hmms
-					bestHmm = currentHmm;
-					bestRatio = currentRatio;
+						if (currentRatio - bestRatio < 0.01) {
+							k = k + 1;
+						}
 
-					System.out.println("Best new ratio for class " + classNo
-							+ " : " + bestRatio);
-					System.out.println("Best HMM " + bestHmm.toString());
-					if (bestRatio == 1.0) {
-						break;
 					}
-					if (currentRatio - bestRatio < 0.01) {
-						k = k + 1;
+					else {
+						l = 3;
 					}
-
-				}
-
-				handler.setHmm(bestHmm, classNo);
+				}				
+				
 			}
-		}
-	}
-*/
+			handler.setHmms(bestHmms);
+		}	
 		
 	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy) {
 	    BaumWelchLearner learner = new BaumWelchLearner();
@@ -290,9 +321,16 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 
 	// Create a completely new HMM by changing the number of states. If the new number of states are 
 	public int perturbate2(int classNo) {		
-		assert (hmms != null);		
+		assert (hmms != null);
+		int newStateNb;
 		//int newStateNb = HMMUtil.newStates(tabuList,numAttributes);
-		int newStateNb = HMMUtil.getRandomStateCount(numAttributes, random);		
+		if (_stateCount == -1) {
+			newStateNb = HMMUtil.getRandomStateCount(numAttributes, random);
+		}
+		else {
+			newStateNb = _stateCount;
+		}
+				
 		List<Opdf<O>> opdfs = handler.createOdpf(newStateNb);
 		double[][] transitionMatrix = getMatrix(newStateNb, newStateNb, random);
 		Hmm<O> hmm = new Hmm<O>(HMMUtil.getRandomArray(newStateNb, random), transitionMatrix, opdfs);
