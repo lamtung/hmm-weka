@@ -1,6 +1,10 @@
 package at.ac.tuwien.hmm;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 public class HMMUtil {
 
@@ -90,5 +94,20 @@ public class HMMUtil {
 				}
 			}
 		}		
+	}
+	
+	public static int newStates(Vector<Integer> tabuList, int numAttributes) {
+		List<Integer> allStates = new ArrayList<Integer>();
+		for (int i=2; i <= numAttributes; i++) {
+			allStates.add(i);
+		}
+		for (Integer k : tabuList) {
+			if (allStates.contains(k)) {
+				allStates.remove(k);
+			}
+		}
+		Collections.shuffle(allStates);
+		return allStates.get(0);
+		
 	}
 }
