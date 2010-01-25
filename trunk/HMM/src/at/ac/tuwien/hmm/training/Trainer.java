@@ -6,7 +6,6 @@ import java.util.Random;
 
 import weka.core.Instances;
 import at.ac.tuwien.hmm.HMMHandler;
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 
 /**
