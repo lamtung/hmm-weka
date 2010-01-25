@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import weka.core.Instance;
 import weka.core.Instances;
-import at.ac.tuwien.hmm.training.MultiInitTrainer;
-import at.ac.tuwien.hmm.training.SimpleTrainer;
 import at.ac.tuwien.hmm.training.Trainer;
+import at.ac.tuwien.hmm.training.TrainerFactory;
+import at.ac.tuwien.hmm.training.TrainerType;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
 /**
  * This class needs to be implemented to get create the correct Opdf. s
+ * 
  * 
  * @author Christof Schmidt
  * 
@@ -28,39 +28,37 @@ import be.ac.ulg.montefiore.run.jahmm.Opdf;
 public abstract class HMMHandler<O extends Observation> implements
 		java.io.Serializable {
 
-	/**
-	 * 
-	 */
+	private boolean IS_EVALUATE_ALL = false; //switch evaluating against all instances on/off
+	
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, Hmm<O>> hmms;
 
 	private Random random;
 	private int numClasses;
-	private int stateCount;
-	private int numAttributes;
-	private int attributeValuesCount;
 	private int accuracy;
 	private Trainer<O> trainer;
 
 	public HMMHandler(int numClasses, int numAttributes, int stateCount,
-			int attributeValuesCount, int accuracy, Random random) {
+			int attributeValuesCount, int accuracy, int variations, 
+			TrainerType trainerType, Random random) {
 		this.numClasses = numClasses;
-		this.stateCount = stateCount;
-		this.numAttributes = numAttributes;
+
 		this.accuracy = accuracy;
 		this.random = random;
-		this.attributeValuesCount = attributeValuesCount;
-		trainer = createTrainer();
+		trainer = new TrainerFactory<O>(numClasses, numAttributes, stateCount,
+				attributeValuesCount, variations).createTrainer(trainerType);
+		trainer.setHMMHandler(this);
 
 	}
 
-	// override this
+	// implement this
 	public abstract List<Opdf<O>> createOdpf(int stateCount);
 
-	// override this
+	// implement this
 	public abstract O createObservation(Instance instance, int attributeNo);
 
+	@SuppressWarnings("unchecked")
 	public Map<Integer, List<List<O>>> getTrainingInstances(Instances data) {
 		Map<Integer, List<List<O>>> trainingInstancesMap = new TreeMap<Integer, List<List<O>>>();
 
@@ -70,7 +68,6 @@ public abstract class HMMHandler<O extends Observation> implements
 		while (instances.hasMoreElements()) {
 			Instance instance = instances.nextElement();
 			int classNo = (int) instance.classValue();
-			// System.out.println(classNo+":"+instance.stringValue(instance.numAttributes()));
 			List<O> trainingObservation = getObservationFromInstance(instance);
 
 			List<List<O>> trainingInstances = trainingInstancesMap.get(classNo);
@@ -96,13 +93,9 @@ public abstract class HMMHandler<O extends Observation> implements
 			O observation = createObservation(instance, attributeNo);
 			trainingObservation.add(observation);
 		}
-
 		return trainingObservation;
 	}
 
-	public void setHmms(Map<Integer, Hmm<O>> hmms) {
-		this.hmms = hmms;
-	}
 
 	public double evaluate(Instances data) throws Exception {
 		int correct = 0;
@@ -117,8 +110,16 @@ public abstract class HMMHandler<O extends Observation> implements
 		return (double) correct / data.numInstances();
 	}
 
-	// Evaluate the precision for a certan classNo
 	public double evaluate(Instances data, int myClassNo) throws Exception {
+		if (IS_EVALUATE_ALL) {
+			return evaluate(data);
+		} else {
+			return _evaluate(data, myClassNo);
+		}
+	}
+	
+	// Evaluate the precision for a certan classNo
+	public double _evaluate(Instances data, int myClassNo) throws Exception {
 		int instanceOfClassCnt = 0;
 		int correct = 0;
 		for (int instanceNo = 0; instanceNo < data.numInstances(); instanceNo++) {
@@ -138,139 +139,12 @@ public abstract class HMMHandler<O extends Observation> implements
 	public void train(Instances data, int variations) throws Exception {
 		trainer.setRandom(random);
 		Map<Integer, List<List<O>>> trainingInstancesMap = getTrainingInstances(data);
-		double bestRatio = 0;
-
-		// split the accuracy between init an final training
-		// altogether we train variation times for init an one time for final
-		// use the half of the time on init, rest on final training
-		int accuracyPart = accuracy / (variations * 2);
-
-		// initial training and comparing
-		Map<Integer, Hmm<O>> bestHmms = null;
-		for (int variation = 0; variation < variations; variation++) {
-			trainer.initHmms();
-			trainer.trainHmms(trainingInstancesMap, accuracyPart);
-			setHmms(trainer.getHmms());
-			double ratio = evaluate(data);
-			if (ratio > bestRatio) {
-				bestHmms = trainer.getHmms();
-				bestRatio = ratio;
-			}
-			//System.out.println("Run " + variation + " " + ratio);
-		}
-		setHmms(bestHmms);
-
-		// final round of training - use remaining iterations
-		int remainingIterations = accuracy - (variations * accuracyPart);
-		trainer.trainHmms(trainingInstancesMap, remainingIterations);
-		setHmms(trainer.getHmms());
+		trainer.trainHmms(trainingInstancesMap, accuracy, data);
 	}
 
-	public void trainWithTabuSearch(Instances data, int iterationNumber, int bw_accuracy)
-			throws Exception {
-
-		trainer.setRandom(random);
-		Map<Integer, List<List<O>>> trainingInstancesMap = getTrainingInstances(data);
-		// Initialize the trainer with start parameters
-		trainer.initHmms();
-		// Train the initial HMM with accuracy 10
-		trainer.trainHmms(trainingInstancesMap, 10);
-		setHmms(trainer.getHmms());
-
-		// Train HMMs for each class
-		for (int classNo = 0; classNo < data.numClasses(); classNo++) {
-			assert (hmms.size() == data.numClasses());
-			Vector<Integer> tabuList = new Vector<Integer>();
-
-			Hmm<O> currentHmm = trainer.getHmm(classNo);
-			Hmm<O> bestHmm = currentHmm;
-
-			tabuList.add(currentHmm.nbStates());
-
-			setHmm(currentHmm, classNo);
-			double currentRatio = evaluate(data, classNo);
-			double bestRatio = currentRatio;
-
-			int k = 0;
-			int pertube1Nb = 0;
-			int pertube3Nb = 0;
-			int pertubeNo = 1;
-			for (int i = 1; i <= iterationNumber; i++) {
-
-				// System.out.println("Tabu Search at Iteration " + i+
-				// " of class " + classNo);
-				if (k < 3) {
-					if (pertube1Nb < 6) {
-						trainer.perturbate1(classNo);
-						pertube1Nb++;
-						pertubeNo = 1;
-					} else {
-						pertube3Nb++;
-						if (pertube3Nb == 5) {
-							pertube1Nb = 0;
-						}
-						trainer.perturbate3(classNo);
-						pertubeNo = 3;
-					}
-
-				} else {
-					k = 0;
-					int newStateNb = trainer.perturbate2(classNo, tabuList);
-					tabuList.add(newStateNb);
-				}
-				Hmm<O> newHmm = trainer.trainHmm(trainingInstancesMap, bw_accuracy,
-						classNo);
-				setHmm(newHmm, classNo);
-				double newRatio = evaluate(data, classNo);
-
-				// Tabu Criterion : New solution is acceptable if its cost is
-				// higher than the old one otherwise remove
-				if (newRatio <= currentRatio) {					
-					continue;
-				} else {
-					currentRatio = newRatio;
-					currentHmm = newHmm;
-					if (pertubeNo == 1)
-						pertube1Nb = 0;
-					if (pertube3Nb == 3)
-						pertube3Nb = 0;
-					
-				}
-
-				if (currentRatio > bestRatio) {
-					// save the new best Hmms
-					bestHmm = currentHmm;
-					bestRatio = currentRatio;
-
-					System.out.println("Best new ratio for class " + classNo
-							+ " : " + bestRatio);
-					System.out.println("Best HMM " + bestHmm.toString());
-					if (bestRatio == 1.0) {
-						break;
-					}
-					if (currentRatio - bestRatio < 0.01) {
-						k = k + 1;
-					}
-
-				}
-
-				setHmm(bestHmm, classNo);
-			}
-		}
-	}
 
 	public void setHmm(Hmm<O> hmm, int classNo) {
 		this.hmms.put(classNo, hmm);
-	}
-
-	public Trainer<O> createTrainer() {
-		return new SimpleTrainer<O>(numClasses, numAttributes, stateCount,
-				attributeValuesCount, this);
-	}
-
-	public Trainer<O> _createTrainer() {
-		return new MultiInitTrainer<O>(numClasses, numAttributes, stateCount,
-				attributeValuesCount, this);
 	}
 
 	public int classifyInstance(Instance instance) throws Exception {
@@ -300,4 +174,9 @@ public abstract class HMMHandler<O extends Observation> implements
 	public Map<Integer, Hmm<O>> getHmms() {
 		return hmms;
 	}
+
+	public void setHmms(Map<Integer, Hmm<O>> hmms) {
+		this.hmms = hmms;
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import weka.core.Instances;
 import at.ac.tuwien.hmm.HMMHandler;
 import at.ac.tuwien.hmm.HMMUtil;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
@@ -27,31 +28,19 @@ import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchScaledLearner;
  * @param <O>
  */
 @SuppressWarnings("hiding")
-public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
+public class MultiInitTrainer<O extends Observation> extends AbstractTrainer<O> {
 
-	private Random random = new Random();
-	private Map<Integer, List<Hmm<O>>> hmmsList;
-	private Map<Integer, Hmm<O>> hmms = new TreeMap<Integer, Hmm<O>>();
-	private int numClasses;
-	private int numAttributes;
-	private int _stateCount;
-	private int attributeValuesCount;
-	private HMMHandler<O> handler;
+	private Map<Integer, List<Hmm<O>>> hmmsList;	
 	private int noInitials = 40;
 
 	/** for serialization */
 	static final long serialVersionUID = -3481068294659183020L;
 
-	public MultiInitTrainer(int numClasses, int numAttributes, 
-			int stateCount,	int attributeValuesCount,  
-			HMMHandler<O> handler) {
-		this.numClasses = numClasses;
-		this._stateCount = stateCount;
-		this.attributeValuesCount = attributeValuesCount;
-		this.handler = handler;
-		this.numAttributes = numAttributes;
+	public MultiInitTrainer(int numClasses, int numAttributes, int stateCount,
+			int attributeValuesCount) {
+		super(numClasses, numAttributes,  stateCount,attributeValuesCount);
 	}
-
+	
 	public void setRandom(Random random) {
 		this.random = random;
 	}
@@ -78,7 +67,8 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 		}
 	}
 
-	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy) {
+	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, 
+			int accuracy, Instances data) {
 		initHmms();
 
 		for (int classNo : trainingInstancesMap.keySet()) {
@@ -208,75 +198,6 @@ public class MultiInitTrainer<O extends Observation> implements Trainer<O> {
 		return getKey(idMap, hmm);
 	}
 
-	public double[][] getMatrix(int rows, int columns, Random random) {
-		double[][] matrix = new double[rows][];
-		for (int i = 0; i < rows; i++) {
-			matrix[i] = getArray(columns, random);
-		}
-		return matrix;
-	}
 
-	public double[] getArray(int size, Random random) {
-		return HMMUtil.getRandomArray(size, random);
-		// return HMMUtil.getUniformArray(size);
-	}
-
-	
-	public Map<Integer, Hmm<O>> getHmms() {
-		return hmms;
-	}
-
-	public double[][] getNominalEmissionMatrix(int stateCount) {
-		return getMatrix(stateCount, attributeValuesCount, random);
-	}
-
-	public double[] getNumericMeanArray(double givenMean, int stateCount) {
-		return HMMUtil.getHomogenArray(stateCount, givenMean);
-	}
-
-	public double[] getNumericVarianceArray(double givenVariance, int stateCount) {
-		return HMMUtil.getHomogenArray(stateCount, givenVariance);
-
-	}
-
-
-	@Override
-	public void setHmms(Map<Integer, Hmm<O>> hmms) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public Hmm<O> getHmm(int classNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Hmm<O> trainHmm(Map<Integer, List<List<O>>> trainingInstancesMap,
-			int accuracy, int classNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void perturbate1(int classNo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int perturbate2(int classNo, Vector<Integer> tabuList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void perturbate3(int classNo) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

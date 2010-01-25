@@ -3,8 +3,9 @@ package at.ac.tuwien.hmm.training;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Vector;
 
+import weka.core.Instances;
+import at.ac.tuwien.hmm.HMMHandler;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 
@@ -20,19 +21,10 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
 public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
 	void setRandom(Random random);
+
+	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, 
+			int accuracy, Instances data) throws Exception ;
 	
-	void initHmms();
-	
-	public void perturbate1(int classNo);
-	
-	public void perturbate3(int classNo);
-	
-	public int perturbate2(int classNo, Vector<Integer> tabuList);
-	
-	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy);
-	
-	// Train HMM for a certain Class
-	public Hmm<O> trainHmm(Map<Integer, List<List<O>>> trainingInstancesMap, int accuracy,int classNo);
 	
 	public Hmm<O> getHmm(int classNo);
 	
@@ -45,5 +37,7 @@ public interface Trainer<O extends Observation> extends java.io.Serializable {
 	double[] getNumericVarianceArray(double givenVariance,int stateCount);
 	
 	void setHmms(Map<Integer, Hmm<O>> hmms);
+	
+	void setHMMHandler(HMMHandler<O> handler);
 	
 }
