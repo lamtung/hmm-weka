@@ -11,8 +11,7 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
 
 /**
  * Superclass for all Training implementaions.
- * 
- * Subclass it to implement different strategies
+ * Subclass it to implement different strategies.
  * 
  * @author Christof Schmidt
  *
@@ -20,24 +19,18 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
  */
 public interface Trainer<O extends Observation> extends java.io.Serializable {
 	
-	void setRandom(Random random);
-
 	void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap, 
 			int accuracy, Instances data) throws Exception ;
-	
-	
-	public Hmm<O> getHmm(int classNo);
-	
-	Map<Integer, Hmm<O>> getHmms();
 	
 	double[][] getNominalEmissionMatrix(int stateCount);
 
 	double[] getNumericMeanArray(double givenMean,int stateCount);
 	
 	double[] getNumericVarianceArray(double givenVariance,int stateCount);
-	
-	void setHmms(Map<Integer, Hmm<O>> hmms);
-	
+
+	void setRandom(Random random);
+
 	void setHMMHandler(HMMHandler<O> handler);
+	
 	
 }
