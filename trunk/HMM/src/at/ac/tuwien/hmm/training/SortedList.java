@@ -8,6 +8,7 @@ package at.ac.tuwien.hmm.training;
  * @author Christof Schmidt, H.W. Lang
  * @param <T>
  */
+@SuppressWarnings("unchecked")
 public class SortedList<T> {
 
 	public SortedList(java.util.Collection<SortedEntry<T>> collection) {

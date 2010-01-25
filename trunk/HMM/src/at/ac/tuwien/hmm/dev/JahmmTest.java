@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import at.ac.tuwien.hmm.HMMUtil;
-import at.ac.tuwien.hmm.dev.HMMSetup.Action;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.ObservationDiscrete;
