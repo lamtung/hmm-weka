@@ -180,9 +180,6 @@ public class MultiInitTrainer<O extends Observation> extends AbstractTrainer<O> 
 			double lnProbabilities = 0;
 			for (List<O> instance : instances) {
 				double lnProbability = hmm.lnProbability(instance);
-				if (lnProbability > 0 ){
-					int x = 1;
-				}
 				lnProbabilities += lnProbability;
 			}
 			SortedEntry<Hmm<O>> entry = new SortedEntry<Hmm<O>>(hmm,
