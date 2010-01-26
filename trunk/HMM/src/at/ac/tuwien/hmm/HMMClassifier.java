@@ -193,7 +193,14 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * displaying in the explorer/experimenter gui
 	   */
 	  public String globalInfo() {
-	    return "HMM Classifier.\n\n";
+	    return "HMM Classifier.\n\n"
+	    +"Classifier using Hidden Markov Models\n\n"
+	    +"Based on jahhm HMM-Library\n"
+	    +"See http://code.google.com/p/jahmm/\n\n"
+	    
+	    +"Weka adaption written by Wolfgang Fischl, Lam Tung Nguyen and Christof Schmidt\n"
+	    
+	    +"";
 	
 	  }
 	  
@@ -363,7 +370,13 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * displaying in the explorer/experimenter gui
 	   */
 	  public String accuracyTipText() {
-	    return "The accuracy for the Baum-Welch-Learner.";
+	    return "The number of iterations for the Baum-Welch-Learner."
+        		+"\nIn Tabu-Search, this number is used in all iterations."
+	    		+"\nIn non-Tabu-Search, this is to total number"
+	    		+" of iterations used, even for variation > 1. "
+	    		+"Half of the time is used training the variations, "
+	    		+"and the other half training the best result."
+	    		+"";
 	  }
 
 	  /**
@@ -392,7 +405,8 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * displaying in the explorer/experimenter gui
 	   */
 	  public String statesTipText() {
-	    return "The number of Hidden States in the HMM";
+	    return "The number of Hidden States in the HMM. "+
+	    "If set to -1, this number is guessed by the algorithm.";
 	  }
 
 	  /**
@@ -421,7 +435,10 @@ public class HMMClassifier extends RandomizableClassifier {
 	   * displaying in the explorer/experimenter gui
 	   */
 	  public String variationsTipText() {
-	    return "The number of different HMMs to be trained";
+	    return 
+	    "\nIn non-Tabu-Search, it is the number of different HMMs to be trained for each class."
+		+"\nIn Tabu-Search, this is the number of iterations."+
+	    "";
 	  }
 
 	  /**
