@@ -3,7 +3,6 @@ package at.ac.tuwien.hmm.training;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import weka.core.Instances;
 
@@ -52,7 +51,7 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 			hmms.put(classNo, hmm);
 		}
 	}
-
+/*
 	public void trainHmmsOld(Map<Integer, List<List<O>>> trainingInstancesMap,
 			int accuracy, Instances data) throws Exception {
 
@@ -93,12 +92,12 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 				System.out.println("Tabu Search at Iteration " + i
 						+ " of class " + classNo);
 				if (l < 3 && k < 3) {
-					/*
-					 * if (pertube1Nb < 6) { trainer.perturbate1(classNo);
-					 * pertube1Nb++; pertubeNo = 1; } else { pertube3Nb++; if
-					 * (pertube3Nb == 5) { pertube1Nb = 0; }
-					 * trainer.perturbate3(classNo); pertubeNo = 3; }
-					 */
+					//
+					 // if (pertube1Nb < 6) { trainer.perturbate1(classNo);
+					 // pertube1Nb++; pertubeNo = 1; } else { pertube3Nb++; if
+					 // (pertube3Nb == 5) { pertube1Nb = 0; }
+					 // trainer.perturbate3(classNo); pertubeNo = 3; }
+					 //
 					tabuList = perturbate4(classNo, tabuList);
 					// perturbate3(classNo);
 
@@ -127,10 +126,10 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 					l = 0;
 					currentRatio = newRatio;
 					currentHmm = newHmm;
-					/*
-					 * if (pertubeNo == 1) pertube1Nb = 0; if (pertube3Nb == 3)
-					 * pertube3Nb = 0;
-					 */
+					
+					 //if (pertubeNo == 1) pertube1Nb = 0; if (pertube3Nb == 3)
+					 // pertube3Nb = 0;
+					 
 				}
 
 				if (currentRatio > bestRatio) {
@@ -154,13 +153,15 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 			}
 		}
 	}
-
+*/
 	public void trainHmms(Map<Integer, List<List<O>>> trainingInstancesMap,
 			int accuracy, Instances data) throws Exception {
-		System.out.println("Number of Iteration : " + iterationNumber);
-		System.out.println("Baum Welcher Accuracy : " + accuracy);
-		System.out.println("Number of states for generated model "
-				+ _stateCount);
+		if (DISPLAY) {
+			System.out.println("Number of Iteration : " + iterationNumber);
+			System.out.println("Baum Welcher Accuracy : " + accuracy);
+			System.out.println("Number of states for generated model "
+					+ _stateCount);
+		}
 		// Initialize the trainer with start parameters
 		initHmms();
 		// Train the initial HMM with accuracy
@@ -180,7 +181,7 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 
 		int k = 0;
 		for (int n = 1; n <= iterationNumber; n++) {
-			System.out.println("Tabu Search at Iteration " + n);
+			if (DISPLAY) System.out.println("Tabu Search at Iteration " + n);
 			// choose a HMM based on tabu list to optimize
 			// Go through the tabu list and choose the first found least use row
 			int bestFreq = 1000000;
@@ -197,7 +198,7 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 				}
 			}
 
-			System.out.println("Optimizing class " + classNo);
+			if (DISPLAY) System.out.println("Optimizing class " + classNo);
 			// tabuList[classNo]++;
 
 			perturbate2(classNo);
@@ -219,7 +220,7 @@ public class TabuTrainer<O extends Observation> extends AbstractTrainer<O> {
 				// save the new best Hmms
 				bestHmms = new TreeMap<Integer, Hmm<O>>(hmms);
 				bestRatio = newRatio;
-				System.out.println("Best new ratio found " + bestRatio);
+				if (DISPLAY) System.out.println("Best new ratio found " + bestRatio);
 				if (currentRatio - bestRatio < 0.01) {
 					k = k + 1;
 				}
